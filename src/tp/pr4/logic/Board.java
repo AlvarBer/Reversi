@@ -10,7 +10,7 @@ package tp.pr4.logic;
  * @since: Assignment 1
  */
 
-public class Board {
+public class Board implements ReadOnlyBoard {
 
 	//Attributes
 	private Counter[][] board;
@@ -39,7 +39,7 @@ public class Board {
 	//Methods
 
 	/**
-	 * Accessor method which returns the height of the board
+	 * Observer method which returns the height of the board
 	 *
 	 * @return Number of rows of the board.
 	 */
@@ -48,7 +48,7 @@ public class Board {
 	}
 
 	/**
-	 * Accessor method which returns the width of the board.
+	 * Observer method which returns the width of the board.
 	 *
 	 * @return Number of columns of the board.
 	 */
@@ -57,7 +57,7 @@ public class Board {
 	}
 
 	/**
-	 * Accessor method which returns the state of a particular position on the board (i.e. the value of the counter at that position).
+	 * Observer method which returns the state of a particular position on the board (i.e. the value of the counter at that position).
 	 *
 	 * @param x Column number (From 1 to width)
 	 * @param y Row number (From 1 to height)

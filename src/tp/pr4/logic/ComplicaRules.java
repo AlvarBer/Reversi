@@ -20,25 +20,30 @@ public class ComplicaRules implements GameRules {
 	private static final byte HEIGHT = 7;
 
 	//Methods (Defined in the interface class GameRules)
+	@Override
 	public Counter initialPlayer() {
 		return Counter.WHITE;
 	}
 
+	@Override
 	public boolean isDraw(Counter lastPlayer, Board board) {
 		return false;
 	}
 
+	@Override
 	public Board newBoard() {
 		Board board = new Board(WIDTH, HEIGHT);
 		return board;
 	}
 
+	@Override
 	public Counter winningMove(Move lastMove, Board board) {
 		Counter winningMove = Check.checkComplicaWin(board);
 
 		return winningMove;
 	}
 
+	@Override
 	public Counter nextTurn(Counter lastPlayer, Board board) {
 		return Misc.changeTurn(lastPlayer);
 	}

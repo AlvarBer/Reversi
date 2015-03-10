@@ -21,10 +21,18 @@ public class Connect4Rules implements GameRules {
 	private static final byte HEIGHT = 6;
 
 	//Methods (Defined in the interface class GameRules)
+	@Override
+	public Board newBoard() {
+		Board board = new Board(WIDTH, HEIGHT);
+		return board;
+	}
+	
+	@Override
 	public Counter initialPlayer() {
 		return Counter.WHITE;
 	}
 
+	@Override
 	public boolean isDraw(Counter lastPlayer, Board board) {
 		boolean draw = false;
 		if (Check.checkFull(board) && !Check.checkConnect4Win(board)) {
@@ -33,15 +41,12 @@ public class Connect4Rules implements GameRules {
 		return draw;
 	}
 
-	public Board newBoard() {
-		Board board = new Board(WIDTH, HEIGHT);
-		return board;
-	}
-
+	@Override
 	public Counter nextTurn(Counter lastPlayer, Board board) {
 		return Misc.changeTurn(lastPlayer);
 	}
 
+	@Override
 	public Counter winningMove(Move lastMove, Board board) {
 		Counter winningMove = Counter.EMPTY;
 		if (Check.checkConnect4Win(board)) {

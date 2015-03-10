@@ -7,7 +7,7 @@ package tp.pr4.logic;
  * @author: Alvaro Bermejo
  * @author: Francisco Lozano
  * @version: 08/01/2015
- * @since: Assingment 2
+ * @since: Assignment 2
  */
 
 public abstract class Move extends java.lang.Object {
@@ -33,7 +33,7 @@ public abstract class Move extends java.lang.Object {
 
 	/**
 	 * Executes the move on the board passed as a parameter. It is assumed that the board passed as a parameter is consistent with the rules of the game for which the move was created.
-	 * If not, the behaviour is undefined.
+	 * If not, the behavior is undefined.
 	 *
 	 * @param board Board on which to execute the move.
 	 * @return True if the move was successfully executed and false otherwise.
@@ -51,20 +51,18 @@ public abstract class Move extends java.lang.Object {
 
 	/**
 	 * Undoes the move on the board passed as a parameter. It is assumed that the board passed as a parameter is consistent with the rules of the game for which the move was created and that, furthermore, the move was the last one executed on the board.
-	 * If not, the behaviour is undefined. The method can therefore be expected to always work correctly.
+	 * If not, the behavior is undefined. The method can therefore be expected to always work correctly.
 	 *
 	 * @param boa Board on which to undo the move.
 	 */
 	public abstract void undo(Board boa);
 
 	/**
-	 * Accessor method to get the column to be modified by the movement
+	 * Observer method to get the column to be modified by the movement
 	 *
 	 * @return Number of the column which will be modified by the movement
 	 */
-	public int getMoveColumn() {
-		return moveColumn;
-	}
+	public abstract int getColumn();
 
 	/**
 	 * Mutator method to set the column to be modified by the movement
@@ -76,7 +74,7 @@ public abstract class Move extends java.lang.Object {
 	}
 
 	/**
-	 * Accessor method to get the colour of the player who has made the movement
+	 * Observer method to get the colour of the player who has made the movement
 	 *
 	 * @return Colour of the player who has made the movement
 	 */
@@ -87,9 +85,16 @@ public abstract class Move extends java.lang.Object {
 	/**
 	 * Mutator method to set the colour of the player who has made the movement
 	 *
-	 * @param moveColour Colour of the player who has made the movement
+	 * @param moveColour colour of the player who has made the movement
 	 */
 	public void setMoveColour(Counter moveColour) {
 		this.moveColour = moveColour;
 	}
+	
+	/**
+	 * Observer method that gives us the Row the move is performed on
+	 * 
+	 * @return row of the move
+	 */
+	public abstract int getRow();
 }

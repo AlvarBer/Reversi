@@ -26,19 +26,32 @@ public class Connect4Move extends Move {
 	}
 
 	//Methods (Defined in the superclass Move)
+	@Override
 	public void executeMove(Board board) throws InvalidMove {
-		if (getMoveColumn() >= 1 && getMoveColumn() <= board.getWidth()) {
-			if (Misc.topCounter(board, getMoveColumn()) > 1)
-				board.setPosition(getMoveColumn(), Misc.topCounter(board, getMoveColumn()) - 1, getMoveColour());
+		if (getColumn() >= 1 && getColumn() <= board.getWidth()) {
+			if (Misc.topCounter(board, getColumn()) > 1)
+				board.setPosition(getColumn(), Misc.topCounter(board, getColumn()) - 1, getMoveColour());
 			else
-				throw new InvalidMove("column number " + getMoveColumn() + " is already full.");
+				throw new InvalidMove("column number " + getColumn() + " is already full.");
 		} else
-			throw new InvalidMove("column number " + getMoveColumn() + " is not on the board.");
+			throw new InvalidMove("column number " + getColumn() + " is not on the board.");
 	}
 
 	public void undo(Board board) {
-		int undo_row = Misc.topCounter(board, getMoveColumn());
-		board.setPosition(getMoveColumn(), undo_row, Counter.EMPTY);
+		int undo_row = Misc.topCounter(board, getColumn());
+		board.setPosition(getColumn(), undo_row, Counter.EMPTY);
+	}
+
+	@Override
+	public int getRow() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getColumn() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

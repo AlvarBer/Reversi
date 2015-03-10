@@ -18,14 +18,14 @@ public interface GameRules {
 	 *
 	 * @return Board to be used. The state of the board is that at the start of the game.
 	 */
-	Board newBoard();
+	public Board newBoard();
 
 	/**
 	 * Return the colour of the player that starts the game.
 	 *
 	 * @return Colour the first player to place a counter.
 	 */
-	Counter initialPlayer();
+	public Counter initialPlayer();
 
 	/**
 	 * Returns true if, with the current board, the game has finished in a draw.
@@ -34,7 +34,7 @@ public interface GameRules {
 	 * @param board      The current board.
 	 * @return True if the game has finished in a draw.
 	 */
-	boolean isDraw(Counter lastPlayer, Board board);
+	public boolean isDraw(Counter lastPlayer, Board board);
 
 	/**
 	 * Returns the colour of the player whose turn it is.
@@ -43,7 +43,7 @@ public interface GameRules {
 	 * @param board      The current board.
 	 * @return Next player to make a move.
 	 */
-	Counter nextTurn(Counter lastPlayer, Board board);
+	public Counter nextTurn(Counter lastPlayer, Board board);
 
 	/**
 	 * Checks whether or not, with the current board, one of the players has won and, if so, returns the colour of the winner
@@ -52,5 +52,5 @@ public interface GameRules {
 	 * @param board    The current board.
 	 * @return Colour of the winner, if there is one. If not, returns Counter.EMPTY (this does not necessarily mean that the game has ended in a draw).
 	 */
-	Counter winningMove(Move lastMove, Board board);
+	public Counter winningMove(Move lastMove, Board board);
 }

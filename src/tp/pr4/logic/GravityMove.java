@@ -22,22 +22,23 @@ public class GravityMove extends Move {
 
 	@Override
 	public void executeMove(Board board) throws InvalidMove {
-		if (Misc.validPosition(board, getMoveColumn(), getMoveRow())) {
-			if (board.getPosition(this.getMoveColumn(), this.getMoveRow()) == Counter.EMPTY)
-				board.setPosition(gravityForce(board, this).getMoveColumn(), gravityForce(board, this).getMoveRow(), this.getMoveColour());
+		if (Misc.validPosition(board, getColumn(), getRow())) {
+			if (board.getPosition(this.getColumn(), this.getRow()) == Counter.EMPTY)
+				board.setPosition(gravityForce(board, this).getColumn(), gravityForce(board, this).getRow(), this.getMoveColour());
 			else
-				throw new InvalidMove("position (" + getMoveColumn() + ", " + getMoveRow() + ") is already occupied.");
+				throw new InvalidMove("position (" + getColumn() + ", " + getRow() + ") is already occupied.");
 		} else
-			throw new InvalidMove("position (" + getMoveColumn() + ", " + getMoveRow() + ") is not on the board.");
+			throw new InvalidMove("position (" + getColumn() + ", " + getRow() + ") is not on the board.");
 
 	}
 
 	@Override
 	public void undo(Board boa) {
-		boa.setPosition(this.getMoveColumn(), this.getMoveRow(), Counter.EMPTY);
+		boa.setPosition(this.getColumn(), this.getRow(), Counter.EMPTY);
 	}
 
-	public int getMoveRow() {
+	@Override
+	public int getRow() {
 		return moveRow;
 	}
 
@@ -45,9 +46,16 @@ public class GravityMove extends Move {
 		this.moveRow = moveRow;
 	}
 	
+	/**
+	 * Function that tells exert Gravity to move in a certain direction
+	 * 
+	 * @param board
+	 * @param gravityMove
+	 * @return
+	 */
 	private static GravityMove gravityForce(Board board, GravityMove gravityMove) {
-		int distanceToLeftSide = gravityMove.getMoveColumn();
-		int distanceToUpSide = gravityMove.getMoveRow();
+		int distanceToLeftSide = gravityMove.getColumn();
+		int distanceToUpSide = gravityMove.getRow();
 		int distanceToRightSide = board.getWidth() + 1 - distanceToLeftSide;
 		int distanceToDownSide = board.getHeight() + 1 - distanceToUpSide;
 
@@ -100,11 +108,19 @@ public class GravityMove extends Move {
 		return gravityMove;
 	}
 
+	/**
+	 * Given a direction moves the Counter simulating gravity
+	 * 
+	 * @param board
+	 * @param gravityMove
+	 * @param direction
+	 * @return
+	 */
 	private static GravityMove exertGravity(Board board, GravityMove gravityMove, String direction) {
 		int i = 0;
 		int j = 0;
-		int totalI = gravityMove.getMoveColumn();
-		int totalJ = gravityMove.getMoveRow();
+		int totalI = gravityMove.getColumn();
+		int totalJ = gravityMove.getRow();
 
 		if (direction.equals("up")) {
 			j = -1;
@@ -135,5 +151,11 @@ public class GravityMove extends Move {
 		gravityMove.setMoveRow(totalJ);
 
 		return gravityMove;
+	}
+
+	@Override
+	public int getColumn() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

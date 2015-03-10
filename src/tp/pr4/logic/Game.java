@@ -12,7 +12,7 @@ import tp.pr4.control.Player;
  * @since: Assignment 1
  */
 
-public class Game {
+public class Game implements Observable<GameObserver> {
 
 	//Constants 
 	private static final byte MAX_UNDO = 10;
@@ -24,7 +24,6 @@ public class Game {
 	private Counter winner;
 	private DequeStack undoStack;
 	private GameRules rules;
-
 
 	//Constructor
 
@@ -140,7 +139,7 @@ public class Game {
 	}
 
 	/**
-	 * Accessor method for the board. This method is added for the convenience of the unit tester but should not be used.
+	 * Observer method for the board. This method is added for the convenience of the unit tester but should not be used.
 	 *
 	 * @return Current state of the board.
 	 */
@@ -148,4 +147,16 @@ public class Game {
 		return board;
 	}
 
+	@Override
+	public void addObserver(GameObserver o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeObserver(GameObserver o) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

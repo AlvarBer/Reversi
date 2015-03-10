@@ -35,24 +35,24 @@ public class ComplicaMove extends Move {
 	@Override
 	public void executeMove(Board board) throws InvalidMove {
 
-		if (getMoveColumn() >= 1 && getMoveColumn() <= board.getWidth()) {
-			if (Misc.topCounter(board, getMoveColumn()) > 1) {  //The column is not full and set the counter
-				board.setPosition(getMoveColumn(), Misc.topCounter(board, getMoveColumn()) - 1, getMoveColour());
+		if (getColumn() >= 1 && getColumn() <= board.getWidth()) {
+			if (Misc.topCounter(board, getColumn()) > 1) {  //The column is not full and set the counter
+				board.setPosition(getColumn(), Misc.topCounter(board, getColumn()) - 1, getMoveColour());
 			} else { //The column is full and push down the column and set the new counter
-				bottom = pushColumn(board, getMoveColumn(), getMoveColour());
+				bottom = pushColumn(board, getColumn(), getMoveColour());
 			}
 		} else {
-			throw new InvalidMove("column number " + getMoveColumn() + " is not on the board.");
+			throw new InvalidMove("column number " + getColumn() + " is not on the board.");
 		}
 	}
 
 	@Override
 	public void undo(Board board) {
 		if (bottom == Counter.EMPTY) { //The column wasn't push down in this move
-			int undo_row = Misc.topCounter(board, getMoveColumn());
-			board.setPosition(getMoveColumn(), undo_row, Counter.EMPTY);
+			int undo_row = Misc.topCounter(board, getColumn());
+			board.setPosition(getColumn(), undo_row, Counter.EMPTY);
 		} else {
-			pullColumn(board, getMoveColumn(), bottom);
+			pullColumn(board, getColumn(), bottom);
 		}
 	}
 	
@@ -88,5 +88,17 @@ public class ComplicaMove extends Move {
 			board.setPosition(moveColumn, i, board.getPosition(moveColumn, i + 1));
 		}
 		board.setPosition(moveColumn, board.getHeight(), counter);
+	}
+
+	@Override
+	public int getRow() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getColumn() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

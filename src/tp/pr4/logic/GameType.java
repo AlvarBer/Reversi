@@ -34,7 +34,7 @@ public enum GameType {
 	//Methods
 
 	/**
-	 * Accessor method which returns the rules of the game depending on the enumerated type
+	 * Observer method which returns the rules of the game depending on the enumerated type
 	 *
 	 * @return Rules attached to the game type
 	 */
