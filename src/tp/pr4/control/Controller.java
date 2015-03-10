@@ -9,8 +9,7 @@ import tp.pr4.logic.InvalidMove;
 import tp.pr4.logic.Move;
 
 /**
- * Class which controls the execution of the game, presenting the user with a set of alternatives and asking which he/she
- * wishes to choose until the game finishes.
+ * An abstract class for controller.
  *
  * @author: Alvaro Bermejo
  * @author: Francisco Lozano
@@ -18,7 +17,16 @@ import tp.pr4.logic.Move;
  * @since: Assignment 1
  */
 
-public class Controller {
+public abstract class Controller {
+	
+	/**
+	 * The main method of the controller. It is assume to execute the game until it finishes (depending on the kind of the controller)
+	 */
+	public abstract void run();
+	
+}
+	
+	/*
 
 	//Attributes
 	private Game game;
@@ -34,6 +42,8 @@ public class Controller {
      * @param p The game which is to be played
      * @param in The scanner to be used to read the information the user provides.
      */
+	
+	/*
 	public Controller (GameTypeFactory factory, Game p, Scanner in) {
 		this.game = p;
 		this.in = in;
@@ -47,6 +57,8 @@ public class Controller {
      * Execute the game until it finishes. 
      * It is assumed that this method is called just once. If it is called again, the behavior is undefined.
      */
+	
+	/*
 	public void run() {	
 		
 		boolean exit = false;
@@ -89,9 +101,7 @@ public class Controller {
 						}
 					} break;	
 					case UNDO: {
-						boolean undo;
-						undo = this.game.undo();
-						if (!undo) { 
+						if (!this.game.undo()) { 
 							System.err.println ("Nothing to undo.");
 						}	
 					} break;	
@@ -198,4 +208,4 @@ public class Controller {
 			System.out.println("Closing the game... ");
 		}
 	}
-}
+	*/

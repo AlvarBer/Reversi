@@ -3,12 +3,25 @@ package tp.pr4.control;
 import tp.pr4.Main;
 import tp.pr4.logic.Game;
 
+
+/**
+ * Class that manages the execution of arguments to run the game with preset settings
+ *
+ * @author: Alvaro Bermejo
+ * @author: Francisco Lozano
+ * @version: 10/03/2015
+ * @since: Assignment 3
+ */
 public class Arguments {
 	//Atributes
 	private GameTypeFactory factory;
 	private Game game;
 
 	//Constructor
+	/**
+     * Class constructor.
+     * @param args The arguments that must be handled
+     */
 	public Arguments(String[] args) throws ArgumentException {
 		this.factory = null;
 		this.game = null;
@@ -16,6 +29,10 @@ public class Arguments {
 	}
 
 	//Methods
+	/**
+     * Set GameTypeFactory and a Game to the attributes depending on the arguments
+     * @param args The arguments that must be handled
+     */
 	private void argumentsHandling(String[] args) throws ArgumentException {
 		if (args.length == 0) {
 			this.factory = new Connect4Factory();

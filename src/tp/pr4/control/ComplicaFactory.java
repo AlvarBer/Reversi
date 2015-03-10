@@ -7,7 +7,18 @@ import tp.pr4.logic.Counter;
 import tp.pr4.logic.GameRules;
 import tp.pr4.logic.Move;
 
+/**
+ * Implementation of the factory for Complica. The methods return the objects capable of playing this game.
+ *
+ * @author: Alvaro Bermejo
+ * @author: Francisco Lozano
+ * @version: 10/03/2015
+ * @since: Assignment 3
+ * @see: tp.pr4.control.GameTypeFactory
+ */
+
 public class ComplicaFactory implements GameTypeFactory {
+	
 	@Override
 	public Player createHumanPlayerAtConsole(final java.util.Scanner in) { //Declared final in order to be able to compile it
 		return new Player() {

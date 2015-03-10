@@ -26,6 +26,8 @@ public class Main {
 	 * @param args Arguments passed to the application. Not used.
 	 */
 	public static void main(String[] args) {
+		/*
+		
 		//Pending of accepting execution arguments. Till then, Connect4 is the game by default
 		Arguments arguments;
 		try {
@@ -43,5 +45,6 @@ public class Main {
 			System.err.println("For more details, use -h|--help.");
 			System.exit(1);
 		}
+		*/
 	}
 }

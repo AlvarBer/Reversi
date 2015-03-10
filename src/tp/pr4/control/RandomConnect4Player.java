@@ -6,6 +6,15 @@ import tp.pr4.logic.Connect4Move;
 import tp.pr4.logic.Counter;
 import tp.pr4.logic.Move;
 
+/**
+ * Player that randomly plays Connect 4. It chooses a random column on the board (making sure it's not full).
+ * 
+ * @author: Alvaro Bermejo
+ * @author: Francisco Lozano
+ * @version: 10/03/2015
+ * @since: Assignment 3
+ * @see: tp.pr4.control.Player
+ */
 public class RandomConnect4Player implements Player {
 
 	@Override

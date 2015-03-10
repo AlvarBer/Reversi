@@ -9,23 +9,36 @@ import tp.pr4.logic.GravityMove;
 import tp.pr4.logic.GravityRules;
 import tp.pr4.logic.Move;
 
+/**
+ * Implementation of the factory for Gravity. The methods return the objects capable of playing this game. 
+ * Given that the size of the Gravity board is not fixed, the factory is parameterised by the board size.
+ * 
+ * @author: Alvaro Bermejo
+ * @author: Francisco Lozano
+ * @version: 10/03/2015
+ * @since: Assignment 3
+ * @see: tp.pr4.control.GameTypeFactory
+ */
+
 public class GravityFactory implements GameTypeFactory {
 
-	//Default size for the board of Gravity
-	private static int dim_x = 10;
-	private static int dim_y = 10;
+		//Default size for the board of Gravity
+		private static final int DEFAULT_DIM_X = 10;
+		private static final int DEFAULT_DIM_Y = 10;
+		
+		//Attributes
 
+		private int dim_x;
+		private int dim_y;
+		
+		public GravityFactory() {
+			this(DEFAULT_DIM_X,DEFAULT_DIM_Y);
+		}
 
-	public GravityFactory() {
-		this.dim_x = 10;
-		this.dim_y = 10;
-	}
-
-	public GravityFactory(int x, int y) {
-		this.dim_x = x;
-		this.dim_y = y;
-	}
-
+		public GravityFactory(int x, int y) {
+			this.dim_x = x;
+			this.dim_y = y;
+		}
 	@Override
 	public Player createHumanPlayerAtConsole(final Scanner in) { //Declared final in order to be able to compile it
 		return new Player() {

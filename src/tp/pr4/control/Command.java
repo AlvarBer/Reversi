@@ -1,5 +1,14 @@
 package tp.pr4.control;
 
+/**
+ * Enumeration that contains and manage all the possible commands used by the Controller
+ *
+ * @author: Alvaro Bermejo
+ * @author: Francisco Lozano
+ * @version: 10/03/2015
+ * @since: Assignment 3
+ */
+
 public enum Command {
 	NO_COMMAND,
 	MAKE,MAKE_A,MAKE_A_MOVE,
@@ -10,6 +19,12 @@ public enum Command {
 	EXIT,
 	HELP;
 	
+	/**
+     * Updates a command depending on a String entered by the user
+     * @param command The previous command to be managed 
+     * @param strCommand The following String enter by the user, used to update the command
+     * @return: An updated command
+     */
 	public static Command updateCommand(Command command, String strCommand) throws CommandException {
 		strCommand = strCommand.toUpperCase();
 		Command newCommand ;
