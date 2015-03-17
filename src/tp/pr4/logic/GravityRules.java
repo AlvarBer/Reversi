@@ -44,7 +44,7 @@ public class GravityRules implements GameRules {
 	public Counter winningMove(Move lastMove, Board board) {
 		Counter winningMove = Counter.EMPTY;
 		if (Check.checkConnect4Win(board)) {
-			winningMove = lastMove.getMoveColour();
+			winningMove = lastMove.getPlayer();
 		}
 		return winningMove;
 	}

@@ -2,8 +2,10 @@ package tp.pr4;
 
 import tp.pr4.control.ArgumentException;
 import tp.pr4.control.Arguments;
+import tp.pr4.control.ConsoleController;
 import tp.pr4.control.Controller;
 import tp.pr4.control.GameTypeFactory;
+import tp.pr4.control.WindowController;
 import tp.pr4.logic.Game;
 
 import java.util.Scanner;
@@ -26,7 +28,7 @@ public class Main {
 	 * @param args Arguments passed to the application. Not used.
 	 */
 	public static void main(String[] args) {
-		/*
+		
 		
 		//Pending of accepting execution arguments. Till then, Connect4 is the game by default
 		Arguments arguments;
@@ -35,8 +37,7 @@ public class Main {
 			GameTypeFactory factory = arguments.getFactory();
 			if (factory != null) {
 				Game game = arguments.getGame();
-				Scanner in = new Scanner(System.in);
-				Controller control = new Controller(factory, game, in);
+				Controller control = new ConsoleController(factory, game);
 				control.run();
 				System.exit(0);
 			}
@@ -45,6 +46,6 @@ public class Main {
 			System.err.println("For more details, use -h|--help.");
 			System.exit(1);
 		}
-		*/
+		
 	}
 }

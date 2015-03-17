@@ -4,27 +4,33 @@ import tp.pr4.Util.Misc;
 
 public class GravityMove extends Move {
 
-	//Constructor
 
 	//Attributes
 	private int moveRow;
+	private int moveColumn;
+	private Counter moveColour;
 
+	//Constructor
+	
 	/**
-	 * Class constructor. Invokes the constructor of the superclass
+	 * Constructor of the class.
 	 *
-	 * @param moveColumn Column in which to place the counter.
-	 * @param moveColour Color of the counter to be placed (also that of the player that places it).
+	 * @param moveColumn Number of the column which will be modified by the movement
+	 * @param moveRow Number of the row which will be modified by the movement
+	 * @param moveColour Colour of the player who has made the movement
 	 */
 	public GravityMove(int moveColumn, int moveRow, Counter moveColour) {
-		super(moveColumn, moveColour);
+		this.moveColumn = moveColumn;
+		this.moveColour = moveColour;
 		this.moveRow = moveRow;
 	}
+	
 
 	@Override
 	public void executeMove(Board board) throws InvalidMove {
 		if (Misc.validPosition(board, getColumn(), getRow())) {
 			if (board.getPosition(this.getColumn(), this.getRow()) == Counter.EMPTY)
-				board.setPosition(gravityForce(board, this).getColumn(), gravityForce(board, this).getRow(), this.getMoveColour());
+				board.setPosition(gravityForce(board, this).getColumn(), gravityForce(board, this).getRow(), this.getPlayer());
 			else
 				throw new InvalidMove("position (" + getColumn() + ", " + getRow() + ") is already occupied.");
 		} else
@@ -41,9 +47,34 @@ public class GravityMove extends Move {
 	public int getRow() {
 		return moveRow;
 	}
+	
 
+	@Override
+	public int getColumn() {		
+		return this.moveColumn;
+	}
+
+	@Override
+	public Counter getPlayer() {
+		return this.moveColour;
+	}
+
+	/**
+	 * Mutator method that modifies the number of a row of a certain movement
+	 * 
+	 * @param moveRow The number of the row to be modified
+	 */
 	public void setMoveRow(int moveRow) {
-		this.moveRow = moveRow;
+		this.moveRow = moveColumn;
+	}
+	
+	/**
+	 * Mutator method that modifies the number of a column of a certain movement
+	 * 
+	 * @param moveColumn The number of the column to be modified
+	 */
+	public void setMoveColumn(int moveColumn) {
+		this.moveColumn = moveColumn;
 	}
 	
 	/**
@@ -153,9 +184,5 @@ public class GravityMove extends Move {
 		return gravityMove;
 	}
 
-	@Override
-	public int getColumn() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 }

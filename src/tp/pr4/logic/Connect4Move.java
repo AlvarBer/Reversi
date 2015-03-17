@@ -13,16 +13,23 @@ import tp.pr4.Util.Misc;
  */
 
 public class Connect4Move extends Move {
+	
+	//Attributes
+	private int moveColumn;
+	private Counter moveColour;
+	
 	//Constructor
 
+
 	/**
-	 * Class constructor. Invokes the constructor of the superclass
+	 * Constructor of the class.
 	 *
-	 * @param moveColumn Column in which to place the counter.
-	 * @param moveColour Colour of the counter to be placed (also that of the player that places it).
+	 * @param moveColumn Number of the column which will be modified by the movement
+	 * @param moveColour Colour of the player who has made the movement
 	 */
 	public Connect4Move(int moveColumn, Counter moveColour) {
-		super(moveColumn, moveColour);
+		this.moveColumn = moveColumn;
+		this.moveColour = moveColour;
 	}
 
 	//Methods (Defined in the superclass Move)
@@ -30,7 +37,7 @@ public class Connect4Move extends Move {
 	public void executeMove(Board board) throws InvalidMove {
 		if (getColumn() >= 1 && getColumn() <= board.getWidth()) {
 			if (Misc.topCounter(board, getColumn()) > 1)
-				board.setPosition(getColumn(), Misc.topCounter(board, getColumn()) - 1, getMoveColour());
+				board.setPosition(getColumn(), Misc.topCounter(board, getColumn()) - 1, getPlayer());
 			else
 				throw new InvalidMove("column number " + getColumn() + " is already full.");
 		} else
@@ -44,14 +51,17 @@ public class Connect4Move extends Move {
 
 	@Override
 	public int getRow() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int getColumn() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getColumn() {		
+		return this.moveColumn;
+	}
+
+	@Override
+	public Counter getPlayer() {
+		return this.moveColour;
 	}
 
 }

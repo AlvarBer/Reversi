@@ -14,22 +14,9 @@ public abstract class Move extends java.lang.Object {
 
 	//Constructor
 
-	//Attributes
-	private int moveColumn;
-
+	
 	//Methods
-	private Counter moveColour;
 
-	/**
-	 * Construct a move,
-	 *
-	 * @param moveColumn Number of the column which will be modified by the movement
-	 * @param moveColour Colour of the player who has made the movement
-	 */
-	public Move(int moveColumn, Counter moveColour) {
-		this.moveColumn = moveColumn;
-		this.moveColour = moveColour;
-	}
 
 	/**
 	 * Executes the move on the board passed as a parameter. It is assumed that the board passed as a parameter is consistent with the rules of the game for which the move was created.
@@ -45,9 +32,7 @@ public abstract class Move extends java.lang.Object {
 	 *
 	 * @return Colour of the counter to be placed in this move (coincides with that passed to the constructor).
 	 */
-	public Counter getPlayer() {
-		return moveColour;
-	}
+	public abstract Counter getPlayer();
 
 	/**
 	 * Undoes the move on the board passed as a parameter. It is assumed that the board passed as a parameter is consistent with the rules of the game for which the move was created and that, furthermore, the move was the last one executed on the board.
@@ -64,32 +49,6 @@ public abstract class Move extends java.lang.Object {
 	 */
 	public abstract int getColumn();
 
-	/**
-	 * Mutator method to set the column to be modified by the movement
-	 *
-	 * @param moveColumn Number of the column which will be modified by the movement
-	 */
-	public void setMoveColumn(int moveColumn) {
-		this.moveColumn = moveColumn;
-	}
-
-	/**
-	 * Observer method to get the colour of the player who has made the movement
-	 *
-	 * @return Colour of the player who has made the movement
-	 */
-	public Counter getMoveColour() {
-		return moveColour;
-	}
-
-	/**
-	 * Mutator method to set the colour of the player who has made the movement
-	 *
-	 * @param moveColour colour of the player who has made the movement
-	 */
-	public void setMoveColour(Counter moveColour) {
-		this.moveColour = moveColour;
-	}
 	
 	/**
 	 * Observer method that gives us the Row the move is performed on

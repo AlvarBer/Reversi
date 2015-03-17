@@ -13,22 +13,27 @@ import tp.pr4.Util.Misc;
  */
 
 public class ComplicaMove extends Move {
+	
+		//Attributes
+	
+		private int moveColumn;
+		private Counter moveColour;
+		private Counter bottom;
+		
+		//Constructor
 
-	//Attributes
-	private Counter bottom;
+		/**
+		 * Constructor of the class.
+		 *
+		 * @param moveColumn Number of the column which will be modified by the movement
+		 * @param moveColour Colour of the player who has made the movement
+		 */
+		public ComplicaMove(int moveColumn, Counter moveColour) {
+			this.moveColumn = moveColumn;
+			this.moveColour = moveColour;
+			this.bottom = Counter.EMPTY;
+		}
 
-	//Constructor
-
-	/**
-	 * Class constructor. Invokes the constructor of the superclass
-	 *
-	 * @param moveColumn Column in which to place the counter.
-	 * @param moveColour Colour of the counter to be placed (also that of the player that places it).
-	 */
-	public ComplicaMove(int moveColumn, Counter moveColour) {
-		super(moveColumn, moveColour);
-		bottom = Counter.EMPTY;
-	}
 
 	//Methods (Defined in the superclass Move)
 
@@ -37,9 +42,9 @@ public class ComplicaMove extends Move {
 
 		if (getColumn() >= 1 && getColumn() <= board.getWidth()) {
 			if (Misc.topCounter(board, getColumn()) > 1) {  //The column is not full and set the counter
-				board.setPosition(getColumn(), Misc.topCounter(board, getColumn()) - 1, getMoveColour());
+				board.setPosition(getColumn(), Misc.topCounter(board, getColumn()) - 1, getPlayer());
 			} else { //The column is full and push down the column and set the new counter
-				bottom = pushColumn(board, getColumn(), getMoveColour());
+				bottom = pushColumn(board, getColumn(), getPlayer());
 			}
 		} else {
 			throw new InvalidMove("column number " + getColumn() + " is not on the board.");
@@ -92,13 +97,16 @@ public class ComplicaMove extends Move {
 
 	@Override
 	public int getRow() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int getColumn() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getColumn() {		
+		return this.moveColumn;
+	}
+
+	@Override
+	public Counter getPlayer() {
+		return this.moveColour;
 	}
 }
