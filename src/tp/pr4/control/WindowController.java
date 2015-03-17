@@ -22,7 +22,7 @@ public class WindowController extends Controller {
 	 * @param g The game which is to be played.
 	 */
 	public WindowController(GameTypeFactory factory, Game g) {
-	
+
 	}
 	
 	/**
