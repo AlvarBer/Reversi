@@ -1,23 +1,38 @@
 package tp.pr4.views.console;
 
 import tp.pr4.logic.Counter;
+import tp.pr4.logic.Game;
 import tp.pr4.logic.GameObserver;
 import tp.pr4.logic.Observable;
 import tp.pr4.logic.ReadOnlyBoard;
+import tp.pr4.Util.Misc;
 import tp.pr4.control.ConsoleController;
 
-public class ConsoleView implements GameObserver (Observable<GameObserver> g, ConsoleController c) {	
+/**
+ * A class that implement a console view. Note that it implement GameObserver.
+ *
+ * @author: Alvaro Bermejo
+ * @author: Francisco Lozano
+ * @version: 19/03/2015
+ * @since: Assignment 4
+ */
+public class ConsoleView implements GameObserver  {	
 	
-	public ConsoleView(Observable<GameObserver> g) {
+	/**
+	 * The constructor of the class.
+	 * 
+	 * @param g A Game observable (an Game object).
+	 * @param c A console controller.
+	 */
+	public ConsoleView(Observable<GameObserver> g, ConsoleController c) {
 		g.addObserver(this);
+		c.run();
 	}
 
 	//Methods
 	@Override
-	public void moveExecFinished(ReadOnlyBoard board, Counter player,
-			Counter nextPlayer) {
-		// TODO Auto-generated method stub
-		
+	public void moveExecFinished(ReadOnlyBoard board, Counter player, Counter nextPlayer) {
+		update(board,nextPlayer);	
 	}
 	@Override
 	public void moveExecStart(Counter player) {
@@ -26,26 +41,38 @@ public class ConsoleView implements GameObserver (Observable<GameObserver> g, Co
 	}
 	@Override
 	public void onGameOver(ReadOnlyBoard board, Counter winner) {
-		// TODO Auto-generated method stub
-		
+		System.out.println (board);
+		System.out.print ("Game over. ");
+		if (winner==Counter.EMPTY)
+			System.out.println("Game ended in a draw");
+		else
+			System.out.println(Misc.strTurn(winner) + " wins");
+		System.out.println("Closing the game... ");		
 	}
 	@Override
 	public void onMoveError(String msg) {
-		// TODO Auto-generated method stub
+		System.err.println("Invalid move: " + msg);
 		
 	}
 	@Override
 	public void onUndo(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
-		// TODO Auto-generated method stub
+		if (!undoPossible)
+			onUndoNotPossible();
+		update(board,nextPlayer);
 		
 	}
 	@Override
 	public void onUndoNotPossible() {
-		// TODO Auto-generated method stub
-		
+		System.err.println ("Nothing to undo.");
 	}
 	@Override
 	public void reset(ReadOnlyBoard board, Counter player, Boolean undoPossible) {
-		// TODO Auto-generated method stub
+		System.out.println ("Game restarted.");
+		update(board,player);
+	}
+	
+	private void update (ReadOnlyBoard board,Counter turn) {
+		System.out.println(board);	
+		System.out.println (Misc.strTurn(turn) + " to move");
 	}
 }

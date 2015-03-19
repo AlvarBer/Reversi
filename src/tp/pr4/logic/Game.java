@@ -1,5 +1,8 @@
 package tp.pr4.logic;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import tp.pr4.control.Player;
 
 /**
@@ -24,6 +27,7 @@ public class Game implements Observable<GameObserver> {
 	private Counter winner;
 	private DequeStack undoStack;
 	private GameRules rules;
+	private Collection<GameObserver> obs;
 
 	//Constructor
 
@@ -34,11 +38,13 @@ public class Game implements Observable<GameObserver> {
 	 * @since: Assignment 2
 	 */
 	public Game(GameRules rules) {
-		this.board = rules.newBoard();
+		/*this.board = rules.newBoard();
 		this.finished = false;
 		this.turn = rules.initialPlayer();
-		this.undoStack = new DequeStack();
+		this.undoStack = new DequeStack();*/
 		this.rules = rules;
+		this.obs = new ArrayList<GameObserver> ();
+		reset(this.rules);
 	}
 
 	//Methods
@@ -53,7 +59,7 @@ public class Game implements Observable<GameObserver> {
 		this.finished = false;
 		this.turn = rules.initialPlayer();
 		this.undoStack = new DequeStack();
-
+		for (GameObserver o : obs ) {o.reset(board, turn, false);}
 	}
 
 	/**
@@ -64,26 +70,38 @@ public class Game implements Observable<GameObserver> {
 	 * @since: Assignment 2
 	 */
 	public void executeMove(Move move) throws InvalidMove {
-
-		if (move.getPlayer() == this.turn) {
-			if (!this.finished) {
-				move.executeMove(board);
-				this.turn = rules.nextTurn(this.turn, this.board);
-				undoStack.push(move);
-				if (rules.isDraw(this.turn, this.board)) {
-					this.finished = true;
-					this.winner = Counter.EMPTY;
-				} else {
-					this.winner = rules.winningMove(move, board);
-					if (winner != Counter.EMPTY)
+		
+		for (GameObserver o : obs ) {o.moveExecStart(turn);}
+		try {
+			if (move.getPlayer() == this.turn) {
+				if (!this.finished) {
+					move.executeMove(board);
+					Counter nextTurn = rules.nextTurn(this.turn, this.board);
+					for (GameObserver o : obs ) {o.moveExecFinished(board,turn,nextTurn);}
+					this.turn = nextTurn;
+					undoStack.push(move);
+					if (rules.isDraw(this.turn, this.board)) {
 						this.finished = true;
+						this.winner = Counter.EMPTY;
+					} else {
+						this.winner = rules.winningMove(move, board);
+						if (winner != Counter.EMPTY)
+							this.finished = true;
+					}
+					if (this.finished)
+						for (GameObserver o : obs ) {o.onGameOver(board,winner);}				
+				} else {
+					throw new InvalidMove("Game already finished");
 				}
 			} else {
-				throw new InvalidMove("Game already finished");
+				throw new InvalidMove("The turn of the movement doesn't match with the current turn");				
 			}
-		} else {
-			throw new InvalidMove("The turn of the movement doesn't match with the current turn");
 		}
+		catch (InvalidMove ex) {
+			for (GameObserver o : obs ) {o.onMoveError(ex.getMessage());}
+			throw ex;
+		};
+
 	}
 
 	/**
@@ -98,6 +116,8 @@ public class Game implements Observable<GameObserver> {
 			this.turn = rules.nextTurn(this.turn, board);
 			successful = true;
 		}
+		for (GameObserver o : obs ) {o.onUndo(board,turn,successful);}
+			
 		return successful;
 	}
 
@@ -149,14 +169,13 @@ public class Game implements Observable<GameObserver> {
 
 	@Override
 	public void addObserver(GameObserver o) {
-		// TODO Auto-generated method stub
+		obs.add(o);
 		
 	}
 
 	@Override
 	public void removeObserver(GameObserver o) {
-		// TODO Auto-generated method stub
-		
+		obs.remove(o);	
 	}
 	
 }

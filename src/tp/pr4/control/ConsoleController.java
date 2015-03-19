@@ -5,6 +5,7 @@ import tp.pr4.logic.Counter;
 import tp.pr4.logic.Game;
 import tp.pr4.logic.InvalidMove;
 import tp.pr4.logic.Move;
+import tp.pr4.views.console.ConsoleView;
 
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -56,10 +57,8 @@ public class ConsoleController extends Controller {
 		Counter turn;
 		Scanner strScanner = null;
 		while (!this.game.isFinished() && !exit) {
-			Command command = Command.NO_COMMAND;			
-			System.out.println(this.game);
+			Command command = Command.NO_COMMAND;	
 			turn = game.getTurn();						
-			System.out.println (Misc.strTurn(turn) + " to move");
 			Move move;
 			System.out.print ("Please enter a command: ");
 			String wholeCommand = in.nextLine();
@@ -85,20 +84,15 @@ public class ConsoleController extends Controller {
 									move = this.game.getMove(white);
 								try {
 									game.executeMove(move);									
-								} catch (InvalidMove e) {
-									System.err.println("Invalid move: " + e.getMessage());
-								}						
+								} catch (InvalidMove e) {}						
 							}
 						}
 					} break;	
 					case UNDO: {
-						if (!this.game.undo()) { 
-							System.err.println ("Nothing to undo.");
-						}	
+						this.game.undo();				
 					} break;	
 					case RESTART: {	
-						this.game.reset(currentGame.createRules());
-						System.out.println ("Game restarted.");
+						this.game.reset(currentGame.createRules());						
 					} break;
 					case PLAY: {
 						if (!strScanner.hasNext())
@@ -186,17 +180,7 @@ public class ConsoleController extends Controller {
 					}
 					break;	
 				}
-			} catch (CommandException ex) {System.err.println (wholeCommand.toLowerCase() + ": command not understood, please try again");}
-
-		}
-		if (this.game.isFinished()) {
-			System.out.println (this.game.getBoard().toString());
-			System.out.print ("Game over. ");
-			if (game.getWinner()==Counter.EMPTY)
-				System.out.println("Game ended in a draw");
-			else
-				System.out.println(Misc.strTurn(game.getWinner()) + " wins");
-			System.out.println("Closing the game... ");		
+			} catch (CommandException ex) {System.err.println(command + ": command not understood, please try again");;}				
 		}
 		strScanner.close();		
 		this.in.close();

@@ -44,9 +44,9 @@ public interface GameObserver {
 	/**
 	 * When the execution of undo finishes, the observer receives a notification through this method.
 	 * 
-	 * @param board
-	 * @param nextPlayer
-	 * @param undoPossible
+	 * @param board The corresponding board (read only).
+	 * @param nextPlayer The player who plays next.
+	 * @param undoPossible true if there are moves that can be undone, otherwise false
 	 */
 	public void onUndo(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible);
 
