@@ -101,7 +101,7 @@ public class ConsoleController extends Controller {
 						command = Command.updateCommand(command, strCommand);
 						if (command.equals(Command.PLAY_CONNECT4)) {
 							currentGame = new Connect4Factory();			
-							this.game = new Game(currentGame.createRules());
+							this.game.reset(currentGame.createRules());
 							this.black = currentGame.createHumanPlayerAtConsole(in);
 							this.white = currentGame.createHumanPlayerAtConsole(in);
 							
@@ -110,7 +110,7 @@ public class ConsoleController extends Controller {
 						} 
 						else if (command.equals(Command.PLAY_COMPLICA)) {
 							currentGame = new ComplicaFactory();			
-							this.game = new Game(currentGame.createRules());
+							this.game.reset(currentGame.createRules());
 							this.black = currentGame.createHumanPlayerAtConsole(in);
 							this.white = currentGame.createHumanPlayerAtConsole(in);
 							System.out.println ("Game restarted.");
@@ -127,7 +127,7 @@ public class ConsoleController extends Controller {
 							GravityFactory factory = new GravityFactory(x,y);	
 							this.currentGame = factory;
 							
-							this.game = new Game(factory.createRules());
+							this.game.reset(factory.createRules());
 							this.black = currentGame.createHumanPlayerAtConsole(in);
 							this.white = currentGame.createHumanPlayerAtConsole(in);
 							System.out.println ("Game restarted.");	

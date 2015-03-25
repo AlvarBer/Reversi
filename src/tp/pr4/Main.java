@@ -38,6 +38,7 @@ public class Main {
 				Game game = arguments.getGame();
 				ConsoleController control = new ConsoleController(factory, game);
 				ConsoleView consoleView = new ConsoleView(game,control);
+                                control.run();
 				System.exit(0);
 			}
 		} catch (ArgumentException e) {

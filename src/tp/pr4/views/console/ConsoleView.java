@@ -7,6 +7,7 @@ import tp.pr4.logic.Observable;
 import tp.pr4.logic.ReadOnlyBoard;
 import tp.pr4.Util.Misc;
 import tp.pr4.control.ConsoleController;
+import tp.pr4.logic.Board;
 
 /**
  * A class that implement a console view. Note that it implement GameObserver.
@@ -26,7 +27,6 @@ public class ConsoleView implements GameObserver  {
 	 */
 	public ConsoleView(Observable<GameObserver> g, ConsoleController c) {
 		g.addObserver(this);
-		c.run();
 	}
 
 	//Methods
@@ -75,4 +75,9 @@ public class ConsoleView implements GameObserver  {
 		System.out.println(board);	
 		System.out.println (Misc.strTurn(turn) + " to move");
 	}
+
+        @Override
+        public void onAddObserver(Board board, Counter nextPlayer) {
+            update(board,nextPlayer);
+        }
 }

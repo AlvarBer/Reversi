@@ -7,6 +7,7 @@ import tp.pr4.logic.ReadOnlyBoard;
 
 import javax.swing.*;
 import java.awt.*;
+import tp.pr4.logic.Board;
 
 public class MainWindow extends javax.swing.JFrame implements GameObserver {
 
@@ -78,4 +79,9 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		tempPanel.setPreferredSize(new Dimension(size, size));
 		return tempPanel;
 	}
+
+        @Override
+        public void onAddObserver(Board board, Counter nextPlayer) {
+            
+        }
 }

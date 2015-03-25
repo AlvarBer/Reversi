@@ -59,9 +59,17 @@ public interface GameObserver {
 	/**
 	 * When the game is reset, either with a new game or simply restarting the current game, the observer receives a notification through this method.
 	 * 
-	 * @param board
+	 * @param board The corresponding board (read only).
 	 * @param player
 	 * @param undoPossible
 	 */
 	public void reset(ReadOnlyBoard board, Counter player, java.lang.Boolean undoPossible);
+        
+        /**
+	 * When an observer is added to the Game, the observer receives a notification through this method
+	 * 
+	 * @param board The corresponding board (read only).
+	 * @param nextPlayer The player who plays next.
+	 */
+        public void onAddObserver(Board board, Counter nextPlayer);
 }
