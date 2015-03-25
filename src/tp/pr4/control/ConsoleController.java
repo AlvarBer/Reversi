@@ -1,14 +1,13 @@
 package tp.pr4.control;
 
-import tp.pr4.Util.Misc;
+
 import tp.pr4.logic.Counter;
 import tp.pr4.logic.Game;
 import tp.pr4.logic.InvalidMove;
 import tp.pr4.logic.Move;
 import tp.pr4.views.console.ConsoleView;
-
 import java.util.Scanner;
-import java.util.ArrayList;
+
 /**
  * Class which controls the execution of the game in a console mode, presenting the user with a set of alternatives and asking which he/she wishes to choose until the game finishes. 
  * This, in principle, is the class Controller of the previous assignments, with some refactoring to use MVC.
@@ -52,6 +51,7 @@ public class ConsoleController extends Controller {
 	 * It is assumed that this method is called just once. If it is called again, the behaviour is undefined.
 	 */
 	public void run() {
+                new ConsoleView(game,this);
 		boolean exit = false;
 		String strCommand;	
 		Counter turn;

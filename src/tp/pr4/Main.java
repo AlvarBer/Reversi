@@ -36,9 +36,7 @@ public class Main {
 			GameTypeFactory factory = arguments.getFactory();
 			if (factory != null) {
 				Game game = arguments.getGame();
-				ConsoleController control = new ConsoleController(factory, game);
-				ConsoleView consoleView = new ConsoleView(game,control);
-                                control.run();
+				new ConsoleController(factory, game).run();
 				System.exit(0);
 			}
 		} catch (ArgumentException e) {
