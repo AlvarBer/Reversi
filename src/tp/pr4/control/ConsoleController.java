@@ -51,7 +51,7 @@ public class ConsoleController extends Controller {
 	 * It is assumed that this method is called just once. If it is called again, the behaviour is undefined.
 	 */
 	public void run() {
-                new ConsoleView(game,this);
+        new ConsoleView(game,this);
 		boolean exit = false;
 		String strCommand;	
 		Counter turn;

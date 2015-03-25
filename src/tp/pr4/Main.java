@@ -8,6 +8,7 @@ import tp.pr4.control.GameTypeFactory;
 import tp.pr4.control.WindowController;
 import tp.pr4.logic.Game;
 import tp.pr4.views.console.ConsoleView;
+import tp.pr4.views.window.MainWindow;
 
 import java.util.Scanner;
 
@@ -36,7 +37,8 @@ public class Main {
 			GameTypeFactory factory = arguments.getFactory();
 			if (factory != null) {
 				Game game = arguments.getGame();
-				new ConsoleController(factory, game).run();
+				new WindowController(factory, game);
+				new ConsoleController(factory, game).run();				
 				System.exit(0);
 			}
 		} catch (ArgumentException e) {

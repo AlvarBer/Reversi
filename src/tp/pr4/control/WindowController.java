@@ -24,10 +24,7 @@ public class WindowController extends Controller {
         //Attributes
 	private Game game;
 	private Scanner in;
-	private GameTypeFactory currentGame;	
-	private Player black;
-	private Player white;
-    
+	private GameTypeFactory currentGame;	    
  
     
 	/**
@@ -37,13 +34,10 @@ public class WindowController extends Controller {
 	 * @param g The game which is to be played.
 	 */
 	public WindowController(GameTypeFactory factory, Game g) {
-            this.game = g;
+        this.game = g;
 	    this.in = new Scanner(System.in);
 	    this.currentGame = factory;
 		
-            //TODO:Refactor this - Make an arrayList of Players
-            this.black = currentGame.createHumanPlayerAtConsole(in);
-            this.white = currentGame.createHumanPlayerAtConsole(in);
 
 	}
 	
@@ -52,7 +46,7 @@ public class WindowController extends Controller {
 	 */
 	@Override
 	public void run(){
-            new MainWindow(game);		
+            new MainWindow(game,this);		
 	}
 	
 	public void makeMove(int col, int row, Counter turn) {
@@ -95,9 +89,7 @@ public class WindowController extends Controller {
                     currentGame = new GravityFactory(dimX,dimY);
                 }                 
             }    									
-            this.game.reset(currentGame.createRules());
-            this.black = currentGame.createHumanPlayerAtConsole(in);
-            this.white = currentGame.createHumanPlayerAtConsole(in);		
+            this.game.reset(currentGame.createRules());		
 	}
 	
 	/**
@@ -106,7 +98,11 @@ public class WindowController extends Controller {
 	 * @param player The player who should make the random move.
 	 */
 	public void randomMove(Counter player) {
-            //TODO: Not implemented yet
+		Player random = currentGame.createRandomPlayer();
+		Move move = game.getMove(random);
+        try {
+              game.executeMove(move);  								
+        } catch (InvalidMove e) {}
 		
 	}
 	
