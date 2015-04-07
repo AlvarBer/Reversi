@@ -2,7 +2,6 @@ package tp.pr4.views.window;
 
 import tp.pr4.control.WindowController;
 import tp.pr4.logic.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +16,7 @@ public class BoardPanel extends JPanel implements GameObserver {
 	private GridBagConstraints c;
 	private boolean active;
 	private Counter currentTurn;
+	private JLabel turnTxt;
 
 	public BoardPanel(WindowController cntr, Game game) {
 		this.cntr = cntr;
@@ -25,38 +25,23 @@ public class BoardPanel extends JPanel implements GameObserver {
 		game.addObserver(this);
 	}
 
-	public BoardPanel() {
-		initGUI();
-	}
-
 	public void initGUI() {
-		//We don't care about the initial size we create it with, we get it when we reset it
-		//JPanel BoardPanel = new JPanel(new GridLayout());
-		this.setLayout(new GridBagLayout());
+		this.setLayout(new BorderLayout());
+		//We don't care about the initial number of rows and columns we create it with, we get that when we reset it
+		JPanel CounterPanel = new JPanel(new GridBagLayout());
+		JPanel TurnPanel = new JPanel();
+
+		this.add(CounterPanel, BorderLayout.CENTER);
+		this.add(TurnPanel, BorderLayout.PAGE_END);
+
+		turnTxt = new JLabel("Unkown");
+		TurnPanel.add(turnTxt);
+
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.weighty = 1;
-		this.setPreferredSize((new Dimension(400, 200)));
-	}
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				new BoardPanel();
-			}
-		});
-	}
-
-	// In this method, we create a square JPanel of a colour and set size
-	// specified by the arguments.
-	private JPanel createSquareJPanel(Color color, int size) {
-		JPanel tempPanel = new JPanel();
-		tempPanel.setBackground(color);
-		tempPanel.setMinimumSize(new Dimension(size, size));
-		tempPanel.setMaximumSize(new Dimension(size, size));
-		tempPanel.setPreferredSize(new Dimension(size, size));
-		return tempPanel;
+		CounterPanel.setPreferredSize((new Dimension(400, 200)));
 	}
 
 	@Override
