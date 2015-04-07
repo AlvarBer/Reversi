@@ -22,6 +22,7 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 	//Constructor
 	public MainWindow(Game g,WindowController c) {
 		super("~[Visual Gravity]~");
+		this.cntr = c;
 		this.game = g;
 		initGUI();	
 		this.game.addObserver(this); 
@@ -32,25 +33,35 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		//TODO:Set the positions of the panels before attaching them to the main panel. ex: mainPanel.add(boardPanel, BorderLayout.CENTER);
 		
 		//Creates the main panel and attaches it to the main frame
-		JPanel mainPanel = new JPanel (new GridLayout());
+		JPanel mainPanel = new JPanel (new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
 		this.setContentPane(mainPanel);
 		
 		//Creates a board panel and attaches it to the main panel
 		JPanel boardPanel = new BoardPanel(cntr,game);
-		mainPanel.add(boardPanel);
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridheight = 2;
+		c.gridwidth = 1;
+		mainPanel.add(boardPanel,c);
 		
 		//Creates a panel with reset and undo buttons and attaches it to the main panel
 		JPanel gamePanel = new GamePanel(cntr,game);
-		mainPanel.add(gamePanel);
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		mainPanel.add(gamePanel,c);
 		
 		//Creates a panel for changing the game and attaches it to the main panel
 		JPanel changeGamePanel = new ChangeGamePanel(cntr,game);
-		mainPanel.add(changeGamePanel);		
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		mainPanel.add(changeGamePanel,c);		
 		
-		//Creates a bar that display the turn and attaches it to the main panel
-		JPanel turnBarPanel = new TurnBarPanel(cntr,game);
-		mainPanel.add(turnBarPanel);
-		
+			
 		//TODO:Add buttons on the main panel
 		this.pack(); //Fits the main frame to the size of its panels
 		this.setVisible(true);
@@ -101,19 +112,10 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		
 	}
 
-	/*
-	private JPanel createFixedJPanel(Color color, int size) {
-		JPanel tempPanel = new JPanel();
-		tempPanel.setBackground(color);
-		tempPanel.setMinimumSize(new Dimension(size, size));
-		tempPanel.setMaximumSize(new Dimension(size, size));
-		tempPanel.setPreferredSize(new Dimension(size, size));
-		return tempPanel;
-	} 
-	*/
 
     @Override
     public void onAddObserver(Board board, Counter nextPlayer) {
+    	reset(board,nextPlayer,true);
         
     }
 }

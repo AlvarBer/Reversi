@@ -25,7 +25,8 @@ public class WindowController extends Controller {
 	private Game game;
 	private Scanner in;
 	private GameTypeFactory currentGame;	    
- 
+	
+	 
     
 	/**
 	 * Class constructor.
@@ -46,7 +47,8 @@ public class WindowController extends Controller {
 	 */
 	@Override
 	public void run(){
-            new MainWindow(game,this);		
+            new MainWindow(game,this);	      
+            
 	}
 	
 	public void makeMove(int col, int row, Counter turn) {

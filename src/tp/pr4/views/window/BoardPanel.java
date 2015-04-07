@@ -2,7 +2,9 @@ package tp.pr4.views.window;
 
 import tp.pr4.control.WindowController;
 import tp.pr4.logic.*;
+
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,13 +12,22 @@ import java.awt.event.ActionListener;
 public class BoardPanel extends JPanel implements GameObserver {
 
 	//Attributes
-	//TODO:Add components of the panel to the attributes
+
 	private WindowController cntr;
-	private JButton[][] buttons;
 	private GridBagConstraints c;
+	
+	private JPanel counterPanel;
+	private JButton[][] buttons;
+	
+	private JPanel turnPanel;
+	private JLabel turnTxt;
 	private boolean active;
 	private Counter currentTurn;
-	private JLabel turnTxt;
+	
+	//Constants
+	private static final String ICON_PATH= "res/";
+	
+	
 
 	public BoardPanel(WindowController cntr, Game game) {
 		this.cntr = cntr;
@@ -28,25 +39,25 @@ public class BoardPanel extends JPanel implements GameObserver {
 	public void initGUI() {
 		this.setLayout(new BorderLayout());
 		//We don't care about the initial number of rows and columns we create it with, we get that when we reset it
-		JPanel CounterPanel = new JPanel(new GridBagLayout());
-		JPanel TurnPanel = new JPanel();
+		this.counterPanel = new JPanel(new GridBagLayout());
+		this.turnPanel = new JPanel();
 
-		this.add(CounterPanel, BorderLayout.CENTER);
-		this.add(TurnPanel, BorderLayout.PAGE_END);
+		this.add(counterPanel, BorderLayout.CENTER);
+		this.add(turnPanel, BorderLayout.PAGE_END);
 
 		turnTxt = new JLabel("Unkown");
-		TurnPanel.add(turnTxt);
+		turnPanel.add(turnTxt);
 
 		c = new GridBagConstraints();
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.weighty = 1;
-		CounterPanel.setPreferredSize((new Dimension(400, 200)));
+		//counterPanel.setPreferredSize((new Dimension(400, 200)));
 	}
 
 	@Override
 	public void moveExecFinished(ReadOnlyBoard board, Counter player, Counter nextPlayer) {
-		// TODO Auto-generated method stub
+		reset(board,nextPlayer,true);
 
 	}
 
@@ -59,6 +70,7 @@ public class BoardPanel extends JPanel implements GameObserver {
 	@Override
 	public void onGameOver(ReadOnlyBoard board, Counter winner) {
 		active = false;
+		turnTxt.setText("Game is finished. " + winner + " wins");
 
 	}
 
@@ -85,24 +97,29 @@ public class BoardPanel extends JPanel implements GameObserver {
 		int rows = board.getWidth();
 		int cols = board.getHeight();
 		buttons = new JButton[rows][cols];
-		this.removeAll();
+		counterPanel.removeAll();
 		currentTurn = player;
-
 		for (int i = 0; i < rows; ++i) {
-			for (int j = 0; i < cols;++j) {
+			for (int j = 0; j < cols;++j) {
 				Counter v = board.getPosition(i+1, j+1);
 				buttons[i][j] = createButton(i, j, v);
-				c.gridy = i;
-				c.gridx = j;
+				c.gridy = j;
+				c.gridx = i;
+				counterPanel.add(buttons[i][j], c);
 			}
 		}
+		currentTurn = player;
+		turnTxt.setText(currentTurn.toString() + " turn");
 		this.revalidate();
+		
 		active = true;
+		
+		
 	}
 
 	@Override
 	public void onAddObserver(Board board, Counter nextPlayer) {
-		// TODO Auto-generated method stub
+		reset(board,nextPlayer,true);
 
 	}
 
@@ -115,7 +132,20 @@ public class BoardPanel extends JPanel implements GameObserver {
 			}
 
 		});
+		addCounterIcon(x,v);
 		return x;
 	}
+
+	private void addCounterIcon(JButton button, Counter turn) {
+		if (turn == Counter.BLACK)
+			button.setIcon(new ImageIcon(ICON_PATH + "black_counter.png") );
+		else if (turn == Counter.WHITE)
+			button.setIcon(new ImageIcon(ICON_PATH + "white_counter.png") );
+		else
+			button.setIcon(new ImageIcon(ICON_PATH + "empty_counter.png") );
+		
+	}
+
+
 
 }

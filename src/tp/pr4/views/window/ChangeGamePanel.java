@@ -72,7 +72,7 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 
 	@Override
 	public void onAddObserver(Board board, Counter nextPlayer) {
-		// TODO Auto-generated method stub
+		reset(board,nextPlayer,true);
 
 	}
 

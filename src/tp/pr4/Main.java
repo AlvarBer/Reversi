@@ -1,4 +1,4 @@
-package tp.pr4;
+ package tp.pr4;
 
 import tp.pr4.control.ArgumentException;
 import tp.pr4.control.Arguments;
@@ -37,9 +37,10 @@ public class Main {
 			GameTypeFactory factory = arguments.getFactory();
 			if (factory != null) {
 				Game game = arguments.getGame();
-				new WindowController(factory, game);
-				new ConsoleController(factory, game).run();				
-				System.exit(0);
+				Controller ctrl  = new WindowController(factory, game);
+				ctrl.run();
+				//new ConsoleController(factory, game).run();				
+				//System.exit(0);
 			}
 		} catch (ArgumentException e) {
 			System.err.println("Incorrect use: " + e.getMessage());

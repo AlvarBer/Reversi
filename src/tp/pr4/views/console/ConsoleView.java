@@ -76,8 +76,8 @@ public class ConsoleView implements GameObserver  {
 		System.out.println (Misc.strTurn(turn) + " to move");
 	}
 
-        @Override
-        public void onAddObserver(Board board, Counter nextPlayer) {
-            update(board,nextPlayer);
-        }
+    @Override
+    public void onAddObserver(Board board, Counter nextPlayer) {
+        update(board,nextPlayer);
+    }
 }
