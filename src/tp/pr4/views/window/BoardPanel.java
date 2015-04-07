@@ -105,7 +105,7 @@ public class BoardPanel extends JPanel implements GameObserver {
 
 		for (int i = 0; i < rows; ++i) {
 			for (int j = 0; i < cols;++j) {
-				int v = board.getPosition((i+1, j+1));
+				Counter v = board.getPosition(i+1, j+1);
 				buttons[i][j] = createButton(i, j, v);
 				c.gridy = i;
 				c.gridx = j;
@@ -121,8 +121,8 @@ public class BoardPanel extends JPanel implements GameObserver {
 
 	}
 
-	private JButton createButton(final int i, final int j, int v) {
-		JButton x = new JButton((v==0 ? "" : v + ""));
+	private JButton createButton(final int i, final int j, Counter v) {
+		JButton x = new JButton();
 		x.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
