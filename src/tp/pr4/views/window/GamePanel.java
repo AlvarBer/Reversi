@@ -1,6 +1,16 @@
 package tp.pr4.views.window;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import tp.pr4.control.WindowController;
 import tp.pr4.logic.Board;
@@ -12,24 +22,70 @@ import tp.pr4.logic.ReadOnlyBoard;
 public class GamePanel extends JPanel implements GameObserver {
 
 		//Attributes
-		//TODO:Add components of the panel to the attributes
 		private WindowController cntr;
 		
+		private JButton undoButton;
+		private JButton resetButton;
+				
+		//Constructor
 		public GamePanel(WindowController cntr, Game game) {
 			this.cntr = cntr;
 			initGUI();
 			game.addObserver(this);	
 		}
 		
+		//Methods
 		public void initGUI() {
+			this.setLayout(new BorderLayout(5,5));
 			
+			//Initializes the buttons
+			this.undoButton = new JButton ("Undo");
+			this.resetButton = new JButton ("Reset");
+			
+			//Disables Undo Button at the beginning of the game
+			undoButton.setEnabled(false);
+			
+			//Set the icons of the buttons
+			this.undoButton.setIcon(new ImageIcon(MainWindow.ICON_PATH + "undo.png"));
+			this.resetButton.setIcon(new ImageIcon(MainWindow.ICON_PATH + "reset.png"));
+			
+			//Add the listeners to the buttons
+			undoButton.addActionListener(
+					new ActionListener(){
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							cntr.undo();
+							
+						}			
+					}
+					);
+			
+			resetButton.addActionListener(
+					new ActionListener(){
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							cntr.reset();						
+						}			
+					}
+					);
+			
+			//Add the border of the panel
+			Border b = BorderFactory.createLineBorder(Color.black, 2);
+			this.setBorder(BorderFactory.createTitledBorder(b, "Game"));
+			
+			//Adds the buttons to the panel
+			this.add(undoButton, BorderLayout.WEST);
+			this.add(resetButton, BorderLayout.EAST);
+			
+			
+	
 			
 		}
 
 	@Override
 	public void moveExecFinished(ReadOnlyBoard board, Counter player,
 			Counter nextPlayer) {
-		// TODO Auto-generated method stub
+		undoButton.setEnabled(true);
 
 	}
 
@@ -54,7 +110,7 @@ public class GamePanel extends JPanel implements GameObserver {
 	@Override
 	public void onUndo(ReadOnlyBoard board, Counter nextPlayer,
 			boolean undoPossible) {
-		// TODO Auto-generated method stub
+		undoButton.setEnabled(undoPossible);
 
 	}
 

@@ -14,14 +14,17 @@ import tp.pr4.logic.Board;
 
 public class MainWindow extends javax.swing.JFrame implements GameObserver {
 	
-	//Atributes
+	//Constants
+	protected static final String ICON_PATH= "res/";
+	
+	//Attributes
 	private WindowController cntr;
 	private Game game;
 
 
 	//Constructor
 	public MainWindow(Game g,WindowController c) {
-		super("~[Visual Gravity]~");
+		super("[Visual Gravity]");
 		this.cntr = c;
 		this.game = g;
 		initGUI();	
@@ -30,7 +33,7 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 			
 
 	private void initGUI() {
-		//TODO:Set the positions of the panels before attaching them to the main panel. ex: mainPanel.add(boardPanel, BorderLayout.CENTER);
+		
 		
 		//Creates the main panel and attaches it to the main frame
 		JPanel mainPanel = new JPanel (new GridBagLayout());
@@ -47,8 +50,8 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		
 		//Creates a panel with reset and undo buttons and attaches it to the main panel
 		JPanel gamePanel = new GamePanel(cntr,game);
-		c.gridx = 0;
-		c.gridy = 1;
+		c.gridx = 1;
+		c.gridy = 0;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		mainPanel.add(gamePanel,c);
@@ -65,6 +68,7 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		//TODO:Add buttons on the main panel
 		this.pack(); //Fits the main frame to the size of its panels
 		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Quit the game and finish the process at closing
 	}
 
 

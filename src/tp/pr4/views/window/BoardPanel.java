@@ -24,9 +24,6 @@ public class BoardPanel extends JPanel implements GameObserver {
 	private boolean active;
 	private Counter currentTurn;
 	
-	//Constants
-	private static final String ICON_PATH= "res/";
-	
 	
 
 	public BoardPanel(WindowController cntr, Game game) {
@@ -63,7 +60,7 @@ public class BoardPanel extends JPanel implements GameObserver {
 
 	@Override
 	public void moveExecStart(Counter player) {
-		// TODO Auto-generated method stub
+		turnTxt.setText("Moving...");
 
 	}
 
@@ -71,18 +68,20 @@ public class BoardPanel extends JPanel implements GameObserver {
 	public void onGameOver(ReadOnlyBoard board, Counter winner) {
 		active = false;
 		turnTxt.setText("Game is finished. " + winner + " wins");
-
 	}
 
 	@Override
 	public void onMoveError(String msg) {
-		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(this,
+				"That was not a valid move. Please, try again",
+				"Invalid move",
+				JOptionPane.ERROR_MESSAGE);
 
 	}
 
 	@Override
 	public void onUndo(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
-		// TODO Auto-generated method stub
+		reset(board,nextPlayer,true);
 
 	}
 
@@ -110,8 +109,7 @@ public class BoardPanel extends JPanel implements GameObserver {
 		}
 		currentTurn = player;
 		turnTxt.setText(currentTurn.toString() + " turn");
-		this.revalidate();
-		
+		this.revalidate();		
 		active = true;
 		
 		
@@ -129,20 +127,22 @@ public class BoardPanel extends JPanel implements GameObserver {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (active) cntr.makeMove(i + 1, j + 1, currentTurn);
+				
 			}
 
 		});
+			
 		addCounterIcon(x,v);
 		return x;
 	}
 
 	private void addCounterIcon(JButton button, Counter turn) {
 		if (turn == Counter.BLACK)
-			button.setIcon(new ImageIcon(ICON_PATH + "black_counter.png") );
+			button.setIcon(new ImageIcon(MainWindow.ICON_PATH + "black_counter.png") );
 		else if (turn == Counter.WHITE)
-			button.setIcon(new ImageIcon(ICON_PATH + "white_counter.png") );
+			button.setIcon(new ImageIcon(MainWindow.ICON_PATH + "white_counter.png") );
 		else
-			button.setIcon(new ImageIcon(ICON_PATH + "empty_counter.png") );
+			button.setIcon(new ImageIcon(MainWindow.ICON_PATH + "empty_counter.png") );
 		
 	}
 

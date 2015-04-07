@@ -116,7 +116,7 @@ public class Game implements Observable<GameObserver> {
 			this.turn = rules.nextTurn(this.turn, board);
 			successful = true;
 		}
-		for (GameObserver o : obs ) {o.onUndo(board,turn,successful);}
+		for (GameObserver o : obs ) {o.onUndo(board,turn,!undoStack.isEmpty());}
 			
 		return successful;
 	}

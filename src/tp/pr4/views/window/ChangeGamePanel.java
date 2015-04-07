@@ -1,5 +1,7 @@
 package tp.pr4.views.window;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
 
 import tp.pr4.control.WindowController;
@@ -22,6 +24,7 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 	}
 	
 	public void initGUI() {
+		this.setLayout(new BorderLayout(5,5));
 		
 		
 	}
