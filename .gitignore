@@ -2,3 +2,5 @@ VisualGravity.iml
 .idea
 javadoc/*
 out/*
+.classpath
+.project
