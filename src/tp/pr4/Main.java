@@ -39,7 +39,7 @@ public class Main {
 				Game game = arguments.getGame();
 				Controller ctrl  = new WindowController(factory, game);
 				ctrl.run();
-				//new ConsoleController(factory, game).run();				
+				new ConsoleController(factory, game).run();				
 				//System.exit(0);
 			}
 		} catch (ArgumentException e) {

@@ -65,7 +65,7 @@ public class GravityMove extends Move {
 	 * @param moveRow The number of the row to be modified
 	 */
 	public void setMoveRow(int moveRow) {
-		this.moveRow = moveColumn;
+		this.moveRow = moveRow;
 	}
 	
 	/**
