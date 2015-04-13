@@ -77,9 +77,6 @@ public class GamePanel extends JPanel implements GameObserver {
 			this.add(undoButton, BorderLayout.WEST);
 			this.add(resetButton, BorderLayout.EAST);
 			
-			
-	
-			
 		}
 
 	@Override

@@ -58,10 +58,11 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		
 		//Creates a panel for changing the game and attaches it to the main panel
 		JPanel changeGamePanel = new ChangeGamePanel(cntr,game);
-		c.gridx = 0;
+		c.gridx = 1;
 		c.gridy = 1;
 		c.gridheight = 1;
 		c.gridwidth = 1;
+		c.fill = GridBagConstraints.BOTH;
 		mainPanel.add(changeGamePanel,c);		
 		
 			
