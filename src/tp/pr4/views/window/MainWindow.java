@@ -48,6 +48,9 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		c.gridy = 0;
 		c.gridheight = 2;
 		c.gridwidth = 1;
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.weighty = 1;
 		mainPanel.add(boardPanel,c);
 		
 		//Creates a panel with reset and undo buttons and attaches it to the main panel
@@ -56,6 +59,8 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		c.gridy = 0;
 		c.gridheight = 1;
 		c.gridwidth = 1;
+		c.weightx = 0;
+		c.weighty = 1;
 		mainPanel.add(gamePanel,c);
 		
 		//Creates a panel for changing the game and attaches it to the main panel
