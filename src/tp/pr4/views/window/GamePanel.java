@@ -1,23 +1,13 @@
 package tp.pr4.views.window;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import tp.pr4.control.WindowController;
+import tp.pr4.logic.*;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-
-import tp.pr4.control.WindowController;
-import tp.pr4.logic.Board;
-import tp.pr4.logic.Counter;
-import tp.pr4.logic.Game;
-import tp.pr4.logic.GameObserver;
-import tp.pr4.logic.ReadOnlyBoard;
 
 public class GamePanel extends JPanel implements GameObserver {
 
@@ -94,7 +84,7 @@ public class GamePanel extends JPanel implements GameObserver {
 
 	@Override
 	public void onGameOver(ReadOnlyBoard board, Counter winner) {
-		// TODO Auto-generated method stub
+		undoButton.setEnabled(false);
 
 	}
 
