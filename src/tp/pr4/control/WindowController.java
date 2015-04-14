@@ -1,13 +1,9 @@
 package tp.pr4.control;
 
-import static java.lang.System.in;
-import java.util.Scanner;
-import tp.pr4.logic.Game;
-import tp.pr4.logic.Counter;
-import tp.pr4.logic.GameType;
-import tp.pr4.logic.InvalidMove;
-import tp.pr4.logic.Move;
+import tp.pr4.logic.*;
 import tp.pr4.views.window.MainWindow;
+
+import java.util.Scanner;
 
 
 /**
@@ -96,10 +92,8 @@ public class WindowController extends Controller {
 	
 	/**
 	 * Make a random move.
-	 * 
-	 * @param player The player who should make the random move.
 	 */
-	public void randomMove(Counter player) {
+	public void randomMove() {
 		Player random = currentGame.createRandomPlayer();
 		Move move = game.getMove(random);
         try {

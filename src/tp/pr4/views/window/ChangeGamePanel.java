@@ -32,8 +32,6 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 	public void initGUI() {
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
-		c.gridheight = 1;
-		c.gridwidth = 1;
 		c.insets = new Insets(10,10,10,10);
 		c.fill = GridBagConstraints.NONE;
 
@@ -90,7 +88,7 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 								try {
 									int width = Integer.parseInt(widthField.getText());
 									int height = Integer.parseInt(heightField.getText());
-									if (width <= 0 || height <= 0)
+									if (width <= 0 || height <= 0 || width > 25 || height > 25)
 										throw new IllegalArgumentException();
 									cntr.changeGame(GameType.GRAVITY, width, height);
 								} catch (IllegalArgumentException ex) {
@@ -125,18 +123,13 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 		widthLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		widthLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 
-		widthField.setMinimumSize(new Dimension(200, 200));
-		//heightField.
-
 		//Adds the components to the panel
 		c.gridx = 0;
 		c.gridy = 0;
 		c.anchor = GridBagConstraints.CENTER;
 		this.add(gameSelection, c);
 		c.gridx = 1;
-
 		this.add(changeButton, c);
-
 		c.gridx = 0;
 		c.gridy = 1;
 		this.add(heightLabel, c);

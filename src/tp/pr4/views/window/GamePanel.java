@@ -11,11 +11,12 @@ import java.awt.event.ActionListener;
 
 public class GamePanel extends JPanel implements GameObserver {
 
-		//Attributes
-		private WindowController cntr;
+	//Attributes
+	private WindowController cntr;
 		
-		private JButton undoButton;
-		private JButton resetButton;
+	private JButton undoButton;
+	private JButton resetButton;
+	private JButton randomButton;
 				
 		//Constructor
 		public GamePanel(WindowController cntr, Game game) {
@@ -26,19 +27,27 @@ public class GamePanel extends JPanel implements GameObserver {
 		
 		//Methods
 		public void initGUI() {
-			this.setLayout(new BorderLayout(5,5));
-			
+			this.setLayout(new GridBagLayout());
+
+			GridBagConstraints c = new GridBagConstraints();
+
+			c.insets = new Insets(10,10,10,10);
+			c.fill = GridBagConstraints.NONE;
+
 			//Initializes the buttons
 			this.undoButton = new JButton ("Undo");
 			this.resetButton = new JButton ("Reset");
+			this.randomButton = new JButton("Random");
 			
 			//Disables Undo Button at the beginning of the game
 			undoButton.setEnabled(false);
+
 			
 			//Set the icons of the buttons
 			this.undoButton.setIcon(new ImageIcon(MainWindow.ICON_PATH + "undo.png"));
 			this.resetButton.setIcon(new ImageIcon(MainWindow.ICON_PATH + "reset.png"));
-			
+			this.randomButton.setIcon(new ImageIcon(MainWindow.ICON_PATH + "random.png"));
+
 			//Add the listeners to the buttons
 			undoButton.addActionListener(
 					new ActionListener(){
@@ -51,21 +60,36 @@ public class GamePanel extends JPanel implements GameObserver {
 					);
 			
 			resetButton.addActionListener(
-					new ActionListener(){
+					new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							cntr.reset();						
-						}			
+							cntr.reset();
+						}
 					}
-					);
-			
+			);
+			randomButton.addActionListener(
+					new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							cntr.randomMove();
+						}
+					}
+			);
+
 			//Add the border of the panel
 			Border b = BorderFactory.createLineBorder(Color.black, 2);
 			this.setBorder(BorderFactory.createTitledBorder(b, "Game"));
 			
 			//Adds the buttons to the panel
-			this.add(undoButton, BorderLayout.WEST);
-			this.add(resetButton, BorderLayout.EAST);
+			c.gridx = 0;
+			c.gridy = 0;
+			this.add(undoButton, c);
+			c.gridx = 1;
+			this.add(resetButton, c);
+			c.gridx = 0;
+			c.gridy = 1;
+			c.gridwidth = 2;
+			this.add(randomButton, c);
 			
 		}
 
@@ -85,6 +109,7 @@ public class GamePanel extends JPanel implements GameObserver {
 	@Override
 	public void onGameOver(ReadOnlyBoard board, Counter winner) {
 		undoButton.setEnabled(false);
+		randomButton.setEnabled(false);
 
 	}
 
@@ -109,7 +134,7 @@ public class GamePanel extends JPanel implements GameObserver {
 
 	@Override
 	public void reset(ReadOnlyBoard board, Counter player, Boolean undoPossible) {
-		// TODO Auto-generated method stub
+		randomButton.setEnabled(true);
 
 	}
 
