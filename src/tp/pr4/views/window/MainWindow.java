@@ -40,6 +40,8 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		GridBagConstraints c = new GridBagConstraints();
 		this.setContentPane(mainPanel);
 		
+		this.setMinimumSize(new Dimension (800,370));
+	
 		//Creates a board panel and attaches it to the main panel
 		JPanel boardPanel = new BoardPanel(cntr,game);
 		c.gridx = 0;
