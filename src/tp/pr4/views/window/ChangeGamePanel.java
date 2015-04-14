@@ -1,30 +1,13 @@
 package tp.pr4.views.window;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import tp.pr4.control.WindowController;
+import tp.pr4.logic.*;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-
-import tp.pr4.control.WindowController;
-import tp.pr4.logic.Board;
-import tp.pr4.logic.Counter;
-import tp.pr4.logic.Game;
-import tp.pr4.logic.GameObserver;
-import tp.pr4.logic.GameType;
-import tp.pr4.logic.ReadOnlyBoard;
 
 public class ChangeGamePanel extends JPanel implements GameObserver {
 	
@@ -47,8 +30,13 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 	}
 	
 	public void initGUI() {
-		this.setLayout(new GridLayout(3, 1, 20, 20));
-		
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.insets = new Insets(10,10,10,10);
+		c.fill = GridBagConstraints.NONE;
+
 		//List of games of the ComboBox
 		String games[] = {"CONNECT4", "COMPLICA", "GRAVITY"};
 		
@@ -59,8 +47,6 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 		this.heightField = new JTextField();
 		this.widthLabel = new JLabel("Width");
 		this.heightLabel = new JLabel("Height");
-				
-		
 		
 		//Set the listener of the ComboBox
 		
@@ -75,15 +61,14 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 							heightLabel.setVisible(true);
 							widthField.setVisible(true);
 							heightField.setVisible(true);
-						}
-						else {
+						} else {
 							widthLabel.setVisible(false);
 							heightLabel.setVisible(false);
 							widthField.setVisible(false);
 							heightField.setVisible(false);
-						}			
+						}
 					}
-					
+
 				});
 		
 		//Set the listener of the Change Button
@@ -95,28 +80,31 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 					public void actionPerformed(ActionEvent e) {
 						String item = (String) gameSelection.getSelectedItem();
 						switch (item) {
-						case "CONNECT4": cntr.changeGame(GameType.CONNECT4, 0, 0); break;
-						case "COMPLICA": cntr.changeGame(GameType.COMPLICA, 0, 0); break;
-						case "GRAVITY":  {
-							try {
-								int width = Integer.parseInt(widthField.getText());
-								int height = Integer.parseInt(heightField.getText());
-								if (width <= 0 || height <= 0)
-									throw new IllegalArgumentException();				
-								cntr.changeGame(GameType.GRAVITY, width, height);
+							case "CONNECT4":
+								cntr.changeGame(GameType.CONNECT4, 0, 0);
+								break;
+							case "COMPLICA":
+								cntr.changeGame(GameType.COMPLICA, 0, 0);
+								break;
+							case "GRAVITY": {
+								try {
+									int width = Integer.parseInt(widthField.getText());
+									int height = Integer.parseInt(heightField.getText());
+									if (width <= 0 || height <= 0)
+										throw new IllegalArgumentException();
+									cntr.changeGame(GameType.GRAVITY, width, height);
+								} catch (IllegalArgumentException ex) {
+									JFrame frame = new JFrame();
+									JOptionPane.showMessageDialog(frame,
+											"Please, enter a valid height/weight for the board",
+											"Invalid dimensions",
+											JOptionPane.ERROR_MESSAGE);
+								}
+
 							}
-							catch (IllegalArgumentException ex) {
-								JFrame frame = new JFrame();
-								JOptionPane.showMessageDialog(frame,
-								"Please, enter a valid height/weight for the board",
-								"Invalid dimensions",
-								JOptionPane.ERROR_MESSAGE);
-							}
-							
 						}
-						}				
 					}
-					
+
 				});
 				
 		
@@ -130,17 +118,36 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 		//Add the border of the panel
 		Border b = BorderFactory.createLineBorder(Color.black, 2);
 		this.setBorder(BorderFactory.createTitledBorder(b, "Change game"));
-		
-		//Adds the components to the panel
-		this.add(gameSelection);
-		this.add(changeButton);
-		this.add(heightLabel);
-		this.add(widthLabel);
-		this.add(heightField);
-		this.add(widthField);
 
-		
-		
+		//We put the text closer to the text fields
+		heightLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		heightLabel.setVerticalAlignment(SwingConstants.BOTTOM);
+		widthLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		widthLabel.setVerticalAlignment(SwingConstants.BOTTOM);
+
+		widthField.setMinimumSize(new Dimension(200, 200));
+		//heightField.
+
+		//Adds the components to the panel
+		c.gridx = 0;
+		c.gridy = 0;
+		c.anchor = GridBagConstraints.CENTER;
+		this.add(gameSelection, c);
+		c.gridx = 1;
+
+		this.add(changeButton, c);
+
+		c.gridx = 0;
+		c.gridy = 1;
+		this.add(heightLabel, c);
+		c.gridx = 1;
+		this.add(widthLabel, c);
+		c.gridx = 0;
+		c.gridy = 2;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		this.add(heightField, c);
+		c.gridx = 1;
+		this.add(widthField, c);
 	}
 
 	@Override
