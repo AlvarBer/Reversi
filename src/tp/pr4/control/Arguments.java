@@ -1,5 +1,9 @@
 package tp.pr4.control;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import tp.pr4.Main;
 import tp.pr4.logic.Game;
 
@@ -13,9 +17,11 @@ import tp.pr4.logic.Game;
  * @since: Assignment 3
  */
 public class Arguments {
-	//Atributes
+	
+	//Attributes
 	private GameTypeFactory factory;
 	private Game game;
+	private Controller cntr;
 
 	//Constructor
 	/**
@@ -23,83 +29,88 @@ public class Arguments {
      * @param args The arguments that must be handled
      */
 	public Arguments(String[] args) throws ArgumentException {
-		this.factory = null;
-		this.game = null;
+		this.factory = new Connect4Factory();
+		this.game = new Game(factory.createRules());
+		this.cntr = new ConsoleController(factory, game);
 		argumentsHandling(args);
 	}
 
 	//Methods
 	/**
-     * Set GameTypeFactory and a Game to the attributes depending on the arguments
+     * Set GameTypeFactory, a Controller and a Game to the attributes depending on the arguments
      * @param args The arguments that must be handled
      */
 	private void argumentsHandling(String[] args) throws ArgumentException {
-		if (args.length == 0) {
-			this.factory = new Connect4Factory();
-			this.game = new Game(factory.createRules());
-		} else {
-			switch (args[0]) {
+		if (args.length != 0) {			
+			//Initializes the list and the iterator
+			ArrayList<String> arguments = new ArrayList<String>();
+			for (int i=0;i < args.length;i++) {
+				arguments.add(args[i]);
+			}
+			Iterator it = arguments.iterator();
+			String argument;
+			
+			//Iterates the arguments until the end
+			while(it.hasNext()) {
+				argument = (String) it.next();				
+				switch (argument) {
 				case "-g":
 				case "--game": {
-					switch (args[1]) {
+					try {argument = (String) it.next();} 
+					catch (NoSuchElementException ex) {
+						throw new ArgumentException("Unrecognized option: Specify the game that you want to play");						
+					}							
+					//Select the type of game
+					switch (argument) {
 						case "c4": {
-							try {
-								if (args[2] != null) {
-									String msg = "";
-									for (int i = 2; i < args.length; i++)
-										msg += args[i] + " ";
-									//We now strip the space at the end
-									throw new ArgumentException("Illegal arguments: " + msg.replaceAll("\\s+$", ""));
-								}
-							} catch (ArrayIndexOutOfBoundsException ex) {
-								this.factory = new Connect4Factory();
-								this.game = new Game(factory.createRules());
-							}
-						}
-						break;
+							this.factory = new Connect4Factory();
+							this.game = new Game(factory.createRules());
+						} break;					
 						case "co": {
-							try {
-								if (args[2] != null) {
-									String msg = "";
-									for (int i = 2; i < args.length; i++)
-										msg += args[i] + " ";
-									throw new ArgumentException("Illegal arguments: " + msg);
-								}
-							} catch (ArrayIndexOutOfBoundsException ex) {
 								this.factory = new ComplicaFactory();
-								this.game = new Game(factory.createRules());
-							}
-							break;
-						}
+								this.game = new Game(factory.createRules());							
+							
+						} break;
 						case "gr": {
 							try {
-								if (args[2] != null) {
-									int x, y;
-									if (args[2].equals("-x") || args[2].equals("--dimX")) {
-										x = Integer.parseInt(args[3]);
-									} else {
-										throw new ArgumentException("Unrecognized option: " + args[2]);
-									}
-									if (args[4].equals("-y") || args[4].equals("--dimY")) {
-										y = Integer.parseInt(args[5]);
-									} else {
-										throw new ArgumentException("Unrecognized option: " + args[4]);
-									}
-									this.factory = new GravityFactory();
-									this.game = new Game(new GravityFactory().createRules(x, y));
+								argument = (String) it.next();													
+								int x, y;
+								if (argument.equalsIgnoreCase("-x") || argument.equalsIgnoreCase("--dimX")) {
+									try {argument = (String) it.next();} 
+									catch (NoSuchElementException ex) {
+										throw new ArgumentException("Unrecognized option: Enter a valid parameter for the width");		
+									}								
+									x = Integer.parseInt(argument);
+								} else {
+									throw new ArgumentException("Unrecognized option: " + argument);
 								}
-							} catch (ArrayIndexOutOfBoundsException ex) {
+								
+								try {argument = (String) it.next();} 
+								catch (NoSuchElementException ex) {
+									throw new ArgumentException("Unrecognized option: You must specify the height of the board using -y <Integer>");		
+								}
+								if (argument.equalsIgnoreCase("-y") || argument.equalsIgnoreCase("--dimY")) {
+									try {argument = (String) it.next();} 
+									catch (NoSuchElementException ex) {
+										throw new ArgumentException("Unrecognized option: Enter a valid parameter for the height");		
+									}
+									y = Integer.parseInt(argument);
+								} else {
+									throw new ArgumentException("Unrecognized option: " + argument);
+								}
 								this.factory = new GravityFactory();
-								this.game = new Game(factory.createRules());
+								this.game = new Game(new GravityFactory().createRules(x, y));							
+							} 
+							catch (NoSuchElementException ex) {
+								this.factory = new GravityFactory();
+								this.game = new Game(factory.createRules());													
 							}
-						}
-						break;
+						} break;
 						default: {
-							throw new ArgumentException("Game '" + args[1] + "' incorrect.");
+							throw new ArgumentException("Game '" + argument + "' incorrect.");
 						}
-					}
-				}
-				break;
+					} 
+				} break;
 				case "-h":
 				case "--help": {
 					System.out.println("usage: " + Main.class.getName() + " [-g <game>] [-h] [-x <columnNumber>] [-y <rowNumber>]");
@@ -111,26 +122,32 @@ public class Arguments {
 							"                            default, 10.");
 				}
 				break;
+				case "-u":
+				case "--ui": {
+					try {argument = (String) it.next();} 
+					catch (NoSuchElementException ex) {
+						throw new ArgumentException("Unrecognized option: Specify the view to use <console> || <window>");						
+					}
+					if (argument.equalsIgnoreCase("console"))
+						cntr = new ConsoleController(this.factory,this.game);
+					else if (argument.equalsIgnoreCase("window"))
+						cntr = new WindowController(this.factory,this.game);
+					else
+						throw new ArgumentException("Unrecognized option: " + argument);		
+				} break;					
 				default: {
-					throw new ArgumentException("Unrecognized option: " + args[0]);
+					throw new ArgumentException("Unrecognized option: " + argument);
+					}
 				}
 			}
-		}
+		}	
 	}
-
+	
 	/**
-	 * @return the factory
+	 * 
+	 * @return The Controller
 	 */
-	public GameTypeFactory getFactory() {
-		return factory;
+	public Controller getController() {
+		return cntr;
 	}
-
-	/**
-	 * @return the game
-	 */
-	public Game getGame() {
-		return game;
-	}
-
-
 }

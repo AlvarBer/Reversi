@@ -5,6 +5,7 @@ import tp.pr4.logic.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,7 @@ public class GamePanel extends JPanel implements GameObserver {
 	private JButton undoButton;
 	private JButton resetButton;
 	private JButton randomButton;
+	private JButton quitButton;
 				
 		//Constructor
 		public GamePanel(WindowController cntr, Game game) {
@@ -37,7 +39,8 @@ public class GamePanel extends JPanel implements GameObserver {
 			//Initializes the buttons
 			this.undoButton = new JButton ("Undo");
 			this.resetButton = new JButton ("Reset");
-			this.randomButton = new JButton("Random");
+			this.randomButton = new JButton("Random Move");
+			this.quitButton = new JButton ("Quit");
 			
 			//Disables Undo Button at the beginning of the game
 			undoButton.setEnabled(false);
@@ -47,7 +50,8 @@ public class GamePanel extends JPanel implements GameObserver {
 			this.undoButton.setIcon(new ImageIcon(MainWindow.ICON_PATH + "undo.png"));
 			this.resetButton.setIcon(new ImageIcon(MainWindow.ICON_PATH + "reset.png"));
 			this.randomButton.setIcon(new ImageIcon(MainWindow.ICON_PATH + "random.png"));
-
+			this.quitButton.setIcon(new ImageIcon(MainWindow.ICON_PATH + "exit.png"));
+			
 			//Add the listeners to the buttons
 			undoButton.addActionListener(
 					new ActionListener(){
@@ -75,6 +79,23 @@ public class GamePanel extends JPanel implements GameObserver {
 						}
 					}
 			);
+			
+			quitButton.addActionListener(
+					new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							int n = JOptionPane.showOptionDialog(new JFrame(),
+									"Are sure you want to quit?", "Quit",
+									JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+									null, null);
+
+							if (n == 0) {
+								cntr.requestQuit();
+							}												
+							
+						}
+					}
+			);
 
 			//Add the border of the panel
 			Border b = BorderFactory.createLineBorder(Color.black, 2);
@@ -88,9 +109,9 @@ public class GamePanel extends JPanel implements GameObserver {
 			this.add(resetButton, c);
 			c.gridx = 0;
 			c.gridy = 1;
-			c.gridwidth = 2;
 			this.add(randomButton, c);
-			
+			c.gridx = 1;
+			this.add(quitButton, c);		
 		}
 
 	@Override

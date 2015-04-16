@@ -66,8 +66,23 @@ public class BoardPanel extends JPanel implements GameObserver {
 
 	@Override
 	public void onGameOver(ReadOnlyBoard board, Counter winner) {
+		int rows = board.getWidth();
+		int cols = board.getHeight();
+		for (int i = 0; i < rows; ++i) {
+			for (int j = 0; j < cols;++j) {
+				buttons[i][j].setEnabled(false);				
+			}
+		}
 		active = false;
-		turnTxt.setText("Game is finished. " + winner + " wins");
+		
+		if (winner != Counter.EMPTY)
+			turnTxt.setText("Game is finished. " + winner + " wins");
+		else
+			turnTxt.setText("Game ends in a draw");
+		
+		
+		
+		
 	}
 
 	@Override

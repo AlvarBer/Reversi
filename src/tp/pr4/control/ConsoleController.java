@@ -184,6 +184,7 @@ public class ConsoleController extends Controller {
 		}
 		strScanner.close();		
 		this.in.close();
-	}	
+		System.exit(0);
+	}
 
 }

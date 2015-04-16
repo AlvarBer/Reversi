@@ -76,7 +76,7 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		//TODO:Add buttons on the main panel
 		this.pack(); //Fits the main frame to the size of its panels
 		this.setVisible(true);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Quit the game and finish the process at closing
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Quit the game and finish the process at closing 
 	}
 
 

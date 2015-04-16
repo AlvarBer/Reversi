@@ -30,18 +30,11 @@ public class Main {
 	 * @param args Arguments passed to the application. Not used.
 	 */
 	public static void main(String[] args) {	
-		//Pending of accepting execution arguments. Till then, Connect4 is the game by default
 		Arguments arguments;
 		try {
 			arguments = new Arguments(args);
-			GameTypeFactory factory = arguments.getFactory();
-			if (factory != null) {
-				Game game = arguments.getGame();
-				Controller ctrl  = new WindowController(factory, game);
-				ctrl.run();
-				new ConsoleController(factory, game).run();				
-				//System.exit(0);
-			}
+			Controller ctrl  = arguments.getController();
+			ctrl.run();				
 		} catch (ArgumentException e) {
 			System.err.println("Incorrect use: " + e.getMessage());
 			System.err.println("For more details, use -h|--help.");
