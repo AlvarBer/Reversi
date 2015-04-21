@@ -1,5 +1,7 @@
 package tp.pr5.views.window;
 
+import tp.pr5.logic.Counter;
+import tp.pr5.logic.ReadOnlyBoard;
 import tp.pr5.control.WindowController;
 import tp.pr5.logic.*;
 
@@ -54,10 +56,21 @@ public class BoardPanel extends JPanel implements GameObserver {
 
 	@Override
 	public void moveExecFinished(ReadOnlyBoard board, Counter player, Counter nextPlayer) {
-		reset(board,nextPlayer,true);
-
+		int rows = board.getWidth();
+		int cols = board.getHeight();
+		for (int i = 0; i < rows; ++i) {
+			for (int j = 0; j < cols;++j) {
+				Counter v = board.getPosition(i+1, j+1);
+				addCounterIcon(buttons[i][j],v);
+				c.gridy = j;
+				c.gridx = i;
+			}
+		}
+		currentTurn = nextPlayer;
+		turnTxt.setText(currentTurn.toString() + " turn");
+		this.revalidate();	
 	}
-
+	
 	@Override
 	public void moveExecStart(Counter player) {
 		turnTxt.setText("Moving...");
@@ -96,8 +109,19 @@ public class BoardPanel extends JPanel implements GameObserver {
 
 	@Override
 	public void onUndo(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
-		reset(board,nextPlayer,true);
-
+		int rows = board.getWidth();
+		int cols = board.getHeight();
+		for (int i = 0; i < rows; ++i) {
+			for (int j = 0; j < cols;++j) {
+				Counter v = board.getPosition(i+1, j+1);
+				addCounterIcon(buttons[i][j],v);
+				c.gridy = j;
+				c.gridx = i;
+			}
+		}
+		currentTurn = nextPlayer;
+		turnTxt.setText(currentTurn.toString() + " turn");
+		this.revalidate();				
 	}
 
 	@Override

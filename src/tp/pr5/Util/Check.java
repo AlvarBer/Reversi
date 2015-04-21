@@ -251,4 +251,28 @@ public class Check {
 		return is_full;
 	}
 
+	
+	//
+	public static Counter checkReversiWinner(Board board) {
+		int blackCounters = 0, whiteCounters = 0;
+		Counter winner;
+		for (int i = 1; i <= board.getWidth(); i++) {
+			for (int j = 1; j <= board.getHeight(); j++) {
+				if (board.getPosition(i, j) == Counter.BLACK) 
+					blackCounters++;				
+				else if (board.getPosition(i, j) == Counter.WHITE)
+					whiteCounters++;
+			}
+		}
+		
+		if (whiteCounters > blackCounters)
+			winner = Counter.WHITE;
+		else if (whiteCounters < blackCounters)
+			winner = Counter.BLACK;
+		else
+			winner = Counter.WHITE;
+		
+		return winner;
+	}
+
 }

@@ -17,10 +17,12 @@ import java.util.Scanner;
 
 public class WindowController extends Controller {
 	
-        //Attributes
+    //Attributes
 	private Game game;
 	private Scanner in;
-	private GameTypeFactory currentGame;	    
+	private GameTypeFactory currentGame;
+	private Player black;
+	private Player white;
 	
 	 
     
@@ -34,6 +36,8 @@ public class WindowController extends Controller {
         this.game = g;
 	    this.in = new Scanner(System.in);
 	    this.currentGame = factory;
+	    this.black = currentGame.createHumanPlayerAtConsole(in);
+		this.white = currentGame.createHumanPlayerAtConsole(in);	
 		
 
 	}
@@ -47,6 +51,7 @@ public class WindowController extends Controller {
             
 	}
 	
+	//TODO: Implement move with human/automatic player
 	public void makeMove(int col, int row, Counter turn) {
             Move move = currentGame.createMove(col, row, turn);
             try {

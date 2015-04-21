@@ -42,11 +42,7 @@ public class GravityRules implements GameRules {
 
 	@Override
 	public Counter winningMove(Move lastMove, Board board) {
-		Counter winningMove = Counter.EMPTY;
-		if (Check.checkConnect4Win(board)) {
-			winningMove = lastMove.getPlayer();
-		}
-		return winningMove;
+		return Counter.EMPTY;
 	}
 
 }
