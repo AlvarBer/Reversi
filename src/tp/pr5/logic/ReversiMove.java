@@ -1,6 +1,8 @@
 package tp.pr5.logic;
 
 
+import tp.pr5.Util.Misc;
+
 /**
  * Class that implements the move for the Reversi game, implementing the abstract methods of the parent class.
  *
@@ -11,35 +13,97 @@ package tp.pr5.logic;
  * @see: tp.pr5.logic.Move
  */
 public class ReversiMove extends Move {
-	
+
+	//Attributes
+	private int moveRow;
+	private int moveColumn;
+	private Counter moveColour;
+
+	//Constructor
+
+	/**
+	 * Constructor of the class.
+	 *
+	 * @param moveColumn Number of the column which will be modified by the movement
+	 * @param moveRow Number of the row which will be modified by the movement
+	 * @param moveColour Colour of the player who has made the movement
+	 */
+	public ReversiMove(int moveColumn, int moveRow, Counter moveColour) {
+		this.moveColumn = moveColumn;
+		this.moveColour = moveColour;
+		this.moveRow = moveRow;
+	}
+
+	//Functions
 	@Override
 	public void executeMove(Board board) throws InvalidMove {
-		// TODO Auto-generated method stub
-
+		if (Misc.validPosition(board, getColumn(), getRow())) {
+			if (board.getPosition(getColumn(), getRow()) != Counter.EMPTY) {
+				flipIt(board, this.getPlayer());
+			} else
+				throw new InvalidMove("position (" + getColumn() + ", " + getRow() + ") is not empty.");
+		} else
+			throw new InvalidMove("position (" + getColumn() + ", " + getRow() + ") is not on the board.");
 	}
 
 	@Override
 	public Counter getPlayer() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.moveColour;
 	}
 
 	@Override
 	public void undo(Board boa) {
-		// TODO Auto-generated method stub
 
+		flipIt(boa,Misc.changeTurn(this.getPlayer()));
+
+		boa.setPosition(this.getColumn(), this.getRow(), Counter.EMPTY);
 	}
 
 	@Override
 	public int getColumn() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.moveColumn;
 	}
 
 	@Override
 	public int getRow() {
-		// TODO Auto-generated method stub
-		return 0;
+		return moveRow;
 	}
 
+	private void flipIt(Board board, Counter Player) {
+		int verticalIncrement = 0, horizontalIncrement = 0, numberOfCounters;
+
+		for (int k = 0; k < 4; ++k) {
+			numberOfCounters = 0;
+			if (k == 0) {
+				verticalIncrement = 1;
+				horizontalIncrement = 1;
+			}
+			else if (k == 1) {
+				verticalIncrement = 1;
+				horizontalIncrement = -1;
+			}
+			else if (k == 2) {
+				verticalIncrement = -1;
+				horizontalIncrement = 1;
+			}
+			else if (k == 3) {
+				verticalIncrement = -1;
+				horizontalIncrement = -1;
+			}
+			while (board.getPosition(this.getColumn() + verticalIncrement, this.getRow() + horizontalIncrement) != Counter.EMPTY &&
+					board.getPosition(this.getColumn() + verticalIncrement, this.getRow() + horizontalIncrement) != Player) {
+				++numberOfCounters;
+				verticalIncrement += verticalIncrement;
+				horizontalIncrement += horizontalIncrement;
+				if (board.getPosition(this.getColumn() + verticalIncrement, this.getRow() + horizontalIncrement) == Player) {
+					for (int l = numberOfCounters; l < numberOfCounters; ++l) {
+						board.setPosition(this.getColumn() + verticalIncrement, this.getRow() + horizontalIncrement, Player);
+						verticalIncrement -= verticalIncrement;
+						horizontalIncrement -= horizontalIncrement;
+					}
+				}
+
+			}
+		}
+	}
 }
