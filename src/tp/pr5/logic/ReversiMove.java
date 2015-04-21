@@ -90,7 +90,9 @@ public class ReversiMove extends Move {
 				verticalIncrement = -1;
 				horizontalIncrement = -1;
 			}
-			while (board.getPosition(this.getColumn() + verticalIncrement, this.getRow() + horizontalIncrement) != Counter.EMPTY &&
+			while (this.getColumn() + verticalIncrement < board.getHeight() && this.getColumn() + verticalIncrement > 0 &&
+					this.getRow() + verticalIncrement < board.getWidth() && this.getRow() + verticalIncrement > 0 &&
+					board.getPosition(this.getColumn() + verticalIncrement, this.getRow() + horizontalIncrement) != Counter.EMPTY &&
 					board.getPosition(this.getColumn() + verticalIncrement, this.getRow() + horizontalIncrement) != Player) {
 				++numberOfCounters;
 				verticalIncrement += verticalIncrement;
