@@ -1,7 +1,7 @@
-VisualGravity.iml
-.idea
+*.iml
+*.idea
 javadoc/*
 out/*
-.classpath
-.project
+*.classpath
+*.project
 bin/tp
