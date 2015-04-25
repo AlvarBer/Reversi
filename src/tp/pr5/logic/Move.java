@@ -11,10 +11,6 @@ package tp.pr5.logic;
  */
 
 public abstract class Move extends java.lang.Object {
-
-	//Constructor
-
-	
 	//Methods
 
 

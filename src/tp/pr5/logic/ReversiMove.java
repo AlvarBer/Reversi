@@ -1,6 +1,5 @@
 package tp.pr5.logic;
 
-
 import tp.pr5.Util.Misc;
 
 /**
@@ -18,6 +17,8 @@ public class ReversiMove extends Move {
 	private int moveRow;
 	private int moveColumn;
 	private Counter moveColour;
+	private Position[] countersFlipped;
+	private static final int NUMBER_OF_DIRECTIONS = 8;
 
 	//Constructor
 
@@ -32,6 +33,10 @@ public class ReversiMove extends Move {
 		this.moveColumn = moveColumn;
 		this.moveColour = moveColour;
 		this.moveRow = moveRow;
+		countersFlipped = new Position[NUMBER_OF_DIRECTIONS];
+		for (int i = 0; i < NUMBER_OF_DIRECTIONS; ++i) {
+			countersFlipped[i].setPos(-1, -1);
+		}
 	}
 
 	//Functions
@@ -53,9 +58,30 @@ public class ReversiMove extends Move {
 
 	@Override
 	public void undo(Board boa) {
+		//We change all the "End of the line" counters
+		for (int i = 0; i < NUMBER_OF_DIRECTIONS; ++i) {
+			if (countersFlipped[i].getPosX() != -1) {
+				boa.setPosition(countersFlipped[i].getPosY(), countersFlipped[i].getPosY(),
+					Misc.changeTurn(boa.getPosition(countersFlipped[i].getPosX(),countersFlipped[i].getPosY())));
+			}
+		}
 
-		flipIt(boa,Misc.changeTurn(this.getPlayer()));
+		//We make the exact inverse move we want to undo
+		try {
+			flipIt(boa, Misc.changeTurn(this.getPlayer()));
+		} catch (InvalidMove e) {
+			//This call to flipIt is never going to fail
+		}
 
+		//We reverse the "End of the line" counters we flipped
+		for (int i = 0; i < NUMBER_OF_DIRECTIONS; ++i) {
+			if (countersFlipped[i].getPosX() != -1) {
+				boa.setPosition(countersFlipped[i].getPosY(), countersFlipped[i].getPosY(),
+						Misc.changeTurn(boa.getPosition(countersFlipped[i].getPosX(),countersFlipped[i].getPosY())));
+			}
+		}
+
+		//And of course we eliminate the Counter the player put
 		boa.setPosition(this.getColumn(), this.getRow(), Counter.EMPTY);
 	}
 
@@ -69,43 +95,74 @@ public class ReversiMove extends Move {
 		return moveRow;
 	}
 
-	private void flipIt(Board board, Counter Player) {
+	private void flipIt(Board board, Counter Player) throws InvalidMove {
 		int verticalIncrement = 0, horizontalIncrement = 0, numberOfCounters;
+		int currentColumn, currentRow;
+		boolean throwAnException = true;
 
-		for (int k = 0; k < 4; ++k) {
+		for (int currentDirection = 0; currentDirection < NUMBER_OF_DIRECTIONS; ++currentDirection) {
 			numberOfCounters = 0;
-			if (k == 0) {
-				verticalIncrement = 1;
-				horizontalIncrement = 1;
-			}
-			else if (k == 1) {
-				verticalIncrement = 1;
-				horizontalIncrement = -1;
-			}
-			else if (k == 2) {
-				verticalIncrement = -1;
-				horizontalIncrement = 1;
-			}
-			else if (k == 3) {
+			if (currentDirection == 0) {
 				verticalIncrement = -1;
 				horizontalIncrement = -1;
 			}
-			while (this.getColumn() + verticalIncrement < board.getHeight() && this.getColumn() + verticalIncrement > 0 &&
-					this.getRow() + verticalIncrement < board.getWidth() && this.getRow() + verticalIncrement > 0 &&
-					board.getPosition(this.getColumn() + verticalIncrement, this.getRow() + horizontalIncrement) != Counter.EMPTY &&
-					board.getPosition(this.getColumn() + verticalIncrement, this.getRow() + horizontalIncrement) != Player) {
+			else if (currentDirection == 1) { //    Awesome Direction Scheme:
+				verticalIncrement = 0;        //  Dir 0       Dir 1        Dir 2
+				horizontalIncrement = -1;     // (-1,-1)      (0,-1)       (1,-1)
+			}                                 //                ?
+			else if (currentDirection == 2) { //                ?
+				verticalIncrement = 1;        // Dir 7          ?          Dir 3
+				horizontalIncrement = -1;     // (-1,0) ?????????????????? (1,0)
+			}                                 //                ?
+			else if (currentDirection == 3) { //                ?
+				verticalIncrement = 1;		  // Dir 6          ?          Dir 4
+				horizontalIncrement = 0;      // (-1,1)       (0,1)        (1,1)
+			}                                 //              Dir 5
+			else if (currentDirection == 4) {
+				verticalIncrement = 1;
+				horizontalIncrement = 1;
+			}
+			else if (currentDirection == 5) {
+				verticalIncrement = 0;
+				horizontalIncrement = 1;
+			}
+			else if (currentDirection == 6) {
+				verticalIncrement = -1;
+				horizontalIncrement = 1;
+			}
+			else if (currentDirection == 7) {
+				verticalIncrement = -1;
+				horizontalIncrement = 0;
+			}
+			currentColumn = this.getColumn() + verticalIncrement;
+			currentRow = this.getRow() + horizontalIncrement;
+			while (Misc.validPosition(board, currentColumn, currentRow) && //While we don't hit a wall & counters are theirs
+					board.getPosition(currentColumn, currentRow) == Misc.changeTurn(Player)) {
 				++numberOfCounters;
-				verticalIncrement += verticalIncrement;
-				horizontalIncrement += horizontalIncrement;
-				if (board.getPosition(this.getColumn() + verticalIncrement, this.getRow() + horizontalIncrement) == Player) {
-					for (int l = numberOfCounters; l < numberOfCounters; ++l) {
-						board.setPosition(this.getColumn() + verticalIncrement, this.getRow() + horizontalIncrement, Player);
-						verticalIncrement -= verticalIncrement;
-						horizontalIncrement -= horizontalIncrement;
+				currentColumn += verticalIncrement;
+				currentRow += horizontalIncrement;
+				if (Misc.validPosition(board, currentColumn, currentRow) && //If we hit a counter that is ours
+						board.getPosition(currentColumn, currentRow) == Player) {
+					countersFlipped[currentDirection].setPos(currentColumn, currentRow); //Save "End of the line" position
+					for (int i = 0; i < numberOfCounters; ++i) { //Flip all the counters in between
+						board.setPosition(currentColumn, currentRow, Player);
+						currentColumn -= verticalIncrement;
+						currentRow -= horizontalIncrement;
 					}
 				}
-
 			}
+		}
+
+		//Now we check if we have done any flip at all, if the answer is no we throw an exception
+		int i = 0;
+		while (i < NUMBER_OF_DIRECTIONS && throwAnException) {
+			if (countersFlipped[i].getPosX() != -1) {
+				throwAnException = false;
+			}
+			++i;
+		}
+		if (throwAnException) {
+			throw new InvalidMove("No others counters were flipped");
 		}
 	}
 }
