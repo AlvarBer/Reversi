@@ -40,6 +40,8 @@ public class ReversiMove extends Move {
 	}
 
 	//Functions
+
+	//Public Functions
 	@Override
 	public void executeMove(Board board) throws InvalidMove {
 		if (Misc.validPosition(board, getColumn(), getRow())) {
@@ -95,6 +97,72 @@ public class ReversiMove extends Move {
 		return moveRow;
 	}
 
+	//I know this function is almost the same as the other one, probably will put some of the concurrent code elsewhere
+	public boolean isLegal(Board board, Counter Player) {
+		int verticalIncrement = 0, horizontalIncrement = 0;
+		int currentColumn, currentRow, currentDirection = 0;
+		boolean legal = false;
+
+		//    Awesome Direction Scheme:
+		//  Dir 0        Dir 1        Dir 2
+		// (-1,-1)      (0,-1)       (1,-1)
+		//                │
+		//                │
+		//  Dir 7         │           Dir 3
+		// (-1,0) ────────│────────── (1,0)
+		//                │
+		//                │
+		//  Dir 6         │          Dir 4
+		// (-1,1)       (0,1)        (1,1)
+		//              Dir 5
+
+		while (currentDirection < NUMBER_OF_DIRECTIONS && !legal) {
+			if (currentDirection == 0) {
+				verticalIncrement = -1;
+				horizontalIncrement = -1;
+			} else if (currentDirection == 1) {
+				verticalIncrement = 0;
+				horizontalIncrement = -1;
+			}
+			else if (currentDirection == 2) {
+				verticalIncrement = 1;
+				horizontalIncrement = -1;
+			}
+			else if (currentDirection == 3) {
+				verticalIncrement = 1;
+				horizontalIncrement = 0;
+			}
+			else if (currentDirection == 4) {
+				verticalIncrement = 1;
+				horizontalIncrement = 1;
+			} else if (currentDirection == 5) {
+				verticalIncrement = 0;
+				horizontalIncrement = 1;
+			} else if (currentDirection == 6) {
+				verticalIncrement = -1;
+				horizontalIncrement = 1;
+			} else if (currentDirection == 7) {
+				verticalIncrement = -1;
+				horizontalIncrement = 0;
+			}
+			currentColumn = this.getColumn() + verticalIncrement;
+			currentRow = this.getRow() + horizontalIncrement;
+			while (Misc.validPosition(board, currentColumn, currentRow) && //While we don't hit a wall & counters are theirs
+					board.getPosition(currentColumn, currentRow) == Misc.changeTurn(Player)) {
+				currentColumn += verticalIncrement;
+				currentRow += horizontalIncrement;
+				if (Misc.validPosition(board, currentColumn, currentRow) && //If we hit a counter that is ours
+						board.getPosition(currentColumn, currentRow) == Player) {
+					legal = true;
+				}
+			}
+			++currentDirection;
+		}
+
+		return legal;
+	}
+
+	//Private Functions
 	private void flipIt(Board board, Counter Player) throws InvalidMove {
 		int verticalIncrement = 0, horizontalIncrement = 0, numberOfCounters;
 		int currentColumn, currentRow;
@@ -106,18 +174,18 @@ public class ReversiMove extends Move {
 				verticalIncrement = -1;
 				horizontalIncrement = -1;
 			}
-			else if (currentDirection == 1) { //    Awesome Direction Scheme:
-				verticalIncrement = 0;        //  Dir 0       Dir 1        Dir 2
-				horizontalIncrement = -1;     // (-1,-1)      (0,-1)       (1,-1)
-			}                                 //                ?
-			else if (currentDirection == 2) { //                ?
-				verticalIncrement = 1;        // Dir 7          ?          Dir 3
-				horizontalIncrement = -1;     // (-1,0) ?????????????????? (1,0)
-			}                                 //                ?
-			else if (currentDirection == 3) { //                ?
-				verticalIncrement = 1;		  // Dir 6          ?          Dir 4
-				horizontalIncrement = 0;      // (-1,1)       (0,1)        (1,1)
-			}                                 //              Dir 5
+			else if (currentDirection == 1) {
+				verticalIncrement = 0;
+				horizontalIncrement = -1;
+			}
+			else if (currentDirection == 2) {
+				verticalIncrement = 1;
+				horizontalIncrement = -1;
+			}
+			else if (currentDirection == 3) {
+				verticalIncrement = 1;
+				horizontalIncrement = 0;
+			}
 			else if (currentDirection == 4) {
 				verticalIncrement = 1;
 				horizontalIncrement = 1;
@@ -165,4 +233,6 @@ public class ReversiMove extends Move {
 			throw new InvalidMove("No others counters were flipped");
 		}
 	}
+
+
 }
