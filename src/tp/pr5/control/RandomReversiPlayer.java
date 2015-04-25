@@ -15,7 +15,7 @@ import tp.pr5.logic.ReversiMove;
  * @since: Assignment 5
  * @see: tp.pr5.control.Player
  */
-public class ReversiRandomPlayer implements Player {
+public class RandomReversiPlayer implements Player {
 
 	@Override
 	public Move getMove(Board board, Counter colour) {

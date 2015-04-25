@@ -1,10 +1,8 @@
 package tp.pr5.control;
 
-import java.util.Scanner;
+import tp.pr5.logic.*;
 
-import tp.pr5.logic.Counter;
-import tp.pr5.logic.GameRules;
-import tp.pr5.logic.Move;
+import java.util.Scanner;
 
 /**
  * Implementation of the factory for Reversi. 
@@ -20,25 +18,34 @@ public class ReversiFactory implements GameTypeFactory {
 
 	@Override
 	public Player createHumanPlayerAtConsole(Scanner in) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Player() {
+			public Move getMove(Board board, Counter colour) {
+				System.out.print("Please provide the column number: ");
+				int column = in.nextInt();
+				in.nextLine();
+				System.out.print("Please provide the row number: ");
+				int row = in.nextInt();
+				in.nextLine();
+				return createMove(column, row, colour);
+			}
+		};
 	}
 
 	@Override
 	public Move createMove(int col, int row, Counter colour) {
-		// TODO Auto-generated method stub
-		return null;
+		ReversiMove rMove = new ReversiMove(col, row, colour);
+		return rMove;
 	}
 
 	@Override
 	public Player createRandomPlayer() {
-		// TODO Auto-generated method stub
-		return null;
+		Player player = new RandomReversiPlayer();
+		return player;
 	}
 
 	@Override
 	public GameRules createRules() {
-		// TODO Auto-generated method stub
+		// No constructor yet
 		return null;
 	}
 

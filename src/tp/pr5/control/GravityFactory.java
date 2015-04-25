@@ -1,13 +1,8 @@
 package tp.pr5.control;
 
-import java.util.Scanner;
+import tp.pr5.logic.*;
 
-import tp.pr5.logic.Board;
-import tp.pr5.logic.Counter;
-import tp.pr5.logic.GameRules;
-import tp.pr5.logic.GravityMove;
-import tp.pr5.logic.GravityRules;
-import tp.pr5.logic.Move;
+import java.util.Scanner;
 
 /**
  * Implementation of the factory for Gravity. The methods return the objects capable of playing this game. 
