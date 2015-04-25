@@ -23,7 +23,7 @@ public class RandomGravityPlayer implements Player {
 		int j = Misc.randInt(1, board.getHeight());
 		GravityMove randomMove;
 
-		while (board.getPosition(i, j) != Counter.EMPTY) { //While we can't find a valid postion
+		while (board.getPosition(i, j) != Counter.EMPTY) { //While we can't find a valid position
 			i = Misc.randInt(1, board.getWidth()); //Keep searching for one
 			j = Misc.randInt(1, board.getHeight());
 		}
