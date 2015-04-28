@@ -65,9 +65,12 @@ public class ReversiMove extends Move {
 		for (int i = 0; i < NUMBER_OF_DIRECTIONS; ++i) {
 			if (countersFlipped[i].getPosX() != -1) {
 				boa.setPosition(countersFlipped[i].getPosY(), countersFlipped[i].getPosY(),
-					Misc.changeTurn(boa.getPosition(countersFlipped[i].getPosX(),countersFlipped[i].getPosY())));
+					Misc.changeTurn(this.getPlayer()));
 			}
 		}
+
+		//And of course we eliminate the Counter the player put
+		boa.setPosition(this.getColumn(), this.getRow(), Misc.changeTurn(this.getPlayer()));
 
 		//We make the exact inverse move we want to undo
 		try {
@@ -80,7 +83,7 @@ public class ReversiMove extends Move {
 		for (int i = 0; i < NUMBER_OF_DIRECTIONS; ++i) {
 			if (countersFlipped[i].getPosX() != -1) {
 				boa.setPosition(countersFlipped[i].getPosY(), countersFlipped[i].getPosY(),
-						Misc.changeTurn(boa.getPosition(countersFlipped[i].getPosX(),countersFlipped[i].getPosY())));
+						Misc.changeTurn(boa.getPosition(countersFlipped[i].getPosX(), countersFlipped[i].getPosY())));
 			}
 		}
 
@@ -107,7 +110,7 @@ public class ReversiMove extends Move {
 	 * @param Player
 	 * @return
 	 */
-	public boolean isLegal(Board board, Counter Player) {
+	public boolean isLegal(ReadOnlyBoard board, Counter Player) {
 		int verticalIncrement = 0, horizontalIncrement = 0;
 		int currentColumn, currentRow, currentDirection = 0;
 		boolean legal = false;
@@ -178,15 +181,16 @@ public class ReversiMove extends Move {
 	 * @param player
 	 * @return
 	 */
-	public static boolean canMove(Board board, Counter player) {
-		boolean valid = true;
-		int i = 1,j = 1;
+	public static boolean canMove(ReadOnlyBoard board, Counter player) {
+		boolean valid = false;
+		int i = 1, j;
 
-		while (i <= board.getHeight()) {
-			while (j <= board.getWidth()) {
+		while (i <= board.getHeight() && !valid) {
+			j = 1;
+			while (j <= board.getWidth() && !valid) {
 				if (board.getPosition(i,j) == Counter.EMPTY) {
 					if (new ReversiMove(i,j, player).isLegal(board, player)){
-						valid = false;
+						valid = true;
 					}
 				}
 				++j;
@@ -247,6 +251,8 @@ public class ReversiMove extends Move {
 				if (Misc.validPosition(board, currentColumn, currentRow) && //If we hit a counter that is ours
 						board.getPosition(currentColumn, currentRow) == Player) {
 					countersFlipped[currentDirection].setPos(currentColumn, currentRow); //Save "End of the line" position
+					currentColumn -= verticalIncrement; //Go back one
+					currentRow -= horizontalIncrement;
 					for (int i = 0; i < numberOfCounters; ++i) { //Flip all the counters in between
 						board.setPosition(currentColumn, currentRow, Player);
 						currentColumn -= verticalIncrement;

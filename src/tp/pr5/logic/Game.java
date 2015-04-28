@@ -55,6 +55,7 @@ public class Game implements Observable<GameObserver> {
 	 * @param rules The game rules that are to be used from now on.
 	 */
 	public void reset(GameRules rules) {
+		this.rules = rules;
 		this.board = rules.newBoard();
 		this.finished = false;
 		this.turn = rules.initialPlayer();

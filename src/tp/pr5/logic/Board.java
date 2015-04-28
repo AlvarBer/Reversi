@@ -43,6 +43,7 @@ public class Board implements ReadOnlyBoard {
 	 *
 	 * @return Number of rows of the board.
 	 */
+	@Override
 	public int getHeight() {
 		return this.height;
 	}
@@ -52,6 +53,7 @@ public class Board implements ReadOnlyBoard {
 	 *
 	 * @return Number of columns of the board.
 	 */
+	@Override
 	public int getWidth() {
 		return this.width;
 	}
@@ -63,6 +65,7 @@ public class Board implements ReadOnlyBoard {
 	 * @param y Row number (From 1 to height)
 	 * @return State of the position on the board. If the position is invalid, returns Counter.EMPTY
 	 */
+	@Override
 	public Counter getPosition(int x, int y) {
 		if (x < 1 || y < 1 || x > this.width || y > this.height)
 			return Counter.EMPTY;

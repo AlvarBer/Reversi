@@ -2,6 +2,7 @@ package tp.pr5.Util;
 
 import tp.pr5.logic.Board;
 import tp.pr5.logic.Counter;
+import tp.pr5.logic.ReadOnlyBoard;
 
 import java.util.Random;
 
@@ -78,8 +79,8 @@ public class Misc {
 	 * @param x     Row we want to check
 	 * @return Boolean The validity of the position
 	 */
-	public static boolean validPosition(Board board, int x, int y) { // We could pass only the board height & height
-		boolean valid = false;                                       // instead of the whole board
+	public static boolean validPosition(ReadOnlyBoard board, int x, int y) {
+		boolean valid = false;
 		if (x > 0 && x <= board.getWidth() && y > 0 && y <= board.getHeight()) {
 			valid = true;
 		}

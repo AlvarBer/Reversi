@@ -29,6 +29,8 @@ public class RandomReversiPlayer implements Player {
 			randomMove = new ReversiMove(i, j, colour);
 		}
 		while (!randomMove.isLegal(board,colour)) { //While the move is not legal
+			i = Misc.randInt(1, board.getWidth()); //Keep searching for one
+			j = Misc.randInt(1, board.getHeight());
 			while (board.getPosition(i, j) != Counter.EMPTY) {
 				i = Misc.randInt(1, board.getWidth());
 				j = Misc.randInt(1, board.getHeight());

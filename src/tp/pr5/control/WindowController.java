@@ -35,9 +35,7 @@ public class WindowController extends Controller {
 	    this.in = new Scanner(System.in);
 	    this.currentGame = factory;
 	    this.black = currentGame.createHumanPlayerAtConsole(in);
-		this.white = currentGame.createHumanPlayerAtConsole(in);	
-		
-
+		this.white = currentGame.createHumanPlayerAtConsole(in);
 	}
 	
 	/**
@@ -45,8 +43,7 @@ public class WindowController extends Controller {
 	 */
 	@Override
 	public void run(){
-            new MainWindow(game,this);	      
-            
+            new MainWindow(game,this);
 	}
 	
 	//TODO: Implement move with human/automatic player

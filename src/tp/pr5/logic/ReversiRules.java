@@ -58,7 +58,10 @@ public class ReversiRules implements GameRules {
 
 	@Override
 	public Counter winningMove(Move lastMove, Board board) {
-		return Counter.EMPTY;
+		if (Check.checkFullGravity(board))
+			return lastMove.getPlayer();
+		else
+			return Counter.EMPTY;
 	}
 
 }
