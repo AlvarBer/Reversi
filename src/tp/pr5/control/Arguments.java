@@ -1,11 +1,11 @@
 package tp.pr5.control;
 
+import tp.pr5.Main;
+import tp.pr5.logic.Game;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import tp.pr5.Main;
-import tp.pr5.logic.Game;
 
 
 /**
@@ -106,6 +106,11 @@ public class Arguments {
 								this.game = new Game(factory.createRules());													
 							}
 						} break;
+						case "re": {
+							this.factory = new ReversiFactory();
+							this.game = new Game(factory.createRules());
+
+						} break;
 						default: {
 							throw new ArgumentException("Game '" + argument + "' incorrect.");
 						}
@@ -114,7 +119,7 @@ public class Arguments {
 				case "-h":
 				case "--help": {
 					System.out.println("usage: " + Main.class.getName() + " [-g <game>] [-h] [-x <columnNumber>] [-y <rowNumber>]");
-					System.out.println(" -g,--game <game>           Type of game (c4, co, gr). By default, c4.");
+					System.out.println(" -g,--game <game>           Type of game (c4, co, gr, re). By default, c4.");
 					System.out.println(" -h,--help                  Displays this help.");
 					System.out.println(" -x,--dimX <columnNumber>   Number of columns on the board (Gravity only).\n" +
 							"                            By default, 10.");

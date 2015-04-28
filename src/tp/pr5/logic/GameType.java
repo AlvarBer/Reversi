@@ -3,6 +3,7 @@ package tp.pr5.logic;
 import tp.pr5.control.ComplicaFactory;
 import tp.pr5.control.Connect4Factory;
 import tp.pr5.control.GravityFactory;
+import tp.pr5.control.ReversiFactory;
 
 /**
  * Represents the type of the game the user is playing to and contains its rules
@@ -15,7 +16,8 @@ import tp.pr5.control.GravityFactory;
  */
 
 public enum GameType {
-	CONNECT4(new Connect4Factory().createRules()), COMPLICA(new ComplicaFactory().createRules()), GRAVITY(new GravityFactory().createRules());
+	CONNECT4(new Connect4Factory().createRules()), COMPLICA(new ComplicaFactory().createRules()),
+	GRAVITY(new GravityFactory().createRules()), REVERSI(new ReversiFactory().createRules());
 
 	//Attributes
 	private final GameRules gameRules;

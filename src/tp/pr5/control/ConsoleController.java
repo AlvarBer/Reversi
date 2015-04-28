@@ -60,7 +60,7 @@ public class ConsoleController extends Controller {
 			Command command = Command.NO_COMMAND;	
 			turn = game.getTurn();						
 			Move move;
-			System.out.print ("Please enter a command: ");
+			System.out.print("Please enter a command: ");
 			String wholeCommand = in.nextLine();
 			strScanner = new Scanner(wholeCommand);
 			strCommand = strScanner.next();
@@ -131,7 +131,14 @@ public class ConsoleController extends Controller {
 							this.black = currentGame.createHumanPlayerAtConsole(in);
 							this.white = currentGame.createHumanPlayerAtConsole(in);
 							System.out.println ("Game restarted.");	
-						}									
+						}
+						else if (command.equals(Command.PLAY_REVERSI)) {
+							currentGame = new ReversiFactory();
+							this.game.reset(currentGame.createRules());
+							this.black = currentGame.createHumanPlayerAtConsole(in);
+							this.white = currentGame.createHumanPlayerAtConsole(in);
+							System.out.println ("Game restarted.");
+						}
 					} break;
 					case PLAYER: {
 						if (!strScanner.hasNext())

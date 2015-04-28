@@ -22,7 +22,6 @@ public class GravityFactory implements GameTypeFactory {
 		private static final int DEFAULT_DIM_Y = 10;
 		
 		//Attributes
-
 		private int dim_x;
 		private int dim_y;
 		

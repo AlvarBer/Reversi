@@ -14,7 +14,7 @@ public enum Command {
 	MAKE,MAKE_A,MAKE_A_MOVE,
 	UNDO,
 	RESTART,
-	PLAY,PLAY_CONNECT4,PLAY_COMPLICA,PLAY_GRAVITY, 
+	PLAY,PLAY_CONNECT4,PLAY_COMPLICA,PLAY_GRAVITY, PLAY_REVERSI,
 	PLAYER,PLAYER_WHITE,PLAYER_BLACK,PLAYER_HUMAN, PLAYER_RANDOM,
 	EXIT,
 	HELP;
@@ -60,6 +60,8 @@ public enum Command {
 				newCommand = PLAY_COMPLICA;
 			else if (strCommand.equals( "GR"))
 				newCommand = PLAY_GRAVITY;
+			else if (strCommand.equals( "RE"))
+				newCommand = PLAY_REVERSI;
 			else
 				throw new CommandException();
 			} break;

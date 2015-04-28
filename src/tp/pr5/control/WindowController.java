@@ -23,9 +23,7 @@ public class WindowController extends Controller {
 	private GameTypeFactory currentGame;
 	private Player black;
 	private Player white;
-	
-	 
-    
+
 	/**
 	 * Class constructor.
 	 * 
@@ -90,8 +88,11 @@ public class WindowController extends Controller {
                 }break;
                 case GRAVITY: {
                     currentGame = new GravityFactory(dimX,dimY);
-                }                 
-            }    									
+                }break;
+				case REVERSI: {
+					currentGame = new ReversiFactory();
+				}
+			}
             this.game.reset(currentGame.createRules());		
 	}
 	
