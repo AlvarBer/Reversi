@@ -1,5 +1,12 @@
 package tp.pr5.views.window;
 
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+import javax.swing.BorderFactory;
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -7,12 +14,15 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerListModel;
+import javax.swing.border.Border;
+import javax.swing.event.ListDataListener;
 
 import tp.pr5.control.WindowController;
 import tp.pr5.logic.Board;
 import tp.pr5.logic.Counter;
 import tp.pr5.logic.Game;
 import tp.pr5.logic.GameObserver;
+import tp.pr5.logic.PlayerType;
 import tp.pr5.logic.ReadOnlyBoard;
 
 public class ChangePlayerPanel extends JPanel implements GameObserver {
@@ -20,14 +30,15 @@ public class ChangePlayerPanel extends JPanel implements GameObserver {
 	//Attributes
 	private WindowController cntr;
 	
-	private JComboBox gameSelection;
 	private JButton changeButton;
 
 	//Board Settings Components
 	private JLabel whitePlayerLabel;
 	private JLabel blackPlayerLabel;
-	private JSpinner whitePlayerSpinner;
-	private JSpinner blackPlayerSpinner;
+	private JComboBox whitePlayerList;
+	private JComboBox blackPlayerList;
+
+	
 	
 	public ChangePlayerPanel(WindowController cntr, Game game) {
 		this.cntr = cntr;
@@ -36,6 +47,10 @@ public class ChangePlayerPanel extends JPanel implements GameObserver {
 	}
 	
 	public void initGUI() {
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.insets = new Insets(10,10,10,10);
+		c.fill = GridBagConstraints.NONE;
 		
 		//List of player types of the Spinner
 		String playerTypes[] = {"Human", "Automatic"};
@@ -43,9 +58,27 @@ public class ChangePlayerPanel extends JPanel implements GameObserver {
 		//Initializes the components
 		this.blackPlayerLabel = new JLabel("BLACK player:");
 		this.whitePlayerLabel = new JLabel("WHITE player:");
-		SpinnerListModel playerTypeModel = new SpinnerListModel(playerTypes);
-		this.whitePlayerSpinner = new JSpinner (playerTypeModel);
-		this.blackPlayerSpinner = new JSpinner (playerTypeModel);
+
+		whitePlayerList = new JComboBox<PlayerType>(new PlayersModel(Counter.WHITE));
+		blackPlayerList = new JComboBox<PlayerType>(new PlayersModel(Counter.BLACK));
+		
+		//Add the border of the panel
+		Border b = BorderFactory.createLineBorder(Color.black, 2);
+		this.setBorder(BorderFactory.createTitledBorder(b, "Select player type"));
+		
+		//Adds the components to the panel
+		c.gridx = 0;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		this.add(blackPlayerLabel, c);
+		c.gridy = 1;
+		this.add(whitePlayerLabel, c);
+		c.gridx = 1;
+		c.gridy = 0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		this.add(blackPlayerList, c);
+		c.gridy = 1;
+		this.add(whitePlayerList, c);
 	
 	}
 
@@ -98,5 +131,53 @@ public class ChangePlayerPanel extends JPanel implements GameObserver {
 		// TODO Auto-generated method stub
 
 	}
+	
+	private class PlayersModel implements ComboBoxModel<PlayerType> {
+		
+		//Attributes
+		private Counter player;
+		private PlayerType selected;
 
+		public PlayersModel(Counter player) { 
+			this.player = player; 
+			this.selected = player.getMode(); 
+		}
+		
+		@Override
+		public int getSize() {
+			return 2;
+		}
+
+		@Override
+		public PlayerType getElementAt(int index) {
+			if (index == 0)
+				return PlayerType.HUMAN;
+			else
+				return PlayerType.AUTO;
+		}
+
+		@Override
+		public void addListDataListener(ListDataListener l) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void removeListDataListener(ListDataListener l) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void setSelectedItem(Object anItem) {
+			this.selected = (PlayerType) anItem; 
+			cntr.setPlayerMode(player, this.selected);
+
+		}
+
+		@Override
+		public PlayerType getSelectedItem() {
+			return this.selected;
+		}
+	}
 }

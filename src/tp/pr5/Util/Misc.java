@@ -51,22 +51,6 @@ public class Misc {
 	}
 
 	/**
-	 * Method which converts a Counter to a String to be displayed on the console. (Either White or Black)
-	 *
-	 * @param turn Counter to be converted
-	 * @return Text representation of the Counter
-	 */
-	public static String strTurn(Counter turn) {
-		String turnStr;
-		if (turn == Counter.WHITE) {
-			turnStr = "White";
-		} else {
-			turnStr = "Black";
-		}
-		return turnStr;
-	}
-
-	/**
 	 * Returns a pseudo-random number between min and max, inclusive.
 	 * The difference between min and max can be at most
 	 * <code>Integer.MAX_VALUE - 1</code>.

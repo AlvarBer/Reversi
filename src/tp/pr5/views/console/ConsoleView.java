@@ -45,7 +45,7 @@ public class ConsoleView implements GameObserver  {
 		if (winner==Counter.EMPTY)
 			System.out.println("Game ended in a draw");
 		else
-			System.out.println(Misc.strTurn(winner) + " wins");
+			System.out.println(winner + " wins");
 		System.out.println("Closing the game... ");		
 	}
 	@Override
@@ -72,7 +72,7 @@ public class ConsoleView implements GameObserver  {
 	
 	private void update (ReadOnlyBoard board,Counter turn) {
 		System.out.println(board);	
-		System.out.println (Misc.strTurn(turn) + " to move");
+		System.out.println (turn + " to move");
 	}
 
     @Override

@@ -114,4 +114,10 @@ public class WindowController extends Controller {
             System.exit(0);
 	}
 
+	public void setPlayerMode(Counter player, PlayerType selected) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

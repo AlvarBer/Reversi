@@ -46,7 +46,7 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		JPanel boardPanel = new BoardPanel(cntr,game);
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridheight = 2;
+		c.gridheight = 3;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
@@ -63,10 +63,19 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		c.weighty = 1;
 		mainPanel.add(gamePanel,c);
 		
+		//Creates a panel for changing the type of player and attaches it to the main panel
+		JPanel changePlayerPanel = new ChangePlayerPanel(cntr,game);
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridheight = 1;
+		c.gridwidth = 1;
+		c.fill = GridBagConstraints.BOTH;
+		mainPanel.add(changePlayerPanel,c);	
+		
 		//Creates a panel for changing the game and attaches it to the main panel
 		JPanel changeGamePanel = new ChangeGamePanel(cntr,game);
 		c.gridx = 1;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.gridheight = 1;
 		c.gridwidth = 1;
 		c.fill = GridBagConstraints.BOTH;

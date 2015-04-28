@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class ReversiFactory implements GameTypeFactory {
 
 	@Override
-	public Player createHumanPlayerAtConsole(Scanner in) {
+	public Player createHumanPlayerAtConsole(final Scanner in) {
 		return new Player() {
 			public Move getMove(Board board, Counter colour) {
 				System.out.print("Please provide the column number: ");
