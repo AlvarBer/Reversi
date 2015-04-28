@@ -35,6 +35,7 @@ public class ReversiMove extends Move {
 		this.moveRow = moveRow;
 		countersFlipped = new Position[NUMBER_OF_DIRECTIONS];
 		for (int i = 0; i < NUMBER_OF_DIRECTIONS; ++i) {
+			countersFlipped[i] = new Position ();
 			countersFlipped[i].setPos(-1, -1);
 		}
 	}
@@ -45,7 +46,8 @@ public class ReversiMove extends Move {
 	@Override
 	public void executeMove(Board board) throws InvalidMove {
 		if (Misc.validPosition(board, getColumn(), getRow())) {
-			if (board.getPosition(getColumn(), getRow()) != Counter.EMPTY) {
+			Counter debug = board.getPosition(getColumn(), getRow());
+			if (!board.getPosition(getColumn(), getRow()).equals(Counter.EMPTY.toString())) { //This line ain't working
 				flipIt(board, this.getPlayer());
 			} else
 				throw new InvalidMove("position (" + getColumn() + ", " + getRow() + ") is not empty.");
@@ -97,7 +99,15 @@ public class ReversiMove extends Move {
 		return moveRow;
 	}
 
-	//I know this function is almost the same as the other one, probably will put some of the concurrent code elsewhere
+	/**
+	 * Checks if a move is legal (Counters are flipped)
+	 *
+	 * It assumes the counter is empty andi n a valid position, undefined behaviour otherwise
+	 *
+	 * @param board
+	 * @param Player
+	 * @return
+	 */
 	public boolean isLegal(Board board, Counter Player) {
 		int verticalIncrement = 0, horizontalIncrement = 0;
 		int currentColumn, currentRow, currentDirection = 0;
@@ -162,15 +172,30 @@ public class ReversiMove extends Move {
 		return legal;
 	}
 
-	//I know this function is almost the same as the other one, probably will put some of the concurrent code elsewhere
-	public static boolean canMove(Board board, Counter Player) {
-		for (int i = 0; i < board.getHeight(); ++i) {
-			for (int j = 0; j < board.getWidth(); ++i) {
+	/**
+	 * Checks all possibles moves to see if any is legal
+	 *
+	 * @param board
+	 * @param player
+	 * @return
+	 */
+	public static boolean canMove(Board board, Counter player) {
+		boolean valid = true;
+		int i = 1,j = 1;
 
+		while (i <= board.getHeight()) {
+			while (j <= board.getWidth()) {
+				if (board.getPosition(i,j) == Counter.EMPTY) {
+					if (new ReversiMove(i,j, player).isLegal(board, player)){
+						valid = false;
+					}
+				}
+				++j;
 			}
+			++i;
 		}
 
-		return true;
+		return valid;
 	}
 
 	//Private Functions

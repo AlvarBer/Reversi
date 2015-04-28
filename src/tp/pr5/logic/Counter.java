@@ -14,8 +14,8 @@ package tp.pr5.logic;
 public enum Counter {
 	EMPTY("Empty"), WHITE("White"), BLACK("Black");
 	
-	String name;
-	PlayerType mode = PlayerType.HUMAN;
+	private String name;
+	private PlayerType mode = PlayerType.HUMAN;
 	
 	Counter(String name) {
 		this.name = name;

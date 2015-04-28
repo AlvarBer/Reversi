@@ -45,8 +45,7 @@ public class ReversiFactory implements GameTypeFactory {
 
 	@Override
 	public GameRules createRules() {
-		// No constructor yet
-		return null;
+		return new ReversiRules();
 	}
 
 }
