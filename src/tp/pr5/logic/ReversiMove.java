@@ -162,6 +162,17 @@ public class ReversiMove extends Move {
 		return legal;
 	}
 
+	//I know this function is almost the same as the other one, probably will put some of the concurrent code elsewhere
+	public static boolean canMove(Board board, Counter Player) {
+		for (int i = 0; i < board.getHeight(); ++i) {
+			for (int j = 0; j < board.getWidth(); ++i) {
+
+			}
+		}
+
+		return true;
+	}
+
 	//Private Functions
 	private void flipIt(Board board, Counter Player) throws InvalidMove {
 		int verticalIncrement = 0, horizontalIncrement = 0, numberOfCounters;
