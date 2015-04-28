@@ -36,7 +36,7 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 		c.fill = GridBagConstraints.NONE;
 
 		//List of games of the ComboBox
-		String games[] = {"CONNECT4", "COMPLICA", "GRAVITY"};
+		String games[] = {"CONNECT4", "COMPLICA", "GRAVITY", "REVERSI"};
 		
 		//Initializes the components
 		this.gameSelection = new JComboBox <String> (games);
@@ -73,7 +73,6 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 		
 		changeButton.addActionListener(
 				new ActionListener() {
-
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						String item = (String) gameSelection.getSelectedItem();
@@ -84,7 +83,7 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 							case "COMPLICA":
 								cntr.changeGame(GameType.COMPLICA, 0, 0);
 								break;
-							case "GRAVITY": {
+							case "GRAVITY":
 								try {
 									int width = Integer.parseInt(widthField.getText());
 									int height = Integer.parseInt(heightField.getText());
@@ -98,8 +97,10 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 											"Invalid dimensions",
 											JOptionPane.ERROR_MESSAGE);
 								}
+							break;
+							case "REVERSI":
+								cntr.changeGame(GameType.REVERSI, 0, 0);
 
-							}
 						}
 					}
 

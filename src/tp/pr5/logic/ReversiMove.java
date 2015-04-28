@@ -46,8 +46,7 @@ public class ReversiMove extends Move {
 	@Override
 	public void executeMove(Board board) throws InvalidMove {
 		if (Misc.validPosition(board, getColumn(), getRow())) {
-			Counter debug = board.getPosition(getColumn(), getRow());
-			if (!board.getPosition(getColumn(), getRow()).equals(Counter.EMPTY.toString())) { //This line ain't working
+			if (!board.getPosition(getColumn(), getRow()).equals(Counter.EMPTY.toString())) {
 				flipIt(board, this.getPlayer());
 			} else
 				throw new InvalidMove("position (" + getColumn() + ", " + getRow() + ") is not empty.");
@@ -262,6 +261,7 @@ public class ReversiMove extends Move {
 		while (i < NUMBER_OF_DIRECTIONS && throwAnException) {
 			if (countersFlipped[i].getPosX() != -1) {
 				throwAnException = false;
+				board.setPosition(this.getColumn(), this.getRow(), Player);
 			}
 			++i;
 		}

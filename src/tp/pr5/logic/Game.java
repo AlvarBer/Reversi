@@ -1,9 +1,9 @@
 package tp.pr5.logic;
 
+import tp.pr5.control.Player;
+
 import java.util.ArrayList;
 import java.util.Collection;
-
-import tp.pr5.control.Player;
 
 /**
  * Class which contains the Game information. It stores the state of the board, whose turn it is, whether or not one of the players has won, etc. as well as the list of moves that have been made in order to undo them if required.
@@ -38,10 +38,10 @@ public class Game implements Observable<GameObserver> {
 	 * @since: Assignment 2
 	 */
 	public Game(GameRules rules) {
-		/*this.board = rules.newBoard();
+		this.board = rules.newBoard();
 		this.finished = false;
 		this.turn = rules.initialPlayer();
-		this.undoStack = new DequeStack();*/
+		this.undoStack = new DequeStack();
 		this.rules = rules;
 		this.obs = new ArrayList<GameObserver> ();
 		reset(this.rules);

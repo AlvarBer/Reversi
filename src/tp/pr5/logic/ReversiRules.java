@@ -27,7 +27,7 @@ public class ReversiRules implements GameRules {
 		//Set initial counters
 		board.setPosition(4, 4, Counter.BLACK);
 		board.setPosition(5, 5, Counter.BLACK);
-		board.setPosition(4, 5, Counter.BLACK);
+		board.setPosition(4, 5, Counter.WHITE);
 		board.setPosition(5, 4, Counter.WHITE);	
 		return board;
 	}
