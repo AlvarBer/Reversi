@@ -23,7 +23,12 @@ public class ReversiRules implements GameRules {
 	@Override
 	public Board newBoard() {
 		Board board = new Board(WIDTH, HEIGHT);
-		//TODO: Set initial counters
+		
+		//Set initial counters
+		board.setPosition(4, 4, Counter.BLACK);
+		board.setPosition(5, 5, Counter.BLACK);
+		board.setPosition(4, 5, Counter.BLACK);
+		board.setPosition(5, 4, Counter.WHITE);	
 		return board;
 	}
 
@@ -44,8 +49,11 @@ public class ReversiRules implements GameRules {
 
 	@Override
 	public Counter nextTurn(Counter lastPlayer, Board board) {
-		//TODO: Check if the player can move. Else, pass the turn
-		return Misc.changeTurn(lastPlayer);
+		Counter nextPlayer = Misc.changeTurn(lastPlayer);
+		if (ReversiMove.canMove(board, nextPlayer))
+			return nextPlayer;
+		else
+			return lastPlayer;	
 	}
 
 	@Override
