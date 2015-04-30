@@ -41,7 +41,7 @@ public class GravityRules implements GameRules {
 	}
 
 	@Override
-	public Counter winningMove(Move lastMove, Board board) {
+	public Counter winningMove(Move lastMove, ReadOnlyBoard board) {
 		return Counter.EMPTY;
 	}
 

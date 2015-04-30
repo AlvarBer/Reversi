@@ -44,6 +44,8 @@ public class ReversiRules implements GameRules {
 			if(Check.checkReversiWinner(board) == Counter.EMPTY)
 			draw = true;
 		}
+		else if (ReversiMove.canMove(board, Counter.BLACK) && !ReversiMove.canMove(board, Counter.BLACK))
+			draw = true;
 		return draw;
 	}
 
@@ -52,16 +54,27 @@ public class ReversiRules implements GameRules {
 		Counter nextPlayer = Misc.changeTurn(lastPlayer);
 		if (ReversiMove.canMove(board, nextPlayer))
 			return nextPlayer;
-		else
-			return lastPlayer;	
-	}
-
-	@Override
-	public Counter winningMove(Move lastMove, Board board) {
-		if (Check.checkFullGravity(board))
-			return lastMove.getPlayer();
+		else if (ReversiMove.canMove(board, lastPlayer))
+			return lastPlayer;
 		else
 			return Counter.EMPTY;
 	}
 
+	/**
+	 * If neither can move the game is ended
+	 *
+	 * @param lastMove The last move performed. This parameter can be used in derived classes to optimise the calculation of whether one of the players has won.
+	 * @param board    The current board.
+	 *
+	 * @return The player that has won, Counter.EMPTY if there is none
+	 */
+	@Override
+	public Counter winningMove(Move lastMove, ReadOnlyBoard board) {
+		if (Check.checkFullGravity(board) || //This isn't necessary
+				(ReversiMove.canMove(board, Counter.BLACK) && !ReversiMove.canMove(board, Counter.BLACK))) {
+			return Check.checkReversiWinner(board);
+		}
+		else
+			return Counter.EMPTY;
+	}
 }

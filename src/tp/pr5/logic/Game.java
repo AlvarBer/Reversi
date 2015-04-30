@@ -67,8 +67,7 @@ public class Game implements Observable<GameObserver> {
 	 * Executes the move indicated.
 	 *
 	 * @param move Move to be executed. It is assumed that the move is compatible with the rules of the game being played (if Connect-4 is being played, the move is a Connect-4 move,etc). If this is not the case, the behaviour is undefined.
-	 * @return True if the move can be carried out. It is an error to try and place a counter out of turn, or when the game has finished.
-	 * @since: Assignment 2
+	 * @since : Assignment 2
 	 */
 	public void executeMove(Move move) throws InvalidMove {
 		
@@ -101,7 +100,7 @@ public class Game implements Observable<GameObserver> {
 		catch (InvalidMove ex) {
 			for (GameObserver o : obs ) {o.onMoveError(ex.getMessage());}
 			throw ex;
-		};
+		}
 
 	}
 

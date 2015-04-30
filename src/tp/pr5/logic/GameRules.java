@@ -52,5 +52,5 @@ public interface GameRules {
 	 * @param board    The current board.
 	 * @return Colour of the winner, if there is one. If not, returns Counter.EMPTY (this does not necessarily mean that the game has ended in a draw).
 	 */
-	public Counter winningMove(Move lastMove, Board board);
+	public Counter winningMove(Move lastMove, ReadOnlyBoard board);
 }

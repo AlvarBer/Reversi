@@ -129,8 +129,8 @@ public class GamePanel extends JPanel implements GameObserver {
 
 	@Override
 	public void onGameOver(ReadOnlyBoard board, Counter winner) {
-		undoButton.setEnabled(false);
 		randomButton.setEnabled(false);
+		undoButton.setEnabled(false);
 
 	}
 
@@ -141,8 +141,7 @@ public class GamePanel extends JPanel implements GameObserver {
 	}
 
 	@Override
-	public void onUndo(ReadOnlyBoard board, Counter nextPlayer,
-			boolean undoPossible) {
+	public void onUndo(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
 		undoButton.setEnabled(undoPossible);
 
 	}

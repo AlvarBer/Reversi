@@ -106,7 +106,7 @@ public class Arguments {
 								this.game = new Game(factory.createRules());													
 							}
 						} break;
-						case "re": {
+						case "rv": {
 							this.factory = new ReversiFactory();
 							this.game = new Game(factory.createRules());
 
@@ -119,7 +119,7 @@ public class Arguments {
 				case "-h":
 				case "--help": {
 					System.out.println("usage: " + Main.class.getName() + " [-g <game>] [-h] [-x <columnNumber>] [-y <rowNumber>]");
-					System.out.println(" -g,--game <game>           Type of game (c4, co, gr, re). By default, c4.");
+					System.out.println(" -g,--game <game>           Type of game (c4, co, gr, rv). By default, c4.");
 					System.out.println(" -h,--help                  Displays this help.");
 					System.out.println(" -x,--dimX <columnNumber>   Number of columns on the board (Gravity only).\n" +
 							"                            By default, 10.");

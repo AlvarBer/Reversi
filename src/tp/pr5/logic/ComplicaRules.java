@@ -37,14 +37,15 @@ public class ComplicaRules implements GameRules {
 	}
 
 	@Override
-	public Counter winningMove(Move lastMove, Board board) {
+	public Counter nextTurn(Counter lastPlayer, Board board) {
+		return Misc.changeTurn(lastPlayer);
+	}
+
+	@Override
+	public Counter winningMove(Move lastMove, ReadOnlyBoard board) {
 		Counter winningMove = Check.checkComplicaWin(board);
 
 		return winningMove;
 	}
 
-	@Override
-	public Counter nextTurn(Counter lastPlayer, Board board) {
-		return Misc.changeTurn(lastPlayer);
-	}
 }

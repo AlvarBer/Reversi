@@ -2,6 +2,7 @@ package tp.pr5.Util;
 
 import tp.pr5.logic.Board;
 import tp.pr5.logic.Counter;
+import tp.pr5.logic.ReadOnlyBoard;
 
 public class Check {
 	/**
@@ -10,7 +11,7 @@ public class Check {
 	 * @param board The board of the game
 	 * @return True if there is a 4 counter combination either vertical, horizontal or diagonal
 	 */
-	public static boolean checkConnect4Win(Board board) {
+	public static boolean checkConnect4Win(ReadOnlyBoard board) {
 		int i = 0, j = 0;
 		boolean finished = false;
 		Counter firstTile;
@@ -106,7 +107,7 @@ public class Check {
 	 * @param board The board of the game
 	 * @return True if there is a 4 counter combination either vertical, horizontal or diagonal
 	 */
-	public static Counter checkComplicaWin(Board board) {
+	public static Counter checkComplicaWin(ReadOnlyBoard board) {
 		int i = 0, j = 0;
 		boolean finished = false;
 		Counter firstTile;
@@ -236,7 +237,7 @@ public class Check {
 		return is_full;
 	}
 
-	public static boolean checkFullGravity(Board board) {
+	public static boolean checkFullGravity(ReadOnlyBoard board) {
 		boolean is_full = true;
 
 
@@ -251,9 +252,12 @@ public class Check {
 		return is_full;
 	}
 
-	
-	//
-	public static Counter checkReversiWinner(Board board) {
+	/**
+	 *
+	 * @param board
+	 * @return
+	 */
+	public static Counter checkReversiWinner(ReadOnlyBoard board) {
 		int blackCounters = 0, whiteCounters = 0;
 		Counter winner;
 		for (int i = 1; i <= board.getWidth(); i++) {
@@ -270,7 +274,7 @@ public class Check {
 		else if (whiteCounters < blackCounters)
 			winner = Counter.BLACK;
 		else
-			winner = Counter.WHITE;
+			winner = Counter.EMPTY;
 		
 		return winner;
 	}

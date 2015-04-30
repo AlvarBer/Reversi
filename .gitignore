@@ -6,4 +6,4 @@ out/*
 *.project
 bin/tp
 /bin/
-META_INF
+META-INF/*

@@ -188,8 +188,8 @@ public class ReversiMove extends Move {
 		while (i <= board.getHeight() && !valid) {
 			j = 1;
 			while (j <= board.getWidth() && !valid) {
-				if (board.getPosition(i,j) == Counter.EMPTY) {
-					if (new ReversiMove(i,j, player).isLegal(board, player)){
+				if (board.getPosition(i, j) == Counter.EMPTY) {
+					if (new ReversiMove(i, j, player).isLegal(board, player)){
 						valid = true;
 					}
 				}

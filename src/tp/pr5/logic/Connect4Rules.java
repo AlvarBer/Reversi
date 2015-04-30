@@ -47,7 +47,7 @@ public class Connect4Rules implements GameRules {
 	}
 
 	@Override
-	public Counter winningMove(Move lastMove, Board board) {
+	public Counter winningMove(Move lastMove, ReadOnlyBoard board) {
 		Counter winningMove = Counter.EMPTY;
 		if (Check.checkConnect4Win(board)) {
 			winningMove = lastMove.getPlayer();
