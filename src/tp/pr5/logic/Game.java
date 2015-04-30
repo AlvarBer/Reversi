@@ -43,7 +43,7 @@ public class Game implements Observable<GameObserver> {
 		this.turn = rules.initialPlayer();
 		this.undoStack = new DequeStack();
 		this.rules = rules;
-		this.obs = new ArrayList<GameObserver> ();
+		this.obs = new ArrayList<> ();
 		reset(this.rules);
 	}
 

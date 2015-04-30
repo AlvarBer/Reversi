@@ -64,17 +64,17 @@ public class ReversiMove extends Move {
 		//We change all the "End of the line" counters
 		for (int i = 0; i < NUMBER_OF_DIRECTIONS; ++i) {
 			if (countersFlipped[i].getPosX() != -1) {
-				boa.setPosition(countersFlipped[i].getPosY(), countersFlipped[i].getPosY(),
-					Misc.changeTurn(this.getPlayer()));
+				boa.setPosition(countersFlipped[i].getPosX(), countersFlipped[i].getPosY(),
+					Misc.changeTurn(getPlayer()));
 			}
 		}
 
-		//And of course we eliminate the Counter the player put
-		boa.setPosition(this.getColumn(), this.getRow(), Misc.changeTurn(this.getPlayer()));
+		//We change the Counter we put
+		boa.setPosition(getColumn(), getRow(), Misc.changeTurn(getPlayer()));
 
 		//We make the exact inverse move we want to undo
 		try {
-			flipIt(boa, Misc.changeTurn(this.getPlayer()));
+			flipIt(boa, Misc.changeTurn(getPlayer()));
 		} catch (InvalidMove e) {
 			//This call to flipIt is never going to fail
 		}
@@ -82,13 +82,13 @@ public class ReversiMove extends Move {
 		//We reverse the "End of the line" counters we flipped
 		for (int i = 0; i < NUMBER_OF_DIRECTIONS; ++i) {
 			if (countersFlipped[i].getPosX() != -1) {
-				boa.setPosition(countersFlipped[i].getPosY(), countersFlipped[i].getPosY(),
+				boa.setPosition(countersFlipped[i].getPosX(), countersFlipped[i].getPosY(),
 						Misc.changeTurn(boa.getPosition(countersFlipped[i].getPosX(), countersFlipped[i].getPosY())));
 			}
 		}
 
 		//And of course we eliminate the Counter the player put
-		boa.setPosition(this.getColumn(), this.getRow(), Counter.EMPTY);
+		boa.setPosition(getColumn(), getRow(), Counter.EMPTY);
 	}
 
 	@Override
@@ -241,8 +241,8 @@ public class ReversiMove extends Move {
 				verticalIncrement = -1;
 				horizontalIncrement = 0;
 			}
-			currentColumn = this.getColumn() + verticalIncrement;
-			currentRow = this.getRow() + horizontalIncrement;
+			currentColumn = getColumn() + verticalIncrement;
+			currentRow = getRow() + horizontalIncrement;
 			while (Misc.validPosition(board, currentColumn, currentRow) && //While we don't hit a wall & counters are theirs
 					board.getPosition(currentColumn, currentRow) == Misc.changeTurn(Player)) {
 				++numberOfCounters;
@@ -301,14 +301,6 @@ public class ReversiMove extends Move {
 		}
 
 		//Setters
-		public void setPosX(int posX) {
-			this.posX = posX;
-		}
-
-		public void setPosY(int posY) {
-			this.posY = posY;
-		}
-
 		public void setPos(int posX, int posY) {
 			this.posX = posX;
 			this.posY = posY;
