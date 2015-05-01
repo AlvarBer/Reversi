@@ -165,8 +165,8 @@ public class BoardPanel extends JPanel implements GameObserver {
 		x.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (active) cntr.makeMove(i + 1, j + 1, currentTurn);
-				
+				if (active && cntr.getPlayerMode() == PlayerType.HUMAN)
+					cntr.makeMove(i + 1, j + 1, currentTurn);
 			}
 
 		});

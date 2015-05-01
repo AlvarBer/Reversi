@@ -1,5 +1,6 @@
 package tp.pr5.control;
 
+import tp.pr5.Util.Misc;
 import tp.pr5.logic.*;
 import tp.pr5.views.window.MainWindow;
 
@@ -23,7 +24,7 @@ public class WindowController extends Controller {
 	private GameTypeFactory currentGame;
 	private Player black;
 	private Player white;
-
+	private Thread autoThread;
 	/**
 	 * Class constructor.
 	 * 
@@ -43,29 +44,33 @@ public class WindowController extends Controller {
 	 */
 	@Override
 	public void run(){
-            new MainWindow(game,this);
+ 		new MainWindow(game,this);
+		automaticMove();
 	}
 	
 	//TODO: Implement move with human/automatic player
 	public void makeMove(int col, int row, Counter turn) {
-            Move move = currentGame.createMove(col, row, turn);
-            try {
-                    game.executeMove(move);									
-            } catch (InvalidMove e) {}		
+		Move move = currentGame.createMove(col, row, turn);
+  		try {
+			game.executeMove(move);
+		} catch (InvalidMove e) {}
+		automaticMove();
 	}
 	
 	/**
 	 * Undo the last move of the currently played game.
 	 */
 	public void undo() {
-            game.undo();		
+		game.undo();
+		automaticMove();
 	}
 	
 	/**
 	 * Reset the current game.
 	 */
 	public void reset() {
-            game.reset(currentGame.createRules());		
+		stopAutoPlayer();
+		game.reset(currentGame.createRules());
 	}
 	
 	/**
@@ -113,9 +118,40 @@ public class WindowController extends Controller {
 	}
 
 	public void setPlayerMode(Counter player, PlayerType selected) {
-		// TODO Auto-generated method stub
-		
+		player.setMode(selected);
+		automaticMove();
 	}
 
+	public PlayerType getPlayerMode() {
+		return game.getTurn().getMode();
+	}
 
+	private void stopAutoPlayer() {
+		if (autoThread != null) {
+			autoThread.interrupt();
+			while (autoThread.isAlive()) {
+				//Do nothing
+			}
+		}
+	}
+
+	private void automaticMove() {
+		if (game.getTurn().getMode() == PlayerType.HUMAN)
+			return;
+
+		autoThread = new Thread() {
+			public void run() {
+				while (Misc.changeTurn(game.getTurn()).getMode() == PlayerType.AUTO && !game.isFinished() &&
+						!autoThread.isInterrupted()) {
+					try {
+						autoThread.sleep(2000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (!autoThread.isInterrupted())
+						randomMove();
+				}
+			}
+		};
+	}
 }
