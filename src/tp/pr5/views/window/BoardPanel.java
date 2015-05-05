@@ -51,7 +51,6 @@ public class BoardPanel extends JPanel implements GameObserver {
 		c.fill = GridBagConstraints.BOTH;
 		c.weightx = 1;
 		c.weighty = 1;
-		//counterPanel.setPreferredSize((new Dimension(400, 200)));
 	}
 
 	@Override
@@ -60,42 +59,63 @@ public class BoardPanel extends JPanel implements GameObserver {
 		int cols = board.getHeight();
 		for (int i = 0; i < rows; ++i) {
 			for (int j = 0; j < cols;++j) {
-				Counter v = board.getPosition(i+1, j+1);
-				addCounterIcon(buttons[i][j],v);
+				final int auxI = i;
+				final int auxJ = j;
+				final Counter v = board.getPosition(i+1, j+1);
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						addCounterIcon(buttons[auxI][auxJ],v);
+					}
+					});
+		
 				c.gridy = j;
 				c.gridx = i;
 			}
 		}
 		currentTurn = nextPlayer;
-		turnTxt.setText(currentTurn.toString() + " turn");
-		this.revalidate();	
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				turnTxt.setText(currentTurn.toString() + " turn");
+				revalidate();
+			}
+			});		
+			
 	}
 	
 	@Override
 	public void moveExecStart(Counter player) {
-		turnTxt.setText("Moving...");
-
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				turnTxt.setText("Moving...");
+			}
+			});		
 	}
 
 	@Override
-	public void onGameOver(ReadOnlyBoard board, Counter winner) {
+	public void onGameOver(ReadOnlyBoard board, final Counter winner) {
 		int rows = board.getWidth();
 		int cols = board.getHeight();
 		for (int i = 0; i < rows; ++i) {
 			for (int j = 0; j < cols;++j) {
-				buttons[i][j].setEnabled(false);				
+				final int auxI = i;
+				final int auxJ = j;
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						buttons[auxI][auxJ].setEnabled(false);
+					}
+					});								
 			}
 		}
 		active = false;
 		
-		if (winner != Counter.EMPTY)
-			turnTxt.setText("Game is finished. " + winner + " wins");
-		else
-			turnTxt.setText("Game ends in a draw");
-		
-		
-		
-		
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				if (winner != Counter.EMPTY)
+					turnTxt.setText("Game is finished. " + winner + " wins");
+				else
+					turnTxt.setText("Game ends in a draw");
+			}
+			});			
 	}
 
 	@Override
@@ -113,15 +133,27 @@ public class BoardPanel extends JPanel implements GameObserver {
 		int cols = board.getHeight();
 		for (int i = 0; i < rows; ++i) {
 			for (int j = 0; j < cols;++j) {
-				Counter v = board.getPosition(i+1, j+1);
-				addCounterIcon(buttons[i][j],v);
+				final int auxI = i;
+				final int auxJ = j;
+				final Counter v = board.getPosition(i+1, j+1);
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						addCounterIcon(buttons[auxI][auxJ],v);
+					}
+					});		
+			
 				c.gridy = j;
 				c.gridx = i;
 			}
 		}
 		currentTurn = nextPlayer;
-		turnTxt.setText(currentTurn.toString() + " turn");
-		this.revalidate();				
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				turnTxt.setText(currentTurn.toString() + " turn");
+				revalidate();
+			}
+			});		
+						
 	}
 
 	@Override
@@ -131,24 +163,37 @@ public class BoardPanel extends JPanel implements GameObserver {
 	}
 
 	@Override
-	public void reset(ReadOnlyBoard board, Counter player, Boolean undoPossible) {
-		int rows = board.getWidth();
-		int cols = board.getHeight();
+	public void reset(final ReadOnlyBoard board, Counter player, Boolean undoPossible) {
+
+		final int rows = board.getWidth();
+		final int cols = board.getHeight();
 		buttons = new JButton[rows][cols];
-		counterPanel.removeAll();
+		counterPanel.removeAll();				
 		currentTurn = player;
 		for (int i = 0; i < rows; ++i) {
 			for (int j = 0; j < cols;++j) {
-				Counter v = board.getPosition(i+1, j+1);
-				buttons[i][j] = createButton(i, j, v);
-				c.gridy = j;
-				c.gridx = i;
-				counterPanel.add(buttons[i][j], c);
+				final int auxI = i;
+				final int auxJ = j;
+				final Counter v = board.getPosition(i+1, j+1);
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						buttons[auxI][auxJ] = createButton(auxI, auxJ, v);
+						c.gridy = auxJ;
+						c.gridx = auxI;
+						counterPanel.add(buttons[auxI][auxJ], c);
+					}
+					});				
 			}
 		}
-		currentTurn = player;
-		turnTxt.setText(currentTurn.toString() + " turn");
-		this.revalidate();		
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				turnTxt.setText(currentTurn.toString() + " turn");
+				revalidate();	
+			}
+			});	
+			
+			
 		active = true;
 		
 		
@@ -160,18 +205,28 @@ public class BoardPanel extends JPanel implements GameObserver {
 
 	}
 
-	private JButton createButton(final int i, final int j, Counter v) {
-		JButton x = new JButton();
+	private JButton createButton(final int i, final int j, final Counter v) {
+		final JButton x = new JButton();
 		x.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (active && cntr.getPlayerMode() == PlayerType.HUMAN)
-					cntr.makeMove(i + 1, j + 1, currentTurn);
+				if (active && cntr.getPlayerMode() == PlayerType.HUMAN){
+					new Thread () {
+						public void run () {
+							cntr.makeMove(i + 1, j + 1, currentTurn);
+						}
+					}.start();			
+				}
 			}
 
 		});
 			
-		addCounterIcon(x,v);
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				addCounterIcon(x,v);
+			}
+			});	
+		
 		return x;
 	}
 

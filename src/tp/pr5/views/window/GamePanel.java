@@ -57,7 +57,12 @@ public class GamePanel extends JPanel implements GameObserver {
 					new ActionListener(){
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							cntr.undo();
+							new Thread () {
+								public void run () {
+									cntr.undo();
+								}
+							}.start();	
+							
 							
 						}			
 					}
@@ -67,7 +72,12 @@ public class GamePanel extends JPanel implements GameObserver {
 					new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							cntr.reset();
+							new Thread () {
+								public void run () {
+									cntr.reset();
+								}
+							}.start();
+							
 						}
 					}
 			);
@@ -75,7 +85,12 @@ public class GamePanel extends JPanel implements GameObserver {
 					new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							cntr.randomMove();
+							new Thread () {
+								public void run () {
+									cntr.randomMove();
+								}
+							}.start();
+							
 						}
 					}
 			);
@@ -90,7 +105,12 @@ public class GamePanel extends JPanel implements GameObserver {
 									null, null);
 
 							if (n == 0) {
-								cntr.requestQuit();
+								new Thread () {
+									public void run () {
+										cntr.requestQuit();
+									}
+								}.start();
+								
 							}												
 							
 						}
@@ -116,22 +136,35 @@ public class GamePanel extends JPanel implements GameObserver {
 
 	@Override
 	public void moveExecFinished(ReadOnlyBoard board, Counter player,
-			Counter nextPlayer) {
-		undoButton.setEnabled(true);
-
+			final Counter nextPlayer) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				if(nextPlayer.getMode() == PlayerType.HUMAN) {
+					undoButton.setEnabled(true);
+					randomButton.setEnabled(true);
+				}
+			}
+			});	
 	}
 
 	@Override
 	public void moveExecStart(Counter player) {
-		// TODO Auto-generated method stub
+		if(player.getMode() == PlayerType.AUTO) {
+			undoButton.setEnabled(false);
+			randomButton.setEnabled(false);
+		}
+
 
 	}
 
 	@Override
 	public void onGameOver(ReadOnlyBoard board, Counter winner) {
-		randomButton.setEnabled(false);
-		undoButton.setEnabled(false);
-
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				randomButton.setEnabled(false);
+				undoButton.setEnabled(false);
+			}
+			});	
 	}
 
 	@Override
@@ -141,8 +174,13 @@ public class GamePanel extends JPanel implements GameObserver {
 	}
 
 	@Override
-	public void onUndo(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
-		undoButton.setEnabled(undoPossible);
+	public void onUndo(ReadOnlyBoard board, Counter nextPlayer, final boolean undoPossible) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				undoButton.setEnabled(undoPossible);
+			}
+			});		
+		
 
 	}
 
@@ -154,8 +192,11 @@ public class GamePanel extends JPanel implements GameObserver {
 
 	@Override
 	public void reset(ReadOnlyBoard board, Counter player, Boolean undoPossible) {
-		randomButton.setEnabled(true);
-
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				randomButton.setEnabled(true);
+			}
+			});	
 	}
 
 	@Override

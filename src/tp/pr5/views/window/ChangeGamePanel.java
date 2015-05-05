@@ -5,6 +5,7 @@ import tp.pr5.logic.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,18 +54,23 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						String item = (String) gameSelection.getSelectedItem();
-						if (item.equals("GRAVITY")) {
-							widthLabel.setVisible(true);
-							heightLabel.setVisible(true);
-							widthField.setVisible(true);
-							heightField.setVisible(true);
-						} else {
-							widthLabel.setVisible(false);
-							heightLabel.setVisible(false);
-							widthField.setVisible(false);
-							heightField.setVisible(false);
-						}
+						final String item = (String) gameSelection.getSelectedItem();
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								if (item.equals("GRAVITY")) {
+									widthLabel.setVisible(true);
+									heightLabel.setVisible(true);
+									widthField.setVisible(true);
+									heightField.setVisible(true);
+								} else {
+									widthLabel.setVisible(false);
+									heightLabel.setVisible(false);
+									widthField.setVisible(false);
+									heightField.setVisible(false);
+								}
+							}
+							});	
+						
 					}
 
 				});
@@ -78,18 +84,30 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 						String item = (String) gameSelection.getSelectedItem();
 						switch (item) {
 							case "CONNECT4":
-								cntr.changeGame(GameType.CONNECT4, 0, 0);
-								break;
+								new Thread () {
+									public void run () {
+										cntr.changeGame(GameType.CONNECT4, 0, 0);
+									}
+								}.start();			
+							break;
 							case "COMPLICA":
-								cntr.changeGame(GameType.COMPLICA, 0, 0);
+								new Thread () {
+									public void run () {
+										cntr.changeGame(GameType.COMPLICA, 0, 0);
+									}
+								}.start();							
 								break;
 							case "GRAVITY":
 								try {
-									int width = Integer.parseInt(widthField.getText());
-									int height = Integer.parseInt(heightField.getText());
+									final int width = Integer.parseInt(widthField.getText());
+									final int height = Integer.parseInt(heightField.getText());
 									if (width <= 0 || height <= 0 || width > 25 || height > 25)
 										throw new IllegalArgumentException();
-									cntr.changeGame(GameType.GRAVITY, width, height);
+									new Thread () {
+										public void run () {
+											cntr.changeGame(GameType.GRAVITY, width, height);
+										}
+									}.start();										
 								} catch (IllegalArgumentException ex) {
 									JFrame frame = new JFrame();
 									JOptionPane.showMessageDialog(frame,
@@ -99,8 +117,11 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 								}
 							break;
 							case "REVERSI":
-								cntr.changeGame(GameType.REVERSI, 0, 0);
-
+								new Thread () {
+									public void run () {
+										cntr.changeGame(GameType.REVERSI, 0, 0);
+									}
+								}.start();							
 						}
 					}
 
