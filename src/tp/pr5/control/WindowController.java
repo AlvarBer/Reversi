@@ -36,11 +36,11 @@ public class WindowController extends Controller {
 	    this.currentGame = factory;
 	    this.black = currentGame.createHumanPlayerAtConsole(in);
 		this.white = currentGame.createHumanPlayerAtConsole(in);
-		autoThread = new Thread() {
+		autoThread = new Thread() { //TODO : Change this whole thing to a worker/executor or try the old way
 			public void run() {
 				while (!game.isFinished() && !autoThread.isInterrupted()) {
 					try {
-						autoThread.sleep(2000);
+						sleep(2000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
