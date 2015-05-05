@@ -1,29 +1,12 @@
 package tp.pr5.views.window;
 
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import tp.pr5.control.WindowController;
+import tp.pr5.logic.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.ComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.SpinnerListModel;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ListDataListener;
-
-import tp.pr5.control.WindowController;
-import tp.pr5.logic.Board;
-import tp.pr5.logic.Counter;
-import tp.pr5.logic.Game;
-import tp.pr5.logic.GameObserver;
-import tp.pr5.logic.PlayerType;
-import tp.pr5.logic.ReadOnlyBoard;
+import java.awt.*;
 
 public class ChangePlayerPanel extends JPanel implements GameObserver {
 	
@@ -172,7 +155,6 @@ public class ChangePlayerPanel extends JPanel implements GameObserver {
 		public void setSelectedItem(Object anItem) {
 			this.selected = (PlayerType) anItem; 
 			cntr.setPlayerMode(player, this.selected);
-
 		}
 
 		@Override

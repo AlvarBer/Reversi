@@ -1,6 +1,5 @@
 package tp.pr5.control;
 
-import tp.pr5.Util.Misc;
 import tp.pr5.logic.*;
 import tp.pr5.views.window.MainWindow;
 
@@ -10,10 +9,10 @@ import java.util.Scanner;
 /**
  * Class which controls the execution of the game in a windows mode.
  *
- * @author: Alvaro Bermejo
- * @author: Francisco Lozano
- * @version: 10/03/2015
- * @since: Assignment 4
+ * @author : Alvaro Bermejo
+ * @author : Francisco Lozano
+ * @version : 10/03/2015
+ * @since : Assignment 4
  */
 
 public class WindowController extends Controller {
@@ -37,6 +36,20 @@ public class WindowController extends Controller {
 	    this.currentGame = factory;
 	    this.black = currentGame.createHumanPlayerAtConsole(in);
 		this.white = currentGame.createHumanPlayerAtConsole(in);
+		autoThread = new Thread() {
+			public void run() {
+				while (!game.isFinished() && !autoThread.isInterrupted()) {
+					try {
+						autoThread.sleep(2000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (!autoThread.isInterrupted() && game.getTurn().getMode() == PlayerType.AUTO) {
+						randomMove();
+					}
+				}
+			}
+		};
 	}
 	
 	/**
@@ -71,6 +84,7 @@ public class WindowController extends Controller {
 	public void reset() {
 		stopAutoPlayer();
 		game.reset(currentGame.createRules());
+		automaticMove();
 	}
 	
 	/**
@@ -81,21 +95,22 @@ public class WindowController extends Controller {
 	 * @param dimY The height of the board (necessary only for Gravity)
 	 */
 	public void changeGame(GameType gameType, int dimX, int dimY) {
-            switch (gameType){
-                case CONNECT4: {
-                    currentGame = new Connect4Factory();
-                }break;
-                case COMPLICA: {
-                    currentGame = new ComplicaFactory();
-                }break;
-                case GRAVITY: {
-                    currentGame = new GravityFactory(dimX,dimY);
-                }break;
-				case REVERSI: {
-					currentGame = new ReversiFactory();
-				}
+		switch (gameType){
+        	case CONNECT4: {
+            	currentGame = new Connect4Factory();
+			} break;
+			case COMPLICA: {
+            	currentGame = new ComplicaFactory();
+			} break;
+			case GRAVITY: {
+            	currentGame = new GravityFactory(dimX,dimY);
+			} break;
+			case REVERSI: {
+				currentGame = new ReversiFactory();
 			}
-            this.game.reset(currentGame.createRules());		
+		}
+		this.game.reset(currentGame.createRules());
+		automaticMove();
 	}
 	
 	/**
@@ -107,7 +122,7 @@ public class WindowController extends Controller {
         try {
               game.executeMove(move);  								
         } catch (InvalidMove e) {}
-		
+		automaticMove();
 	}
 	
 	/**
@@ -129,8 +144,10 @@ public class WindowController extends Controller {
 	private void stopAutoPlayer() {
 		if (autoThread != null) {
 			autoThread.interrupt();
-			while (autoThread.isAlive()) {
-				//Do nothing
+			try {
+				autoThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
@@ -138,20 +155,8 @@ public class WindowController extends Controller {
 	private void automaticMove() {
 		if (game.getTurn().getMode() == PlayerType.HUMAN)
 			return;
+		else if (!autoThread.isAlive())
+			autoThread.start();
 
-		autoThread = new Thread() {
-			public void run() {
-				while (Misc.changeTurn(game.getTurn()).getMode() == PlayerType.AUTO && !game.isFinished() &&
-						!autoThread.isInterrupted()) {
-					try {
-						autoThread.sleep(2000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					if (!autoThread.isInterrupted())
-						randomMove();
-				}
-			}
-		};
 	}
 }
