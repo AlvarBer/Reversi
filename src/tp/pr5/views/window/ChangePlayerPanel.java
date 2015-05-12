@@ -6,6 +6,7 @@ import tp.pr5.logic.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ListDataListener;
+
 import java.awt.*;
 
 public class ChangePlayerPanel extends JPanel implements GameObserver {
@@ -91,7 +92,11 @@ public class ChangePlayerPanel extends JPanel implements GameObserver {
 	}
 
 	@Override
-	public void onUndo(ReadOnlyBoard board, Counter nextPlayer,
+	public void onUndoStart(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
+	}
+	
+	@Override
+	public void onUndoFinish(ReadOnlyBoard board, Counter nextPlayer,
 			boolean undoPossible) {
 		// TODO Auto-generated method stub
 

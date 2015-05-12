@@ -53,8 +53,13 @@ public class ConsoleView implements GameObserver  {
 		System.err.println("Invalid move: " + msg);
 		
 	}
+	
 	@Override
-	public void onUndo(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
+	public void onUndoStart(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
+	}
+	
+	@Override
+	public void onUndoFinish(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
 		if (!undoPossible)
 			onUndoNotPossible();
 		update(board,nextPlayer);

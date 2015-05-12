@@ -42,13 +42,22 @@ public interface GameObserver {
 	public void onMoveError(java.lang.String msg);
 	
 	/**
+	 * When the execution of undo starts, the observer receives a notification through this method.
+	 * 
+	 * @param board The corresponding board (read only).
+	 * @param nextPlayer The player who plays next.
+	 * @param undoPossible true if there are moves that can be undone, otherwise false
+	 */
+	public void onUndoStart(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible);
+	
+	/**
 	 * When the execution of undo finishes, the observer receives a notification through this method.
 	 * 
 	 * @param board The corresponding board (read only).
 	 * @param nextPlayer The player who plays next.
 	 * @param undoPossible true if there are moves that can be undone, otherwise false
 	 */
-	public void onUndo(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible);
+	public void onUndoFinish(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible);
 
 	/**
 	 * When the undo fails, because it is not possible, observers are notified through this method.
@@ -71,5 +80,5 @@ public interface GameObserver {
 	 * @param board The corresponding board (read only).
 	 * @param nextPlayer The player who plays next.
 	 */
-        public void onAddObserver(Board board, Counter nextPlayer);
+       public void onAddObserver(Board board, Counter nextPlayer);
 }

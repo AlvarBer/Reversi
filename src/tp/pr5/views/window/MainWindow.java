@@ -113,12 +113,14 @@ public class MainWindow extends javax.swing.JFrame implements GameObserver {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public void onUndoStart(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
+	}
 
 	@Override
-	public void onUndo(ReadOnlyBoard board, Counter nextPlayer,
-			boolean undoPossible) {
-		// TODO Auto-generated method stub
-		
+	public void onUndoFinish(ReadOnlyBoard board, Counter nextPlayer,
+			boolean undoPossible) {		
 	}
 
 	@Override

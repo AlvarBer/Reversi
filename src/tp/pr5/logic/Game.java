@@ -110,13 +110,14 @@ public class Game implements Observable<GameObserver> {
 	 * @return True if the undo was successfully performed.
 	 */
 	public boolean undo() {
+		for (GameObserver o : obs ) {o.onUndoStart(board,turn,!undoStack.isEmpty());}
 		boolean successful = false;
 		if (!undoStack.isEmpty()) {
 			undoStack.pop().undo(this.board);
 			this.turn = rules.nextTurn(this.turn, board);
 			successful = true;
 		}
-		for (GameObserver o : obs ) {o.onUndo(board,turn,!undoStack.isEmpty());}
+		for (GameObserver o : obs ) {o.onUndoFinish(board,turn,!undoStack.isEmpty());}
 			
 		return successful;
 	}

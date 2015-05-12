@@ -173,11 +173,17 @@ public class GamePanel extends JPanel implements GameObserver {
 
 	}
 
+	public void onUndoStart(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
+		undoButton.setEnabled(false);
+	}
+	
 	@Override
-	public void onUndo(ReadOnlyBoard board, Counter nextPlayer, final boolean undoPossible) {
+	public void onUndoFinish(ReadOnlyBoard board, final Counter nextPlayer, final boolean undoPossible) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				undoButton.setEnabled(undoPossible);
+				if (nextPlayer.getMode() == PlayerType.AUTO)
+					randomButton.setEnabled(false);
 			}
 			});		
 		

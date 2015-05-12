@@ -191,10 +191,14 @@ public class ChangeGamePanel extends JPanel implements GameObserver {
 	}
 
 	@Override
-	public void onUndo(ReadOnlyBoard board, Counter nextPlayer,
+	public void onUndoStart(ReadOnlyBoard board, Counter nextPlayer,
 			boolean undoPossible) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	@Override
+	public void onUndoFinish(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
 	}
 
 	@Override
