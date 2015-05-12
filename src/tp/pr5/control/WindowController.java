@@ -4,6 +4,8 @@ import tp.pr5.logic.*;
 import tp.pr5.views.window.MainWindow;
 
 import java.util.Scanner;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -19,11 +21,8 @@ public class WindowController extends Controller {
 	
     //Attributes
 	private Game game;
-	private Scanner in;
 	private GameTypeFactory currentGame;
-	private Player black;
-	private Player white;
-	private Thread autoThread;
+    private static final Executor exec = Executors.newSingleThreadExecutor();
 	/**
 	 * Class constructor.
 	 * 
@@ -32,24 +31,7 @@ public class WindowController extends Controller {
 	 */
 	public WindowController(GameTypeFactory factory, Game g) {
         this.game = g;
-	    this.in = new Scanner(System.in);
 	    this.currentGame = factory;
-	    this.black = currentGame.createHumanPlayerAtConsole(in);
-		this.white = currentGame.createHumanPlayerAtConsole(in);
-		autoThread = new Thread() { //TODO : Change this whole thing to a worker/executor or try the old way
-			public void run() {
-				while (!game.isFinished() && !autoThread.isInterrupted()) {
-					try {
-						sleep(2000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					if (!autoThread.isInterrupted() && game.getTurn().getMode() == PlayerType.AUTO) {
-						randomMove();
-					}
-				}
-			}
-		};
 	}
 	
 	/**
@@ -82,7 +64,7 @@ public class WindowController extends Controller {
 	 * Reset the current game.
 	 */
 	public void reset() {
-		stopAutoPlayer();
+		//stopAutoPlayer();
 		game.reset(currentGame.createRules());
 		automaticMove();
 	}
@@ -142,21 +124,25 @@ public class WindowController extends Controller {
 	}
 
 	private void stopAutoPlayer() {
-		if (autoThread != null) {
-			autoThread.interrupt();
-			try {
-				autoThread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+    //I don't know if this should do something
 	}
 
 	private void automaticMove() {
-		if (game.getTurn().getMode() == PlayerType.HUMAN)
-			return;
-		else if (!autoThread.isAlive())
-			autoThread.start();
-
+        if (game.getTurn().getMode() == PlayerType.HUMAN)
+            return;
+        exec.execute( new Runnable() {
+            @Override
+            public void run() {
+                while (game.getTurn().getMode() == PlayerType.AUTO && !game.isFinished() &&
+                        !Thread.currentThread().isInterrupted()) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    randomMove();
+                }
+            }
+        });
 	}
 }
