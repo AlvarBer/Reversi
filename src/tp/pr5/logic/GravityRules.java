@@ -29,7 +29,7 @@ public class GravityRules implements GameRules {
 	@Override
 	public boolean isDraw(Counter lastPlayer, Board board) {
 		boolean draw = false;
-		if (Check.checkFullGravity(board) && !Check.checkConnect4Win(board)) {
+		if (Check.checkFullGravity(board) && Check.checkComplicaWin(board) == Counter.EMPTY) {
 			draw = true;
 		}
 		return draw;
@@ -42,7 +42,7 @@ public class GravityRules implements GameRules {
 
 	@Override
 	public Counter winningMove(Move lastMove, ReadOnlyBoard board) {
-		return Counter.EMPTY;
+		return Check.checkComplicaWin(board);
 	}
 
 }
