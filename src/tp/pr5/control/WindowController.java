@@ -56,7 +56,6 @@ public class WindowController extends Controller {
 	 * Undo the last move of the currently played game.
 	 */
 	public void undo() {
-		System.out.println ("Undo executing");
 		game.undo();
 		automaticMove();
 	}
@@ -129,12 +128,8 @@ public class WindowController extends Controller {
 	}
 
 	private void automaticMove() {
-		
-		System.out.println("Color de jugador: " + game.getTurn());
-		System.out.println("Modo de jugador: " + game.getTurn().getMode());
         if (game.getTurn().getMode() == PlayerType.HUMAN)
             return;
-        System.out.println ("Automatic Move executing");
         exec.execute( new Runnable() {
             @Override
             public void run() {    	
