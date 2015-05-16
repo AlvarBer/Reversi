@@ -3,7 +3,6 @@ package tp.pr5.control;
 import tp.pr5.logic.*;
 import tp.pr5.views.window.MainWindow;
 
-import java.util.Scanner;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -42,8 +41,7 @@ public class WindowController extends Controller {
  		new MainWindow(game,this);
 		automaticMove();
 	}
-	
-	//TODO: Implement move with human/automatic player
+
 	public void makeMove(int col, int row, Counter turn) {
 		Move move = currentGame.createMove(col, row, turn);
   		try {
@@ -124,7 +122,7 @@ public class WindowController extends Controller {
 	}
 
 	private void stopAutoPlayer() {
-    //I don't know if this should do something
+		//Ask how to do this
 	}
 
 	private void automaticMove() {
