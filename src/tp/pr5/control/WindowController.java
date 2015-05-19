@@ -4,6 +4,7 @@ import tp.pr5.logic.*;
 import tp.pr5.views.window.MainWindow;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
@@ -21,7 +22,7 @@ public class WindowController extends Controller {
     //Attributes
 	private Game game;
 	private GameTypeFactory currentGame;
-    private static final Executor exec = Executors.newSingleThreadExecutor();
+    private static final ExecutorService exec = Executors.newSingleThreadExecutor();
 	/**
 	 * Class constructor.
 	 * 
@@ -122,7 +123,10 @@ public class WindowController extends Controller {
 	}
 
 	private void stopAutoPlayer() {
-		//Ask how to do this
+		System.out.println("We are gonna stop\n");
+		try {
+			exec.shutdownNow(); //I will have to change this in the future
+		} catch (java.util.concurrent.RejectedExecutionException e) {}
 	}
 
 	private void automaticMove() {
@@ -135,9 +139,7 @@ public class WindowController extends Controller {
                         !Thread.currentThread().isInterrupted()) {
                     try {
                         Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    } catch (InterruptedException e) {}
                     randomMove();
                 }
             }
