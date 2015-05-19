@@ -128,7 +128,11 @@ public class BoardPanel extends JPanel implements GameObserver {
 	}
 
 	@Override
-	public void onUndoStart(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
+	public void onUndoStart(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {						
+	}
+	
+	@Override
+	public void onUndoFinish(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
 		int rows = board.getWidth();
 		int cols = board.getHeight();
 		for (int i = 0; i < rows; ++i) {
@@ -153,11 +157,6 @@ public class BoardPanel extends JPanel implements GameObserver {
 				revalidate();
 			}
 			});		
-						
-	}
-	
-	@Override
-	public void onUndoFinish(ReadOnlyBoard board, Counter nextPlayer, boolean undoPossible) {
 	}
 
 	@Override

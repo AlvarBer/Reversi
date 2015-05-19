@@ -113,9 +113,13 @@ public class Game implements Observable<GameObserver> {
 		for (GameObserver o : obs ) {o.onUndoStart(board,turn,!undoStack.isEmpty());}
 		boolean successful = false;
 		if (!undoStack.isEmpty()) {
-			undoStack.pop().undo(this.board);
-			this.turn = rules.nextTurn(this.turn, board);
-			successful = true;
+			if (undoStack.peekFirst().getPlayerType() == PlayerType.HUMAN) {
+				undoStack.pop().undo(this.board);
+				this.turn = rules.nextTurn(this.turn, board);
+				successful = true;
+			}
+			else
+				successful = false;
 		}
 		for (GameObserver o : obs ) {o.onUndoFinish(board,turn,!undoStack.isEmpty());}
 			

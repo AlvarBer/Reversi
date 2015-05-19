@@ -135,14 +135,14 @@ public class GamePanel extends JPanel implements GameObserver {
 		}
 
 	@Override
-	public void moveExecFinished(ReadOnlyBoard board, Counter player,
+	public void moveExecFinished(ReadOnlyBoard board, final Counter player,
 			final Counter nextPlayer) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				if(nextPlayer.getMode() == PlayerType.HUMAN) {
 					undoButton.setEnabled(true);
 					randomButton.setEnabled(true);
-				}
+				}					
 			}
 			});	
 	}

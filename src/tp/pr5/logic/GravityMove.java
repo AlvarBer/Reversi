@@ -23,6 +23,7 @@ public class GravityMove extends Move {
 		this.moveColumn = moveColumn;
 		this.moveColour = moveColour;
 		this.moveRow = moveRow;
+		this.playerType = moveColour.getMode();
 	}
 	
 

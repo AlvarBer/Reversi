@@ -13,7 +13,12 @@ package tp.pr5.logic;
 public abstract class Move extends java.lang.Object {
 	//Methods
 
+	protected PlayerType playerType;
 
+	public PlayerType getPlayerType() {
+		return playerType;
+	}
+	
 	/**
 	 * Executes the move on the board passed as a parameter. It is assumed that the board passed as a parameter is consistent with the rules of the game for which the move was created.
 	 * If not, the behavior is undefined.

@@ -32,6 +32,7 @@ public class ComplicaMove extends Move {
 			this.moveColumn = moveColumn;
 			this.moveColour = moveColour;
 			this.bottom = Counter.EMPTY;
+			this.playerType = moveColour.getMode();
 		}
 
 

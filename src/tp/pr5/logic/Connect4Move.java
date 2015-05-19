@@ -30,6 +30,7 @@ public class Connect4Move extends Move {
 	public Connect4Move(int moveColumn, Counter moveColour) {
 		this.moveColumn = moveColumn;
 		this.moveColour = moveColour;
+		this.playerType = moveColour.getMode();
 	}
 
 	//Methods (Defined in the superclass Move)

@@ -51,6 +51,10 @@ public class DequeStack {
 	 */
 	public boolean isEmpty() {
 		return deque.isEmpty();
+		
 	}
-
+	
+	public Move peekFirst() {
+		return deque.peekFirst();
+	}
 }
