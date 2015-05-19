@@ -22,7 +22,7 @@ public class WindowController extends Controller {
     //Attributes
 	private Game game;
 	private GameTypeFactory currentGame;
-    private static final ExecutorService exec = Executors.newSingleThreadExecutor();
+    private static final ExecutorService exe = Executors.newSingleThreadExecutor();
 	/**
 	 * Class constructor.
 	 * 
@@ -125,14 +125,14 @@ public class WindowController extends Controller {
 	private void stopAutoPlayer() {
 		System.out.println("We are gonna stop\n");
 		try {
-			exec.shutdownNow(); //I will have to change this in the future
+			exe.shutdownNow(); //TODO: I will have to change this in the future
 		} catch (java.util.concurrent.RejectedExecutionException e) {}
 	}
 
 	private void automaticMove() {
         if (game.getTurn().getMode() == PlayerType.HUMAN)
             return;
-        exec.execute( new Runnable() {
+        exe.execute( new Runnable() {
             @Override
             public void run() {    	
                 while (game.getTurn().getMode() == PlayerType.AUTO && !game.isFinished() &&
