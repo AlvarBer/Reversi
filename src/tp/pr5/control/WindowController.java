@@ -3,10 +3,8 @@ package tp.pr5.control;
 import tp.pr5.logic.*;
 import tp.pr5.views.window.MainWindow;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 
 /**
  * Class which controls the execution of the game in a windows mode.
@@ -123,9 +121,8 @@ public class WindowController extends Controller {
 	}
 
 	private void stopAutoPlayer() {
-		System.out.println("We are gonna stop\n");
 		try {
-			exe.shutdownNow(); //TODO: I will have to change this in the future
+			exe.shutdownNow(); //This ain't working because we can't catch an exception that isn't on our thread
 		} catch (java.util.concurrent.RejectedExecutionException e) {}
 	}
 
