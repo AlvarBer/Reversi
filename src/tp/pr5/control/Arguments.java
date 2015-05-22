@@ -1,6 +1,7 @@
 package tp.pr5.control;
 
 import tp.pr5.Main;
+import tp.pr5.Util.SongPlayer;
 import tp.pr5.logic.Game;
 
 import java.util.ArrayList;
@@ -118,9 +119,11 @@ public class Arguments {
 				} break;
 				case "-h":
 				case "--help": {
-					System.out.println("usage: " + Main.class.getName() + " [-g <game>] [-h] [-x <columnNumber>] [-y <rowNumber>]");
+					System.out.println("Usage: " + Main.class.getName() + " [-g <game>] [-h] [-u <viewmode>] [-m] [-x <columnNumber>] [-y <rowNumber>] ");
 					System.out.println(" -g,--game <game>           Type of game (c4, co, gr, rv). By default, c4.");
 					System.out.println(" -h,--help                  Displays this help.");
+                    System.out.println(" -u, --ui <viewmode>        Play in the terminal(co) or in a GUI(window). by default, co");
+                    System.out.println(" -m,--mu                    Plays awesome music!");
 					System.out.println(" -x,--dimX <columnNumber>   Number of columns on the board (Gravity only).\n" +
 							"                            By default, 10.");
 					System.out.println(" -y,--dimY <rowNumber>      Number of rows on the board (Gravity only). By\n" +
@@ -139,7 +142,12 @@ public class Arguments {
 						cntr = new WindowController(this.factory,this.game);
 					else
 						throw new ArgumentException("Unrecognized option: " + argument);		
-				} break;					
+				} break;
+                case "-m":
+                case "--mu": {
+                    SongPlayer s = new SongPlayer("./res/zelda theme.wav");
+                    s.start();
+                } break;
 				default: {
 					throw new ArgumentException("Unrecognized option: " + argument);
 					}
