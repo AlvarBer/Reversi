@@ -3,10 +3,10 @@ package tp.pr5.control;
 /**
  * An abstract class for controller.
  *
- * @author: Alvaro Bermejo
- * @author: Francisco Lozano
- * @version: 08/01/2015
- * @since: Assignment 1
+ * @author	Alvaro Bermejo
+ * @author	Francisco Lozano
+ * @version	08/01/2015
+ * @since	Assignment 1
  */
 
 public abstract class Controller {

@@ -7,3 +7,4 @@ out/*
 bin/tp
 /bin/
 META-INF/*
+*.zip

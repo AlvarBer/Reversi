@@ -7,12 +7,12 @@ import tp.pr5.logic.ReadOnlyBoard;
 import java.util.Random;
 
 /**
- * Class which collects several static methods that serve as utilities in the rest of the classes of the program.
+ * Class which contains several static methods that serve as utilities in the rest of the classes of the program.
  *
- * @author: Alvaro Bermejo
- * @author: Francisco Lozano
- * @version: 08/01/2015
- * @since: Assignment 2
+ * @author	Alvaro Bermejo
+ * @author	Francisco Lozano
+ * @version	08/01/2015
+ * @since	Assignment 2
  */
 
 public class Misc {
@@ -32,7 +32,7 @@ public class Misc {
 			++row;
 		}
 
-		return row; //row = 1 means the column it's full
+		return row;
 	}
 
 	/**
@@ -42,13 +42,12 @@ public class Misc {
 	 * @return Inverse of the counter
 	 */
 	public static Counter changeTurn(Counter turn) {
-		Counter newTurn;
+        System.out.println("Changing turn");
 		if (turn == Counter.WHITE) {
-			newTurn = Counter.BLACK;
+			return Counter.BLACK;
 		} else {
-			newTurn = Counter.WHITE;
+			return Counter.WHITE;
 		}
-		return newTurn;
 	}
 
 	/**
@@ -61,14 +60,9 @@ public class Misc {
 	 * @return Integer between min and max, inclusive.
 	 */
 	public static int randInt(int min, int max) {
-
 		Random rand = new Random();
 
-		// nextInt is normally exclusive of the top value,
-		// so add 1 to make it inclusive
-		int randomNum = rand.nextInt((max - min) + 1) + min;
-
-		return randomNum;
+		return rand.nextInt((max - min) + 1) + min;
 	}
 
 	/**
@@ -76,7 +70,7 @@ public class Misc {
 	 *
 	 * @param board The board we want to check
 	 * @param x     Column we want to check
-	 * @param x     Row we want to check
+	 * @param y     Row we want to check
 	 * @return Boolean The validity of the position
 	 */
 	public static boolean validPosition(ReadOnlyBoard board, int x, int y) {

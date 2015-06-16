@@ -4,6 +4,14 @@ import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * A class that allows us to play songs
+ *
+ * @author	Alvaro Bermejo
+ * @author	Francisco Lozano
+ * @version	15/04/2015
+ * @since	Assignment 5
+ */
 public class SongPlayer extends Thread {
 
     // size of the byte buffer used to read/write the audio stream
@@ -14,6 +22,11 @@ public class SongPlayer extends Thread {
     private String audioPath;
     boolean forcedInterruption; //This is the dangerous way to do it
 
+    /**
+     * Initializes the SongPlayer to the music selected and starts playing it
+     *
+     * @param path The path to the song
+     */
     public SongPlayer(String path) {
         super ("SongThread");
 
@@ -25,7 +38,7 @@ public class SongPlayer extends Thread {
 
     }
 
-    private final void initialization() {
+    private void initialization() {
         String audioFilePath;
         File audioFile;
         AudioFormat format;
@@ -75,7 +88,7 @@ public class SongPlayer extends Thread {
         }
     }
 
-    public void close() {
+    private void close() {
         try {
             audioLine.drain();
             audioLine.close();
@@ -86,7 +99,11 @@ public class SongPlayer extends Thread {
         }
     }
 
-    //I have to do this because I'm not able to interrupt it any other way
+    /**
+     * Procedure that allow us to stop the current song, unfortunately it uses some unorthodox means to do it
+     * I have to do this because I'm not able to interrupt it any other way
+     *
+     */
     public void forcedStop() {
         forcedInterruption = true;
     }

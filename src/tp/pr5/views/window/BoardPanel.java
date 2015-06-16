@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 public class BoardPanel extends JPanel implements GameObserver {
 
 	//Attributes
-
 	private WindowController cntr;
 	private GridBagConstraints c;
 	
@@ -25,8 +24,6 @@ public class BoardPanel extends JPanel implements GameObserver {
 	private JLabel turnTxt;
 	private boolean active;
 	private Counter currentTurn;
-	
-	
 
 	public BoardPanel(WindowController cntr, Game game) {
 		this.cntr = cntr;
@@ -124,7 +121,6 @@ public class BoardPanel extends JPanel implements GameObserver {
 				"That was not a valid move. Please, try again",
 				"Invalid move",
 				JOptionPane.ERROR_MESSAGE);
-
 	}
 
 	@Override
@@ -205,7 +201,6 @@ public class BoardPanel extends JPanel implements GameObserver {
 	@Override
 	public void onAddObserver(Board board, Counter nextPlayer) {
 		reset(board,nextPlayer,true);
-
 	}
 
 	private JButton createButton(final int i, final int j, final Counter v) {
@@ -223,7 +218,6 @@ public class BoardPanel extends JPanel implements GameObserver {
 			}
 
 		});
-		
 			
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -243,7 +237,4 @@ public class BoardPanel extends JPanel implements GameObserver {
 			button.setIcon(new ImageIcon(MainWindow.ICON_PATH + "empty_counter.png") );
 		
 	}
-
-
-
 }

@@ -40,7 +40,7 @@ public class ReversiRules implements GameRules {
 	@Override
 	public boolean isDraw(Counter lastPlayer, Board board) {
 		boolean draw = false;
-		if (Check.checkFullGravity(board)) {
+		if (Check.checkBoardIsFullComplex(board)) {
 			if(Check.checkReversiWinner(board) == Counter.EMPTY)
 			draw = true;
 		}
@@ -70,7 +70,7 @@ public class ReversiRules implements GameRules {
 	 */
 	@Override
 	public Counter winningMove(Move lastMove, ReadOnlyBoard board) {
-		if (Check.checkFullGravity(board) || //This isn't necessary
+		if (Check.checkBoardIsFullComplex(board) || //This isn't necessary
 				(ReversiMove.canMove(board, Counter.BLACK) && !ReversiMove.canMove(board, Counter.BLACK))) {
 			return Check.checkReversiWinner(board);
 		}

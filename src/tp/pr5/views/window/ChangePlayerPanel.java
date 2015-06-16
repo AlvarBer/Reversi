@@ -21,8 +21,6 @@ public class ChangePlayerPanel extends JPanel implements GameObserver {
 	private JLabel blackPlayerLabel;
 	private JComboBox whitePlayerList;
 	private JComboBox blackPlayerList;
-
-	
 	
 	public ChangePlayerPanel(WindowController cntr, Game game) {
 		this.cntr = cntr;

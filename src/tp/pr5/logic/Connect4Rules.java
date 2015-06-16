@@ -35,7 +35,7 @@ public class Connect4Rules implements GameRules {
 	@Override
 	public boolean isDraw(Counter lastPlayer, Board board) {
 		boolean draw = false;
-		if (Check.checkFull(board) && !Check.checkConnect4Win(board)) {
+		if (Check.checkBoardIsFullSimple(board) && !Check.checkConnect4Win(board)) {
 			draw = true;
 		}
 		return draw;
