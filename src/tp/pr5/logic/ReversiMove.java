@@ -33,6 +33,7 @@ public class ReversiMove extends Move {
 		this.moveColumn = moveColumn;
 		this.moveColour = moveColour;
 		this.moveRow = moveRow;
+		this.playerType = moveColour.getMode();
 		countersFlipped = new Position[NUMBER_OF_DIRECTIONS];
 		for (int i = 0; i < NUMBER_OF_DIRECTIONS; ++i) {
 			countersFlipped[i] = new Position ();
